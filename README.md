@@ -1,10 +1,4 @@
-# wabi sabi
-
-## What is WabiSabi
-
-WabiSabi is a productivity application that lets you manage the deep work you're able to do in a day, backed by productivity science. Wabisabi uses Pomodoro timers, data insights, as well as simple gamificaton elements to try and make it a simple, fun, and frictionless addition to your day to day work.
-
-Our team was motivated by wanting to make something simple to use, and filled a need we had. Our team had a lot of experience using Pomodoro timers to manage deep work sessions, but none of them were perfect. WabiSabi is simply the productivity timer we wish we had, so we decided to make it.
+# 4413 project
 
 ## Setup
 
@@ -38,8 +32,6 @@ docker-compose up
 
 - Frontend runs on port ``3000``
 - Backend runs on port ``8000``
-- Database runs on port ``27017``
-- Database Admin Panel runs on port ``8081``
 
 ## Running on your machine:
 
@@ -82,17 +74,6 @@ pip install -r requirements.txt
 ```
 flask run
 ```
-
-### Database:
-
-For the sake of simplicity and not having duplicate data, the only instance of the database is created with the docker container.
-Follow the instructions for Starting the container, and then connect to the MongoDB instance through port `27017`
-
-To explore the database: ssh into the docker container, or open Mongo-express. The Mongo login information is:
-
-Username: admin
-Password: Pass123
-
 ## Frontend:
 
 This project uses:
@@ -109,12 +90,6 @@ This project uses:
 - **Python**: Programming Language
 - **Flask**: Web Server framework for python
 - **Ruff**: Python Linter
-
-## Database:
-
-This project uses:
-- **MongoDB**: NO SQL/BSON database
-- **Mongo-Express**: Web-based database admin panel
 
 ## Contributing
 
