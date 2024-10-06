@@ -102,6 +102,7 @@ Submit a pull request to contribute your ticket changes back into main, await ap
 Ensure the following linters are ran before pushing work:
 
 ```
+pip freeze > requirements.txt
 bun lint
 bun format
 ruff check
