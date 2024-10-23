@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import './App.css';
+
+import { Routes, Route } from 'react-router-dom';
+import MerchPage from './pages/MerchPage';
+import Navbar from './components/Navbar';
 
 function App() {
-  const [hello, setHello] = useState('hi');
-
   return (
-    <>
-      <h1 className="text-4x1 text-blue-500">{hello}</h1>
-      <button onClick={() => setHello('Amogus')}>Click me</button>
-    </>
+    <div className="bg-tea min-h-screen">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MerchPage />} />
+      </Routes>
+    </div>
   );
 }
 
