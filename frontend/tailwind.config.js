@@ -7,13 +7,10 @@ module.exports = {
         sans: ['Instrument Sans', 'sans-serif'],
       },
       colors: {
-        camel: ({ opacityValue }) => {
-          if (opacityValue !== undefined) {
-            return `rgba(212, 163, 115, ${opacityValue})`;
-          }
-          return 'rgba(212, 163, 115, 1)';  // Fully opaque if no opacity specified
-        },
-        tea: '#FAEDCD',
+        camel: '#D4A373',
+        camel2: 'rgba(212, 163, 115, 0.2)',
+        tea: {100:'#CCD5AE'},
+        cream: '#FAEDCD',
       },
     },
   },
