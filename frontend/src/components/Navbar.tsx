@@ -45,14 +45,10 @@ interface NavLink {
             </ul>
           </li>
 
-          {/* Shopping Cart */}
-          <li className="basis-[3%] flex justify-start items-center">
+          {/* Shopping Cart + Profile */}
+          <li className="basis-[6%] flex justify-end items-center">
             <img src={cart} alt="Shopping Cart" />
-          </li>
-
-          {/* Profile */}
-          <li className="basis-[3%] flex justify-end items-center">
-            <img src={person} alt="Profile" className="text-center" />
+            <img src={person} alt="Profile" className="pl-5" />
           </li>
 
           {/* Search Bar */}

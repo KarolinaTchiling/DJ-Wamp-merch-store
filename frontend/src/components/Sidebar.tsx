@@ -59,9 +59,9 @@ const Sidebar: React.FC = () => {
       };
 
     return (
-        <div className="border border-black p-4 w-[300px] text-camel">
+      <div className="border-r border-r-camel  w-[280px] text-camel pl-[60px]">
         <ul>
-            <li className="mb-2">Filter</li>
+            <li className="mb-2 font-bold">Filter</li>
 
             <li className="mb-2">
                 <CheckboxGroup

@@ -19,7 +19,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ items, onChange, groupNam
               name={key}
               checked={items[key].checked}
               onChange={onChange}
-              className="mr-2 ml-5"
+              className="mr-3 ml-5 appearance-none h-3.5 w-3.5 border border-tea-100 checked:bg-tea-100 checked:border-transparent focus:outline-none transition duration-200 ease-in-out relative cursor-pointer"
 
             />
               <label htmlFor={key} className="text-black">{items[key].displayText}</label>
