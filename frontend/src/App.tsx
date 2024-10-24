@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="bg-tea min-h-screen">
+    <div className="bg-cream min-h-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<MerchPage />} />
