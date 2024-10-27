@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
       };
 
     return (
-      <div className="border-r border-r-camel  w-[280px] text-camel pl-[60px]">
+      <div className="w-[280px] text-camel pl-[60px] text-sm">
         <ul>
             <li className="mb-2 font-bold">Filter</li>
 

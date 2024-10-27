@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import CatalogProduct from '../components/CatalogProduct';
+import SortDropdown from '../components/SortDropdown';
 
 const MerchPage: React.FC = () => {
 
@@ -19,34 +20,42 @@ const MerchPage: React.FC = () => {
 
   return (
     <div className="flex mt-4">
-      <Sidebar />
+
+      {/* Sidebar section */}
+      <div className="border-r border-r-camel">
+        <Sidebar />
+      </div>
+
+      {/* Main section */}
       <div className="flex-grow ml-[45px] mr-[200px]">
 
         <div className="text-2xl">
           Page Name
         </div>
 
-        <div className="flex justify-between pt-5">
+        <div className="flex justify-between items-center py-5">
           {/* Heading section */}
           <div>
             Showing pageMin - pageMax of total products
           </div>
           <div>
-            Sort by: Price(low to high)
+            <SortDropdown />
           </div>
         </div>
 
         {/* Product section */}
-        <div className="grid grid-cols-4 gap-8 pt-2">
+        <div className="grid gap-3 pt-0" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))' }}>
           {products.map((product) => (
-            <CatalogProduct
-              key={product.id}
-              name={product.name}
-              cost={product.cost}
-              image={product.image}
-            />
+            <div className="p-0 pb-8" key={product.id}>
+              <CatalogProduct
+                name={product.name}
+                cost={product.cost}
+                image={product.image}
+              />
+            </div>
           ))}
         </div>
+
 
       </div>
     </div>
