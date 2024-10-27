@@ -1,17 +1,18 @@
-from pymongo import MongoClient
-from pymongo.server_api import ServerApi
-from env import uri
-# implement
-def get_database():
-    # Create a new client and connect to the server
-    client = MongoClient(uri, server_api=ServerApi('1'))
-    # Send a ping to confirm a successful connection
+from env import DB_URI
+from mongoengine import connect
+
+
+def get_db():
+    connect(DB_URI)
     try:
-        client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
+        client.admin.command("ping")
+        print("Pinged Deployment, Connected to DB")
+        return client
     except Exception as e:
-        print(e)
-    #return client['BountiesDB']
+        print(f"Failed to connect to DB: {e}")
+    return client
+
+
 if __name__ == "__main__":
-   # Get the database
-    db = get_database()
+    # Get the database
+    db = get_db()
