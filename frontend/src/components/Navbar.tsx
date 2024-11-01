@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
-import cart from '../assets/cart.svg';  
 import ProfileDropdown from './ProfileDropdown';
+import CartDropdown from './CartDropdown';
 
 // Define a type for the navigation links
 interface NavLink {
@@ -14,6 +14,16 @@ const navLinks: NavLink[] = [
   { name: 'Merch', href: '/' },
   { name: 'Tour Dates', href: '/tour' },
   { name: 'Contact', href: '/contact' }
+];
+
+const cartItems = [
+  { label: 'item1', link: '/item1' },
+  { label: 'item2', link: '/item2' },
+  { label: 'item3', link: '/item3' },
+  { label: 'item4', link: '/item4' },
+  { label: 'item5', link: '/item5' },
+  { label: 'item6', link: '/item6' },
+  // Add more items as needed
 ];
   
 const Navbar: React.FC = () => {
@@ -43,7 +53,7 @@ const Navbar: React.FC = () => {
 
         {/* Shopping Cart */}
         <li className="basis-[3%] flex justify-end items-center">
-            <img src={cart} alt="Shopping Cart" />
+          <CartDropdown items={cartItems} />
         </li>
 
         {/* Profile Dropdown */}
