@@ -7,6 +7,7 @@ const ProfileDropdown = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true); // Simulate login state
 
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
+    const closeDropdown = () => setDropdownOpen(false); // Function to close dropdown
 
     return (
         <div className="relative">
@@ -27,15 +28,24 @@ const ProfileDropdown = () => {
                         {isLoggedIn ? (
                             // Logged-in dropdown
                             <>
-                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                <li
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    onClick={closeDropdown} 
+                                >
                                     <Link to="/account-settings" className="block w-full h-full px-3 py-1">Account Settings</Link>
                                 </li>
-                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                <li
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    onClick={closeDropdown} 
+                                >
                                     <Link to="/order-history" className="block w-full h-full px-3 py-1">Order History</Link>
                                 </li>
                                 <button
                                     className="block w-full h-full px-3 py-1 hover:text-white hover:font-medium hover:bg-camel"
-                                    onClick={() => setIsLoggedIn(false)}
+                                    onClick={() => {
+                                        setIsLoggedIn(false);
+                                        closeDropdown(); 
+                                    }}
                                 >
                                     Sign Out
                                 </button>
@@ -43,10 +53,16 @@ const ProfileDropdown = () => {
                         ) : (
                             // Logged-out dropdown
                             <>
-                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                <li
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    onClick={closeDropdown} 
+                                >
                                     <Link to="/signup" className="block w-full h-full px-3 py-1">Create an Account</Link>
                                 </li>
-                                <li className="hover:text-white hover:font-medium hover:bg-camel">
+                                <li
+                                    className="hover:text-white hover:font-medium hover:bg-camel"
+                                    onClick={closeDropdown} 
+                                >
                                     <Link to="/login" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(true)}>Sign In</Link>
                                 </li>
                             </>
@@ -59,5 +75,4 @@ const ProfileDropdown = () => {
 };
 
 export default ProfileDropdown;
-
 
