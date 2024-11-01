@@ -1,18 +1,19 @@
 from env import DB_URI
-from mongoengine import connect
+from mongoengine import connect, DoesNotExist
 
 
-def get_db():
-    connect(DB_URI)
+# with mongoengine, the connection is a global singleton that is managed by the library,
+# we don't need to manage or return a variable
+
+
+def get_database():
+    print("CONNECTING TO DATABASE...")
     try:
-        client.admin.command("ping")
-        print("Pinged Deployment, Connected to DB")
-        return client
+        connect("djwamp", host=DB_URI)
+        print("Pinged Deployment, Connected to Mongo!")
     except Exception as e:
-        print(f"Failed to connect to DB: {e}")
-    return client
+        print(f"Failed to connect to Mongo: {e}")
 
 
 if __name__ == "__main__":
-    # Get the database
-    db = get_db()
+    get_database()
