@@ -48,7 +48,7 @@ const CartDropdown = ({ items }) => {
                                     </li>
                                 ))}
                                 <li className="px-3 py-1 hover:text-white border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/check-out" className="block w-full h-full">Checkout</Link>
+                                    <Link to="/cart" className="block w-full h-full">Go to cart</Link>
                                 </li>
                             </>
                         )}

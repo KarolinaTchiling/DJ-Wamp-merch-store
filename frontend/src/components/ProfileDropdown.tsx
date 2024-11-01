@@ -33,18 +33,21 @@ const ProfileDropdown = () => {
                                 <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
                                     <Link to="/order-history" className="block w-full h-full px-3 py-1">Order History</Link>
                                 </li>
-                                <li className="hover:text-white hover:font-medium hover:bg-camel">
-                                    <Link to="/sign-out" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(false)}>Sign Out</Link>
-                                </li>
+                                <button
+                                    className="block w-full h-full px-3 py-1 hover:text-white hover:font-medium hover:bg-camel"
+                                    onClick={() => setIsLoggedIn(false)}
+                                >
+                                    Sign Out
+                                </button>
                             </>
                         ) : (
                             // Logged-out dropdown
                             <>
                                 <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/create-account" className="block w-full h-full px-3 py-1">Create an Account</Link>
+                                    <Link to="/signup" className="block w-full h-full px-3 py-1">Create an Account</Link>
                                 </li>
                                 <li className="hover:text-white hover:font-medium hover:bg-camel">
-                                    <Link to="/sign-in" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(true)}>Sign In</Link>
+                                    <Link to="/login" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(true)}>Sign In</Link>
                                 </li>
                             </>
                         )}
