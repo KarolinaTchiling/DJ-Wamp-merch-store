@@ -27,24 +27,24 @@ const ProfileDropdown = () => {
                         {isLoggedIn ? (
                             // Logged-in dropdown
                             <>
-                                <li className="px-3 py-1 hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/account-settings">Account Settings</Link>
+                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                    <Link to="/account-settings" className="block w-full h-full px-3 py-1">Account Settings</Link>
                                 </li>
-                                <li className="px-3 py-1 hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/order-history">Order History</Link>
+                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                    <Link to="/order-history" className="block w-full h-full px-3 py-1">Order History</Link>
                                 </li>
-                                <li className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel">
-                                    <Link to="/sign-out" onClick={() => setIsLoggedIn(false)}>Sign Out</Link>
+                                <li className="hover:text-white hover:font-medium hover:bg-camel">
+                                    <Link to="/sign-out" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(false)}>Sign Out</Link>
                                 </li>
                             </>
                         ) : (
                             // Logged-out dropdown
                             <>
-                                <li className="px-3 py-1 hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/create-account">Create an Account</Link>
+                                <li className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel">
+                                    <Link to="/create-account" className="block w-full h-full px-3 py-1">Create an Account</Link>
                                 </li>
-                                <li className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel">
-                                    <Link to="/sign-in" onClick={() => setIsLoggedIn(true)}>Sign In</Link>
+                                <li className="hover:text-white hover:font-medium hover:bg-camel">
+                                    <Link to="/sign-in" className="block w-full h-full px-3 py-1" onClick={() => setIsLoggedIn(true)}>Sign In</Link>
                                 </li>
                             </>
                         )}
@@ -56,4 +56,5 @@ const ProfileDropdown = () => {
 };
 
 export default ProfileDropdown;
+
 

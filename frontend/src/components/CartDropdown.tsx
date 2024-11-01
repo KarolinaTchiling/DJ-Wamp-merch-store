@@ -31,7 +31,7 @@ const CartDropdown = ({ items }) => {
                                     Your cart is empty :(
                                 </li>
                                 <li className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel">
-                                    <Link to="/">Continue Shopping</Link>
+                                    <Link to="/" className="block w-full h-full">Continue Shopping</Link>
                                 </li>
                             </>
                         ) : (
@@ -42,11 +42,13 @@ const CartDropdown = ({ items }) => {
                                         key={index}
                                         className="px-3 py-1 hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
                                     >
-                                        <Link to={item.link}>{item.label}</Link>
+                                        <Link to={item.link} className="block w-full h-full">
+                                            {item.label}
+                                        </Link>
                                     </li>
                                 ))}
                                 <li className="px-3 py-1 hover:text-white border-camel hover:font-medium hover:bg-camel">
-                                    <Link to="/check-out">Checkout</Link>
+                                    <Link to="/check-out" className="block w-full h-full">Checkout</Link>
                                 </li>
                             </>
                         )}
@@ -58,3 +60,4 @@ const CartDropdown = ({ items }) => {
 };
 
 export default CartDropdown;
+
