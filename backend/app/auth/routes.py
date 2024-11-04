@@ -28,14 +28,14 @@ def signup():
         encrypted_card = cipher.encrypt(cc_string.encode())
 
         new_user = User(
-            fname=data['fname'],
-            lname=data['lname'],
+            fname=data["fname"],
+            lname=data["lname"],
             email=email,
             password=h_password.decode("utf-8"),
-            street=data['street'], 
-            city=data['city'],
-            province=data['province'],
-            postal_code=data['postal'],
+            street=data["street"],
+            city=data["city"],
+            province=data["province"],
+            postal_code=data["postal"],
             cc_info=encrypted_card,
             decryption_key=decryption_key,
         )
@@ -46,6 +46,7 @@ def signup():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
 @auth.route("/admin/signup", methods=["POST"])
 def admin_signup():
     print("signing up")
@@ -55,11 +56,14 @@ def admin_signup():
         password = data["password"].encode("utf-8")  # Retrieve password from JSON data
         h_password = bcrypt.hashpw(password, bcrypt.gensalt())
         # Insert user into database
-        new_admin = Admin(email=email,password=h_password) 
+        new_admin = Admin(email=email, password=h_password)
         new_admin.save()
-        return jsonify({"message": "Admin user registered successfully! Please log in"}), 201
+        return jsonify(
+            {"message": "Admin user registered successfully! Please log in"}
+        ), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 # Login route
 @auth.route("/login", methods=["POST"])
@@ -79,7 +83,8 @@ def login():
     token = generate_token(email)
     return jsonify({"token": token}), 200
 
-@auth.route("/admin/login", methods=['POST'])
+
+@auth.route("/admin/login", methods=["POST"])
 def admin_login():
     data = request.json
     email = data["email"]

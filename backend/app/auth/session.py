@@ -29,27 +29,28 @@ def get_user_from_token(token):
     payload = decode_token(token.split(" ")[1])
     return payload
 
+
 def admin_required(f):
     def wrapper(*args, **kwargs):
-        token = request.headers.get('Authorization')
+        token = request.headers.get("Authorization")
         if not token:
-            return jsonify({'message': 'Token is missing!'}), 403
-        
+            return jsonify({"message": "Token is missing!"}), 403
+
         try:
             # Decode the token
             data = get_user_from_token(token)
-            email = data['email']
+            email = data["email"]
             # Check if the user is an admin
             admin = Admin.objects(email=email).first()
             if admin is None:
-                return jsonify({'message': 'User is not an admin!'}), 403
-            
+                return jsonify({"message": "User is not an admin!"}), 403
+
         except jwt.ExpiredSignatureError:
-            return jsonify({'message': 'Token has expired!'}), 403
+            return jsonify({"message": "Token has expired!"}), 403
         except jwt.InvalidTokenError:
-            return jsonify({'message': 'Invalid token!'}), 403
-        
+            return jsonify({"message": "Invalid token!"}), 403
+
         return f(*args, **kwargs)
-    
-    wrapper.__name__ = f.__name__ 
+
+    wrapper.__name__ = f.__name__
     return wrapper

@@ -41,7 +41,6 @@ def get_products():
         sort_order = 1 if order == "asc" else -1
         products = products.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
 
-
         products_json = []
         for product in products:
             product_json = product.to_mongo().to_dict()
