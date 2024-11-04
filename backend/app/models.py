@@ -36,6 +36,12 @@ class Admin(Document):
 
 
 class Product(Document):
+    name = StringField(required=True)
+    category = StringField()
+    brand = StringField()
+    album = StringField()    
+    price = FloatField()
+
     pass
 
 
