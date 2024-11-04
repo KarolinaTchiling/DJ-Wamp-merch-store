@@ -11,13 +11,14 @@ class User(Document):
     cc_info = BinaryField(required=True)
     # credit card decription key, store somewhere safe in the final version
     decryption_key = BinaryField(required=True)
-    purchaces = ListField(ReferenceField(Purchace))
+    purchases = ListField(ReferenceField(Purchase))
 
-    def update_credit_card(self,new_cc):
+    def update_credit_card(self, new_cc):
         self.cc_info = new_cc
 
     def __str__(self):
         return self.username
+
 
 class Address(Document):
     street = StringField(required=True)
@@ -37,5 +38,6 @@ class Admin(Document):
 class Product(Document):
     pass
 
-class Purchace(Document):
+
+class Purchase(Document):
     pass

@@ -6,6 +6,7 @@ import bcrypt
 from .session import generate_token
 from cryptography.fernet import Fernet
 
+
 # Sign-Up route
 @auth.route("/auth/signup", methods=["POST"])
 def signup():
@@ -23,24 +24,21 @@ def signup():
 
         decryption_key = Fernet.generate_key()
         cipher = Fernet(decryption_key)
-        cc_string = data['card']
+        cc_string = data["card"]
         encrypted_card = cipher.encrypt(cc_string.encode())
 
         new_address = Address(
-            street=street,
-            city=city,
-            province=province,
-            postal_code=postal_code
+            street=street, city=city, province=province, postal_code=postal_code
         )
 
         new_user = User(
-        fname=fname,
-        lname=lname,
-        email=email,
-        password=h_password.decode("utf-8"),
-        address=new_address,
-        cc_info= encrypted_card,
-        decryption_key=decryption_key
+            fname=fname,
+            lname=lname,
+            email=email,
+            password=h_password.decode("utf-8"),
+            address=new_address,
+            cc_info=encrypted_card,
+            decryption_key=decryption_key,
         )
 
         # Insert user into database
