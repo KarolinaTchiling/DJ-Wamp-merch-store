@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, request, jsonify
 import datetime
 import jwt
+from . import user
 import bcrypt
 from app.models import User
 from app.auth.session import get_user_from_token

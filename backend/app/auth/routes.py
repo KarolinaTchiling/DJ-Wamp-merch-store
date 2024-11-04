@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from . import auth
-from ..models import User, Address
+from ..models import User
 import jwt
 import bcrypt
 from .session import generate_token

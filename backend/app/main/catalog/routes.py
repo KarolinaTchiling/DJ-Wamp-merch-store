@@ -1,11 +1,12 @@
 from flask import render_template, redirect, url_for, request, jsonify
 import datetime
 import jwt
+from . import catalog
 import bcrypt
 from app.models import Product
 from mongoengine import Q
 
-@catalog_bp.route('/products', methods=['GET'])
+@catalog.route('/products', methods=['GET'])
 def get_products():
     try:
         # get query parameters for filtering, sorting, and searching
@@ -38,21 +39,30 @@ def get_products():
         sort_order = 1 if order == 'asc' else -1
         products = products.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
 
-        products_json = [{
-            'id': str(product.id),  # Convert ObjectId to string
-            'name': product.name,
-            'category': product.category,
-            'brand': product.brand,
-            'album': product.album,
-            'price': product.price
-        } for product in products]
+        #products_json = [{
+            #'id': str(product.id),  # Convert ObjectId to string
+            #'name': product.name,
+            #'category': product.category,
+            #'brand': product.brand,
+            #'album': product.album,
+            #'price': product.price
+        #} for product in products]
+        
+        products_json = []
+        for product in products:
+            product_json = product.to_mongo().to_dict()
+            product_json['id'] = str(product_json['_id'])
+            del product_json['_id']
+            products_json.append(product_json)
+            
+        
         return jsonify({"products": products_json}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@catalog_bp.route('/products', methods=['POST'])
+@catalog.route('/products', methods=['POST'])
 def add_product():
-    products_db = mongo.db.products
+    # should be protected as admin user
     data = request.json
     try:
         new_product = Product(
@@ -64,24 +74,26 @@ def add_product():
             price = data['price'],
             description = data['description'],
             image_url = data['image_url'])
+        new_product.save()
         return jsonify({'message': 'Product added successfully'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@catalog_bp.route('/products/<product_id>', methods=['GET'])
+@catalog.route('/products/<product_id>', methods=['GET'])
 def get_product(product_id):
-    products_db = mongo.db.products
     try:
         product = Product.objects.get(id=product_id)
-
-        product_json = {
-            'id': str(product.id),  # Convert ObjectId to string
-            'name': product.name,
-            'category': product.category,
-            'brand': product.brand,
-            'album': product.album,
-            'price': product.price
-        }
+        product_json = product.to_mongo().to_dict()
+        #product_json = {
+            #'id': str(product.id),  # Convert ObjectId to string
+            #'name': product.name,
+            #'category': product.category,
+            #'brand': product.brand,
+            #'album': product.album,
+            #'price': product.price
+        #}
+        product_json['id'] = str(product_json['_id'])
+        del product_json['_id']
         return jsonify(product_json), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
