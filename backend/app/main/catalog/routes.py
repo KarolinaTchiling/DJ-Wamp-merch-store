@@ -49,3 +49,39 @@ def get_products():
         return jsonify({"products": products_json}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@catalog_bp.route('/products', methods=['POST'])
+def add_product():
+    products_db = mongo.db.products
+    data = request.json
+    try:
+        new_product = Product(
+            name= data['name'],
+            category = data['category'],
+            brand = data['brand'],
+            album = data['album'],
+            quantity = data.get('quantity', 0),
+            price = data['price'],
+            description = data['description'],
+            image_url = data['image_url'])
+        return jsonify({'message': 'Product added successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@catalog_bp.route('/products/<product_id>', methods=['GET'])
+def get_product(product_id):
+    products_db = mongo.db.products
+    try:
+        product = Product.objects.get(id=product_id)
+
+        product_json = {
+            'id': str(product.id),  # Convert ObjectId to string
+            'name': product.name,
+            'category': product.category,
+            'brand': product.brand,
+            'album': product.album,
+            'price': product.price
+        }
+        return jsonify(product_json), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

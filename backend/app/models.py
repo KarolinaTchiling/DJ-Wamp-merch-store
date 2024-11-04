@@ -41,6 +41,10 @@ class Product(Document):
     brand = StringField()
     album = StringField()    
     price = FloatField()
+    description = StringField()
+    image_url = URLField()
+    quantity = IntField()
+
 
     pass
 
