@@ -1,28 +1,49 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from . import auth
-from ..models import User
+from ..models import User, Address
 import jwt
 import bcrypt
 from .session import generate_token
-
+from cryptography.fernet import Fernet
 
 # Sign-Up route
 @auth.route("/auth/signup", methods=["POST"])
 def signup():
     print("signing up")
     data = request.json
-    email = data["email"]  # Retrieve email from JSON data
-    password = data["password"].encode("utf-8")  # Retrieve password from JSON data
-    # Hash password
-    h_password = bcrypt.hashpw(password, bcrypt.gensalt())
-
-    # Check if user already exists with email; else, register user
-    if User.objects(email=email):
-        return jsonify({"error": "This email is already registered!"}), 400
-
-    # Insert user into database
-    new_user = User(email=email, password=h_password.decode("utf-8"))
     try:
+        email = data["email"]  # Retrieve email from JSON data
+        password = data["password"].encode("utf-8")  # Retrieve password from JSON data
+        # Hash password
+        h_password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+        # Check if user already exists with email; else, register user
+        if User.objects(email=email):
+            return jsonify({"error": "This email is already registered!"}), 400
+
+        decryption_key = Fernet.generate_key()
+        cipher = Fernet(decryption_key)
+        cc_string = data['card']
+        encrypted_card = cipher.encrypt(cc_string.encode())
+
+        new_address = Address(
+            street=street,
+            city=city,
+            province=province,
+            postal_code=postal_code
+        )
+
+        new_user = User(
+        fname=fname,
+        lname=lname,
+        email=email,
+        password=h_password.decode("utf-8"),
+        address=new_address,
+        cc_info= encrypted_card,
+        decryption_key=decryption_key
+        )
+
+        # Insert user into database
         new_user.save()
         return jsonify({"message": "User registered successfully! Please log in"}), 201
     except Exception as e:

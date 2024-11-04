@@ -7,7 +7,6 @@ from env import SECRET_KEY
 
 def generate_token(email):
     payload = {"email": email}
-
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")  # Secret Key
     return token
 
