@@ -6,18 +6,19 @@ import bcrypt
 from app.models import Product
 from mongoengine import Q
 
-@catalog.route('/products', methods=['GET'])
+
+@catalog.route("/products", methods=["GET"])
 def get_products():
     try:
         # get query parameters for filtering, sorting, and searching
-        category = request.args.get('category')
-        brand = request.args.get('brand')
-        album = request.args.get('album')
-        name = request.args.get('name')
-        min_price = request.args.get('min_price')
-        max_price = request.args.get('max_price')
-        sort_by = request.args.get('sort_by', 'name')
-        order = request.args.get('order', 'asc')
+        category = request.args.get("category")
+        brand = request.args.get("brand")
+        album = request.args.get("album")
+        name = request.args.get("name")
+        min_price = request.args.get("min_price")
+        max_price = request.args.get("max_price")
+        sort_by = request.args.get("sort_by", "name")
+        order = request.args.get("order", "asc")
 
         # build query
         query = Q()
@@ -35,65 +36,51 @@ def get_products():
             query &= Q(price__lte=float(max_price))
 
         products = Product.objects(query)
-        #sort results
-        sort_order = 1 if order == 'asc' else -1
+        # sort results
+        sort_order = 1 if order == "asc" else -1
         products = products.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
 
-        #products_json = [{
-            #'id': str(product.id),  # Convert ObjectId to string
-            #'name': product.name,
-            #'category': product.category,
-            #'brand': product.brand,
-            #'album': product.album,
-            #'price': product.price
-        #} for product in products]
-        
+
         products_json = []
         for product in products:
             product_json = product.to_mongo().to_dict()
-            product_json['id'] = str(product_json['_id'])
-            del product_json['_id']
+            product_json["id"] = str(product_json["_id"])
+            del product_json["_id"]
             products_json.append(product_json)
-            
-        
+
         return jsonify({"products": products_json}), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
-@catalog.route('/products', methods=['POST'])
+
+@catalog.route("/products", methods=["POST"])
 def add_product():
     # should be protected as admin user
     data = request.json
     try:
         new_product = Product(
-            name= data['name'],
-            category = data['category'],
-            brand = data['brand'],
-            album = data['album'],
-            quantity = data.get('quantity', 0),
-            price = data['price'],
-            description = data['description'],
-            image_url = data['image_url'])
+            name=data["name"],
+            category=data["category"],
+            brand=data["brand"],
+            album=data["album"],
+            quantity=data.get("quantity", 0),
+            price=data["price"],
+            description=data["description"],
+            image_url=data["image_url"],
+        )
         new_product.save()
-        return jsonify({'message': 'Product added successfully'}), 201
+        return jsonify({"message": "Product added successfully"}), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
-@catalog.route('/products/<product_id>', methods=['GET'])
+
+@catalog.route("/products/<product_id>", methods=["GET"])
 def get_product(product_id):
     try:
         product = Product.objects.get(id=product_id)
         product_json = product.to_mongo().to_dict()
-        #product_json = {
-            #'id': str(product.id),  # Convert ObjectId to string
-            #'name': product.name,
-            #'category': product.category,
-            #'brand': product.brand,
-            #'album': product.album,
-            #'price': product.price
-        #}
-        product_json['id'] = str(product_json['_id'])
-        del product_json['_id']
+        product_json["id"] = str(product_json["_id"])
+        del product_json["_id"]
         return jsonify(product_json), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
