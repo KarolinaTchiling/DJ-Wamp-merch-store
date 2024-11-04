@@ -5,6 +5,7 @@ from . import catalog
 import bcrypt
 from app.models import Product
 from mongoengine import Q
+from ...auth.session import admin_required
 
 
 @catalog.route("/products", methods=["GET"])
@@ -54,8 +55,8 @@ def get_products():
 
 
 @catalog.route("/products", methods=["POST"])
+@admin_required
 def add_product():
-    # should be protected as admin user
     data = request.json
     try:
         new_product = Product(

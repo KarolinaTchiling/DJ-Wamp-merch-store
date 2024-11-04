@@ -18,6 +18,7 @@ class User(Document):
 
     def update_credit_card(self, new_cc):
         self.cc_info = new_cc
+        self.save()
 
     def __str__(self):
         return self.username
@@ -30,7 +31,7 @@ class User(Document):
 
 
 class Admin(Document):
-    username = StringField(required=True)
+    email = StringField(required=True)
     password = StringField(required=True)
 
 

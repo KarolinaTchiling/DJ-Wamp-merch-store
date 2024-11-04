@@ -9,7 +9,7 @@ from cryptography.fernet import Fernet
 
 
 # card data send in "xxxxxxxxxxxxxxxx-xxxx-xxx" (16 nums, exp(mmyy),cvv), one string
-@user.route("/user/cc/add", methods=["POST"])
+@user.route("/cc", methods=["POST"])
 def add_cc():
     data = request.json
     token = request.headers.get("Authorization")
@@ -21,12 +21,6 @@ def add_cc():
 
     try:
         user = User.objects(email=payload["email"]).first()
-        # check if key already exists first
-        # if it does, use that
-        # key = Fernet.generate_key()
-        # with open(f"{user.email}", 'wb') as key_file:
-        # key_file.write(key)
-        # print(f"Key saved to {key_file_path}")
         cipher = Fernet(user.decryption_key)
         cc_string = data["card"]
         encrypted_card = cipher.encrypt(cc_string.encode())
