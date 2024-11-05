@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './Button.tsx';
 
 interface CatalogProduct {
     name: string;
@@ -25,10 +26,9 @@ interface CatalogProduct {
             <div className="text-sm">
                 {cost}
             </div>
+        
+            <Button className ="w-full mt-3">Add to Cart</Button>
 
-            <button className="border border-camel w-full mt-1 border-black bg-transparent text-black text-sm py-0.5 px-4 hover:bg-camel">
-                Add to Cart
-            </button>
         </div>
     );
 };

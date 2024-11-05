@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import ProfileDropdown from './ProfileDropdown';
 import CartDropdown from './CartDropdown';
+import Logo from './Logo';
 
 // Define a type for the navigation links
 interface NavLink {
@@ -28,11 +29,11 @@ const cartItems = [
   
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-tea-800 p-10 text-sm"> 
+    <nav className="bg-cream p-10 pb-7 text-sm"> 
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
-        <li className="basis-[24%] flex justify-start text-2xl font-['Lexend_Zetta']">DJ WAMP</li>
+        <li className="basis-[24%] flex justify-start">  <Logo size={25}/></li>
 
         {/* Page Links */}
         <li className="basis-[50%] pr-[90px]">
