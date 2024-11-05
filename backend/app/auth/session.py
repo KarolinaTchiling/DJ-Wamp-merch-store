@@ -2,6 +2,7 @@ import jwt
 import bcrypt
 from ..models import Admin
 from env import SECRET_KEY
+from flask import request, jsonify
 # Function for generating token
 # Used for verification on subsequent requests
 
@@ -32,6 +33,7 @@ def get_user_from_token(token):
 
 def admin_required(f):
     def wrapper(*args, **kwargs):
+        print("CHECKING IF ADMIN")
         token = request.headers.get("Authorization")
         if not token:
             return jsonify({"message": "Token is missing!"}), 403

@@ -25,6 +25,6 @@ def add_cc():
         cc_string = data["card"]
         encrypted_card = cipher.encrypt(cc_string.encode())
         user.update_credit_card(encrypted_card)
-
+        return jsonify({"message": "Card information updated"}), 201
     except Exception as e:
-        return jsonify({"error adding credit card to user": str(e)}), 400
+        return jsonify({"error adding credit card to user": str(e)}), 500
