@@ -3,24 +3,23 @@ import datetime
 import jwt
 from . import catalog
 import bcrypt
-from app.models import Product, json_formatted
+from app.models import Product, Purchase, Sale, json_formatted
 from mongoengine import Q
 from ...auth.session import admin_required
 
 
-@catalog.route("/products", methods=["GET"])
-def get_products():
+@sale.route("/history", methods=["GET"])
+@admin_required
+def get_sales():
     try:
         # get query parameters for filtering, sorting, and searching
-        category = request.args.get("category")
-        brand = request.args.get("brand")
-        album = request.args.get("album")
-        name = request.args.get("name")
-        min_price = request.args.get("min_price")
-        max_price = request.args.get("max_price")
+        date = request.args.get("date")
+        user = request.args.get("user_id")
+        product = request.args.get("product")
+        total_price = request.args.get("total_price")
         sort_by = request.args.get("sort_by", "name")
         order = request.args.get("order", "asc")
-
+        # query would have to look through every purchase in the sale, to get the products purchased.
         # build query
         query = Q()
         if category:
@@ -50,31 +49,11 @@ def get_products():
         return jsonify({"error": str(e)}), 500
 
 
-@catalog.route("/products", methods=["POST"])
+@sale.route("/<sale_id>", methods=["GET"])
 @admin_required
-def add_product():
-    data = request.json
+def get_sale(sale_id):
     try:
-        new_product = Product(
-            name=data["name"],
-            category=data["category"],
-            brand=data["brand"],
-            album=data["album"],
-            quantity=data.get("quantity", 0),
-            price=data["price"],
-            description=data["description"],
-            image_url=data["image_url"],
-        )
-        new_product.save()
-        return jsonify({"message": "Product added successfully"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@catalog.route("/products/<product_id>", methods=["GET"])
-def get_product(product_id):
-    try:
-        product = Product.objects.get(id=product_id)
-        return jsonify(json_formatted(product)), 201
+        sale = Sale.objects.get(id=sale_id)
+        return jsonify(json_formatted(sale_id)), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

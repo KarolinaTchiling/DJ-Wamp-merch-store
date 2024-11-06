@@ -21,6 +21,7 @@ class User(Document):
     city = StringField(required=True)
     province = StringField(required=True)
     postal_code = StringField(required=True)
+    cart = ListField(ReferenceField(Product))
 
     def update_credit_card(self, new_cc):
         self.cc_info = new_cc
@@ -52,10 +53,14 @@ class Product(Document):
     quantity = IntField()
 
 
+# a collection of purchaces
+class Sale(Document):
+    date = DateField(required=True)
+    user = ReferenceField(User,required=True)
+    purchases = ListField(ReferenceField(Product,required=True))
+
+# buying one item
 class Purchase(Document):
     date = DateField(required=True)
     user = ReferenceField(User,required=True)
     product = ReferenceField(Product,required=True)
-    price = FloatField(required=True)
-    # {product_id:quantity}
-    quantity = DictField()
