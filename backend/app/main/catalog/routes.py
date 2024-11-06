@@ -3,7 +3,7 @@ import datetime
 import jwt
 from . import catalog
 import bcrypt
-from app.models import Product
+from app.models import Product, json_formatted
 from mongoengine import Q
 from ...auth.session import admin_required
 
@@ -43,10 +43,7 @@ def get_products():
 
         products_json = []
         for product in products:
-            product_json = product.to_mongo().to_dict()
-            product_json["id"] = str(product_json["_id"])
-            del product_json["_id"]
-            products_json.append(product_json)
+            products_json.append(json_formatted(product))
 
         return jsonify({"products": products_json}), 201
     except Exception as e:

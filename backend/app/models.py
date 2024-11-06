@@ -1,5 +1,11 @@
 from mongoengine import *
 
+def json_formatted(model):
+    model_json = model.to_mongo().to_dict()
+    model_json["id"] = str(model_json["_id"])
+    del model_json["_id"]
+    return model_json
+
 
 class User(Document):
     fname = StringField(required=True)
@@ -47,4 +53,9 @@ class Product(Document):
 
 
 class Purchase(Document):
-    pass
+    date = DateField(required=True)
+    user = ReferenceField(User,required=True)
+    product = ReferenceField(Product,required=True)
+    price = FloatField(required=True)
+    # {product_id:quantity}
+    quantity = DictField()
