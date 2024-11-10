@@ -1,22 +1,34 @@
 import React, { useState } from "react";
 
-const SortDropdown = () => {
+interface SortOption {
+    label: string;
+    value: string;
+}
+
+interface SortDropdownProps {
+    onSortChange: (sortBy: string, order: string) => void;
+}
+
+const SortDropdown: React.FC<SortDropdownProps> = ({ onSortChange }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("Newest");
+    const [selectedOption, setSelectedOption] = useState("Product Name");
 
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
-    const handleOptionSelect = (option) => {
+    const handleOptionSelect = (option: SortOption) => {
         setSelectedOption(option.label);
         setDropdownOpen(false);
-        // Optionally, add any sorting function or action here
+
+        const [sortBy, order] = option.value.split("-");
+        onSortChange(sortBy, order);
     };
 
     const options = [
-        { label: "Price (low to high)", value: "low-to-high" },
-        { label: "Price (high to low)", value: "high-to-low" },
-        { label: "Newest", value: "newest" },
-        { label: "Oldest", value: "oldest" }
+        { label: "Price (low to high)", value: "price-asc" },
+        { label: "Price (high to low)", value: "price-desc" },
+        { label: "Product Name", value: "name-asc" },
+        { label: "Album", value: "album-asc" },
+        { label: "Product Type", value: "category-asc" }
     ];
 
     return (

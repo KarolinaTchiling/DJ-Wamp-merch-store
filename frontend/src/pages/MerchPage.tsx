@@ -16,23 +16,35 @@ const MerchPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get<{ products: Product[] }>(
-          "http://127.0.0.1:5000/catalog/products" // Backend API URL
-        );
-        setProducts(response.data.products);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load products.");
-        setLoading(false);
-      }
-    };
+  const [sortBy, setSortBy] = useState<string>("name"); // Default sort field
+  const [order, setOrder] = useState<string>("asc"); // Default sort order
 
+  
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get<{ products: Product[] }>(
+        `http://127.0.0.1:5000/catalog/products?sort_by=${sortBy}&order=${order}`
+      );
+      setProducts(response.data.products);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load products.");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [sortBy, order]); // Re-fetch products when sorting changes
+
+  const handleSortChange = (sortBy: string, order: string) => {
+    setSortBy(sortBy);
+    setOrder(order);
+  };
+
+
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>{error}</p>;
@@ -46,13 +58,13 @@ const MerchPage: React.FC = () => {
 
       {/* Main section */}
       <div className="flex-grow ml-[45px] mr-[200px]">
-        <div className="text-2xl">Page Name</div>
+        <div className="text-2xl">Merch</div>
 
         <div className="flex justify-between items-center py-5">
           {/* Heading section */}
           <div>Showing {products.length} products</div>
           <div>
-            <SortDropdown />
+            <SortDropdown onSortChange={handleSortChange}/>
           </div>
         </div>
 
