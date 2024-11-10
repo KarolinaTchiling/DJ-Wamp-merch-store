@@ -28,7 +28,6 @@ interface CatalogProduct {
             </div>
         
             <Button className ="w-full mt-3">Add to Cart</Button>
-
         </div>
     );
 };
