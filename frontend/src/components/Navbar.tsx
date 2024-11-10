@@ -27,7 +27,16 @@ const cartItems = [
   // Add more items as needed
 ];
   
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch(value);
+  };
+
   return (
     <nav className="bg-cream p-10 pb-7 text-sm"> 
       <ul className="flex flex-row text-center items-center">
@@ -68,6 +77,8 @@ const Navbar: React.FC = () => {
           <input
             type="text"
             className="border border-camel bg-transparent p-1 flex-grow w-full"
+            value={searchTerm}
+            onChange={handleInputChange}
           />
         </li>
       </ul>

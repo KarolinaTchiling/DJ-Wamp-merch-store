@@ -4,6 +4,10 @@ import CatalogProduct from "../components/CatalogProduct";
 import SortDropdown from "../components/SortDropdown";
 import axios from "axios";
 
+interface MerchPageProps {
+  searchQuery: string; // Search query from parent
+}
+
 interface Product {
   _id: string;
   name: string;
@@ -11,7 +15,7 @@ interface Product {
   image_url: string;
 }
 
-const MerchPage: React.FC = () => {
+const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -24,7 +28,7 @@ const MerchPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get<{ products: Product[] }>(
-        `http://127.0.0.1:5000/catalog/products?sort_by=${sortBy}&order=${order}`
+        `http://127.0.0.1:5000/catalog/products?sort_by=${sortBy}&order=${order}&name=${searchQuery}`
       );
       setProducts(response.data.products);
       setLoading(false);
@@ -37,7 +41,7 @@ const MerchPage: React.FC = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [sortBy, order]); // Re-fetch products when sorting changes
+  }, [sortBy, order, searchQuery]); // Re-fetch products when sorting changes
 
   const handleSortChange = (sortBy: string, order: string) => {
     setSortBy(sortBy);
