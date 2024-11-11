@@ -31,7 +31,7 @@ interface CatalogProductProps {
             </div>
 
             <div className="text-sm">
-                {product.price}
+                ${product.price}
             </div>
         
             <Button 
