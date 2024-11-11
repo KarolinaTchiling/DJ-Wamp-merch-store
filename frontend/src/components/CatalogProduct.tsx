@@ -11,7 +11,7 @@ interface CatalogProduct {
     return (
         <div className="">
             {/* Aspect Ratio Container */}
-            <div className="relative w-full pt-[85%] overflow-hidden">
+            <div className="relative w-full pt-[100%] overflow-hidden">
                 <img
                     src={image}
                     alt={name}
@@ -28,9 +28,9 @@ interface CatalogProduct {
             </div>
         
             <Button className ="w-full mt-3">Add to Cart</Button>
-
         </div>
     );
 };
 
 export default CatalogProduct;
+
