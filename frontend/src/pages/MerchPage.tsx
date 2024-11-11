@@ -22,7 +22,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
 
   const [sortBy, setSortBy] = useState<string>("name");
   const [order, setOrder] = useState<string>("asc");
-  const [selectedOption, setSelectedOption] = useState<string>("Product Name");
+  const [selectedOption, setSelectedOption] = useState<string>("Product name");
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -32,7 +32,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       );
       const transformedProducts = response.data.products.map((product) => ({
         ...product,
-        id: product.id || product.id,
+        id: product.id,
       }));
       setProducts(transformedProducts);
       setLoading(false);
