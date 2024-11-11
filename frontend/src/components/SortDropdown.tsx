@@ -30,9 +30,9 @@ const SortDropdown: React.FC<SortDropdownProps> = memo(({ onSortChange, selected
     const options = [
         { label: "Price (low to high)", value: "price-asc" },
         { label: "Price (high to low)", value: "price-desc" },
-        { label: "Product Name", value: "name-asc" },
+        { label: "Product name", value: "name-asc" },
         { label: "Album", value: "album-asc" },
-        { label: "Product Type", value: "category-asc" }
+        { label: "Product category", value: "category-asc" }
     ];
 
     console.log("SortDropdown rendered with selectedOption:", selectedOption);
