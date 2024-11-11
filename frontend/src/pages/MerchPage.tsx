@@ -4,13 +4,7 @@ import CatalogProduct from "../components/CatalogProduct";
 import SortDropdown from "../components/SortDropdown";
 import Button from "../components/Button";
 import axios from "axios";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image_url: string;
-}
+import { Product } from '../types'; 
 
 interface MerchPageProps {
   searchQuery: string;
@@ -131,11 +125,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
         >
           {products.map((product) => (
             <div className="p-0 pb-8" key={product.id}>
-              <CatalogProduct
-                name={product.name}
-                cost={`$${product.price.toFixed(2)}`}
-                image={product.image_url}
-              />
+              <CatalogProduct product={product}/>
             </div>
           ))}
         </div>

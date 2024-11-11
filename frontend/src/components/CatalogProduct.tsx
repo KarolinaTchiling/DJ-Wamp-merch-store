@@ -1,33 +1,43 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button.tsx';
+import { Product } from '../types'; 
 
-interface CatalogProduct {
-    name: string;
-    cost: string;
-    image: string;
-  }
+interface CatalogProductProps {
+    product: Product;
+}
 
-  const CatalogProduct: React.FC<CatalogProduct> = ({ name, cost, image }) => {    
+  const CatalogProduct: React.FC<CatalogProductProps> = ({ product }) => {    
+
+    const navigate = useNavigate();
+
+    const detailClick = () => {
+        navigate('/detail', { state: product });
+    };
+
     return (
         <div className="">
             {/* Aspect Ratio Container */}
             <div className="relative w-full pt-[100%] overflow-hidden">
                 <img
-                    src={image}
-                    alt={name}
+                    src={product.image_url}
+                    alt={product.name}
                     className="absolute top-0 left-0 w-full h-full object-cover"  // Ensures the image fills the container
                 />
             </div>
 
             <div className="mt-2 text-sm">
-                {name}
+                {product.name}
             </div>
 
             <div className="text-sm">
-                {cost}
+                {product.price}
             </div>
         
-            <Button className ="w-full mt-3">Add to Cart</Button>
+            <Button 
+                onClick={detailClick}
+                className ="w-full mt-3"
+            >View Details</Button>
         </div>
     );
 };

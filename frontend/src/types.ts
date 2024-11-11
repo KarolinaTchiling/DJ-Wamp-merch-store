@@ -1,5 +1,5 @@
 export interface Product {
-    _id: string;           // MongoDB ObjectId
+    id: string;           // MongoDB ObjectId
     name: string;          // Name of the product
     category: string;      // Category (e.g., vinyl)
     brand: string;         // Brand associated with the product

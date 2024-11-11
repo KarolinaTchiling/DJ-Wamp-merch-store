@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import TestPage from './pages/TestPage';
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
+import DetailPage from "./pages/DetailPage.tsx";
 
 const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>(''); // Shared search state
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <Navbar onSearch={handleSearch}  />
       <Routes>
         <Route path="/" element={<MerchPage searchQuery={searchQuery}/>} />
+        <Route path="/detail" element={<DetailPage />} />
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/test" element={<TestPage />} />
