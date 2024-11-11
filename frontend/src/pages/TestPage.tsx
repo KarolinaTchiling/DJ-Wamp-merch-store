@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import SidebarTest from "../components/SidebarTest";
 import CatalogProduct from "../components/CatalogProduct";
+import Button from '../components/Button';
 import axios from "axios";
 
 interface Product {
@@ -76,15 +77,13 @@ const MerchPage: React.FC = () => {
     <div className="flex mt-4">
       {/* Sidebar section */}
       <div className="border-r border-r-camel">
-      <SidebarTest
-        selectedAlbums={selectedAlbums}
-        selectedCategories={selectedCategories}
-        onAlbumChange={handleAlbumChange}
-        onCategoryChange={handleCategoryChange} // Ensure this matches the expected prop name
-      />
-        <button onClick={clearFilters} className="text-blue-500 underline mt-4">
-          Clear Filters
-        </button>
+        <SidebarTest
+          selectedAlbums={selectedAlbums}
+          selectedCategories={selectedCategories}
+          onAlbumChange={handleAlbumChange}
+          onCategoryChange={handleCategoryChange} // Ensure this matches the expected prop name
+        />
+        <Button onClick={clearFilters} className ="text-sm mt-2 ml-[55px]">Clear Filters</Button>
       </div>
 
       {/* Main section */}
