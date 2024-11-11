@@ -1,94 +1,73 @@
-import React, { useState } from 'react';
-import CheckboxGroup from './CheckboxGroup';
+import React, { memo } from "react";
 
-const Sidebar: React.FC = () => {
+interface SidebarTestProps {
+  selectedAlbums: Record<string, boolean>;
+  selectedCategories: Record<string, boolean>; // Updated to camelCase
+  onAlbumChange: (album: string) => void;
+  onCategoryChange: (category: string) => void; // Updated parameter name
+}
 
-    interface CheckboxItem {
-        checked: boolean;
-        displayText: string;
-      }
 
-    const [selectedAlbums, setSelectedAlbums] = useState<{ [key: string]: CheckboxItem }>({
-        stares: { checked: false, displayText: 'Stares from Above' },
-        heavens: { checked: false, displayText: 'Heavens' },
-        angels: { checked: false, displayText: 'Angels' },
-        cloud: { checked: false, displayText: 'Cloud Flare' },
-    });
+const SidebarTest: React.FC<SidebarTestProps> = memo(
+  ({ selectedAlbums, selectedCategories, onAlbumChange, onCategoryChange }) => {
+    const albums = ["Stares from Above", "Heavens", "Angels", "Cloud Flare"];
+    const categories = ["Apparel", "Music", "Accessories", "Pre-orders", "Concert"]; // Renamed from `types`
 
-    const [selectedTypes, setSelectedTypes] = useState<{ [key: string]: CheckboxItem }>({
-    apparel: { checked: false, displayText: 'Apparel' },
-    music: { checked: false, displayText: 'Music' },
-    accessories: { checked: false, displayText: 'Accessories' },
-    preOrders: { checked: false, displayText: 'Pre-orders' },
-    concert: { checked: false, displayText: 'Concert' },
-    });
-
-    const [selectedCost, setSelectedCost] = useState<{ [key: string]: CheckboxItem }>({
-    sale: { checked: false, displayText: 'Sale' },
-    });
-
-    const handleAlbumCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setSelectedAlbums(prevState => ({
-          ...prevState,
-          [name]: {
-            ...prevState[name],
-            checked: checked,  // Only update the 'checked' value
-          },
-        }));
-      };
-    const handleTypeCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setSelectedTypes(prevState => ({
-            ...prevState,
-            [name]: {
-              ...prevState[name],
-              checked: checked,  // Only update the 'checked' value
-            },
-        }));
-    };
-    const handleCostCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setSelectedCost(prevState => ({
-          ...prevState,
-          [name]: {
-            ...prevState[name],
-            checked: checked,  // Only update the 'checked' value
-          },
-        }));
-      };
-
+    // console.log("onCategoryChange:", onCategoryChange);
     return (
-      <div className="w-[280px] text-camel pl-[60px] text-sm">
-        <ul>
-            <li className="mb-2 font-bold">Filter</li>
-
-            <li className="mb-2">
-                <CheckboxGroup
-                    items={selectedAlbums}
-                    onChange={handleAlbumCheckboxChange}
-                    groupName="Album"
-                />
-            </li>
-
-            <li className="mb-2">
-                <CheckboxGroup
-                    items={selectedTypes}
-                    onChange={handleTypeCheckboxChange}
-                    groupName="Type"
-                />
-            </li>
-
-            <li className="mb-2">
-                <CheckboxGroup
-                    items={selectedCost}
-                    onChange={handleCostCheckboxChange}
-                    groupName="Cost"
-                />
-            </li>
-        </ul>
+      <div className="mb-2 font-bold text-camel" >
+        
+        <div className="pl-[50px] text-lg">
+            Filters
         </div>
-    );
-};
 
-export default Sidebar;
+
+        {/* Albums Section */}
+        <div className="w-[280px] pt-3 pl-[50px] text-sm">
+          <h3 className="font-semibold pb-2">Albums</h3>
+          {albums.map((album) => (
+            <label key={album} className="flex items-center pb-1 pl-1 space-x-3 cursor-pointer">
+            <input
+              type="checkbox"
+              className="input-hidden"
+              checked={selectedAlbums[album] || false}
+              onChange={() => {onAlbumChange(album)}}
+            />
+            <span
+              className={`w-4 h-4 flex items-center justify-center border-2 ${
+                selectedAlbums[album] ? "bg-tea border-tea" : "bg-transparent border-tea"
+              }`}
+            >
+            </span>
+            <span className="text-black font-normal">{album}</span>
+          </label>
+          ))}
+        </div>
+
+        {/* Categories Section */}
+        <div className="w-[280px] pt-3 pl-[50px] text-sm">
+          <h3 className="font-semibold pb-2">Category</h3>
+          {categories.map((category) => (
+            <label key={category} className="flex items-center pb-1 pl-1 space-x-3 cursor-pointer">
+            <input
+            type="checkbox"
+            className="input-hidden"
+            checked={selectedCategories?.[category] || false} 
+            onChange={() => onCategoryChange(category)}
+            />
+            <span
+                className={`w-4 h-4 flex items-center justify-center border-2 ${
+                    selectedCategories[category] ? "bg-tea border-tea" : "bg-transparent border-tea"
+              }`}
+            >
+            </span>
+            <span className="text-black font-normal">{category}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    );
+  }
+);
+
+export default SidebarTest;
