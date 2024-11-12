@@ -21,7 +21,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Navigate to="/catalog/products" replace />} />
 
         <Route path="/catalog/products" element={<MerchPage searchQuery={searchQuery}/>} />
-        <Route path="/catalog/:name" element={<DetailPage />} />
+        <Route path="/catalog/products/:name" element={<DetailPage />} />
 
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
