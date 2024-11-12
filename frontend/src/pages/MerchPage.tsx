@@ -78,7 +78,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSelectedAlbums({});
   };
 
-  if (loading) return <p></p>;
+  if (loading) return <p>Loading..</p>;
   if (error)
     return (
       <div className="text-center">
@@ -92,7 +92,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   return (
     <div className="flex mt-4">
       {/* Sidebar for filtering */}
-      <div className="border-r border-r-camel">
+      <div className="border-r border-r-camel mb-10">
         <Sidebar selectedAlbums={selectedAlbums} onAlbumChange={handleAlbumChange} />
         <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
           Clear Filters
@@ -109,16 +109,18 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
         </div>
 
         {/* Product grid */}
-        <div
-          className="grid gap-3"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(230px, 0.3fr))",
-          }}
-        >
-          {products.map((product) => (
-            <CatalogProduct key={product.id} product={product} />
-          ))}
-        </div>
+          <div className="mb-10">
+            <div
+              className="grid gap-3"
+              style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(230px, 0.3fr))",
+              }}
+              >
+              {products.map((product) => (
+                <CatalogProduct key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
       </div>
     </div>
   );
