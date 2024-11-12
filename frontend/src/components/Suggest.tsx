@@ -13,31 +13,33 @@ const Suggest: React.FC<SuggestProps> = ({ currentCategory, currentProduct }) =>
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>("");
+    
     useEffect(() => {
       const fetchProducts = async () => {
-        try {
-            const response = await axios.get<{ products: Product[] }>(
-                `http://127.0.0.1:5000/catalog/products?category=${currentCategory}`
-            );
+          try {
+              const response = await axios.get<{ products: Product[] }>(
+                  `http://127.0.0.1:5000/catalog/products?category=${currentCategory}`
+              );
 
+              // Exclude the current product from the results
+              const filteredProducts = response.data.products.filter(
+                  (product) => product.id.toString() !== currentProduct
+              );
 
-            // Exclude the current product from the results
-            const filteredProducts = response.data.products.filter(
-            (product) => product.id !== currentProduct);
-
-          setProducts(filteredProducts);
-          setLoading(false);
-        } catch (err) {
-          console.error(err);
-          setError("Failed to load products.");
-          setLoading(false);
-        }
+              setProducts(filteredProducts);
+              setLoading(false);
+          } catch (err) {
+              console.error(err);
+              setError('Failed to load products.');
+              setLoading(false);
+          }
       };
+
       fetchProducts();
-    }, []);
-  
-    if (loading) return <p>.</p>;
-    if (error) return <p>{error}</p>;
+  }, [currentCategory, currentProduct]); // Dependency on `currentProduct`
+
+  if (loading) return <p>.</p>;
+  if (error) return <p>{error}</p>;
 
     return (
         <div>

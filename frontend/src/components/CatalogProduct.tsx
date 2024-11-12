@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button.tsx';
 import { Product } from '../types'; 
@@ -10,9 +10,13 @@ interface CatalogProductProps {
   const CatalogProduct: React.FC<CatalogProductProps> = ({ product }) => {    
 
     const navigate = useNavigate();
+    const isNavigating = useRef(false);
 
     const detailClick = () => {
-        navigate('/detail', { state: product });
+        if (isNavigating.current) return; 
+        isNavigating.current = true;
+
+        navigate(`/catalog/products/${encodeURIComponent(product.name)}`, { state: product });
     };
 
     return (

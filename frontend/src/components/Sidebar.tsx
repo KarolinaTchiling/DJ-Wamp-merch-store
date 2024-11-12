@@ -24,7 +24,9 @@ const Sidebar: React.FC<SidebarProps> = memo(({ selectedAlbums, onAlbumChange })
           const isActive = category === currentCategory || (category === "All Products" && !searchParams.has("category"));
           return (
             <Link
-              to={category === "All Products" ? "/merch" : `/merch?category=${encodeURIComponent(category)}`}
+              to={category === "All Products" 
+                ? "/catalog/products" 
+                : `/catalog/products?category=${encodeURIComponent(category)}`}
               key={category}
               className={`block pb-1 pl-1 font-normal hover:text-tea ${
                 isActive ? "font-semibold text-black" : "font-normal text-black"

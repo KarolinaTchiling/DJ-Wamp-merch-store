@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import TestPage from './pages/TestPage';
 import LogInPage from "./pages/LogInPage.tsx";
@@ -18,12 +18,15 @@ const App: React.FC = () => {
     <div className="bg-cream min-h-screen">
       <Navbar onSearch={handleSearch}  />
       <Routes>
-        <Route path="/" element={<MerchPage searchQuery={searchQuery}/>} />
-        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/" element={<Navigate to="/catalog/products" replace />} />
+
+        <Route path="/catalog/products" element={<MerchPage searchQuery={searchQuery}/>} />
+        <Route path="/catalog/products/:name" element={<DetailPage />} />
+
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+
         <Route path="/test" element={<TestPage />} />
-        <Route path="/merch" element={<MerchPage searchQuery={searchQuery}/>} />
       </Routes>
     </div>
   );

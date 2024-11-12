@@ -25,8 +25,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   const [selectedAlbums, setSelectedAlbums] = useState<Record<string, boolean>>({});
   const [searchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category");
-
-  const currentCategory = searchParams.get("category") || "All Products";
+  const currentCategory = categoryFilter || "All Products";
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -44,6 +43,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       .filter(Boolean)
       .join("&");
 
+      console.log("Query Parameters:", queryParams);
     try {
       const response = await axios.get<{ products: Product[] }>(
         `http://127.0.0.1:5000/catalog/products${queryParams ? `?${queryParams}` : ""}`
@@ -59,7 +59,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+  }, [fetchProducts, searchParams]);
 
   const handleSortChange = (sortBy: string, order: string, label: string) => {
     setSortBy(sortBy);

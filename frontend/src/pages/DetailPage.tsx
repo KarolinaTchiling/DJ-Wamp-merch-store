@@ -1,18 +1,43 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { Product } from '../types'; 
 import Button from '../components/Button.tsx';
 import Suggest from '../components/Suggest.tsx';
 import Quantity from '../components/Quantity.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import { Link } from 'react-router-dom';
+
 
 
 const DetailPage: React.FC = () => {
 
     const location = useLocation();
-    const product = location.state as Product;
+    const { name } = useParams<{ name: string }>();
+
+    const [product, setProduct] = useState<Product | null>(location.state as Product);
+
+    useEffect(() => {
+        // Reset product and fetch new data when route changes
+        const fetchProduct = async () => {
+            if (location.state) {
+                setProduct(location.state as Product);
+            } else if (name) {
+                try {
+                    const response = await fetch(
+                        `http://127.0.0.1:5000/catalog/products?name=${encodeURIComponent(name)}`
+                    );
+                    const data = await response.json();
+                    setProduct(data);
+                } catch (error) {
+                    console.error('Error fetching product:', error);
+                }
+            }
+        };
+
+        fetchProduct();
+    }, [name, location.state]); 
+
+    if (!product) return <div>Loading...</div>;
 
     return(
         <>
@@ -25,7 +50,7 @@ const DetailPage: React.FC = () => {
                 &nbsp;&nbsp;﹥
                 
                 <Link
-                to={`/merch?category=${encodeURIComponent(product.category)}`}
+                to={`/catalog/products?category=${encodeURIComponent(product.category)}`}
                 className="text-sm text-coffee hover:underline">
                 {product.category}
                 </Link>
