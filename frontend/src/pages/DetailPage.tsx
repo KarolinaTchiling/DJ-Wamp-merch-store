@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Product } from '../types'; 
 import Button from '../components/Button.tsx';
+import Suggest from '../components/Suggest.tsx';
 import Quantity from '../components/Quantity.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
@@ -31,10 +32,11 @@ const DetailPage: React.FC = () => {
 
                  &nbsp;&nbsp;﹥
                 <p className="text-sm text-black"> {product.name} </p>
-                
+
             </div>
 
-            <div className="flex flex-row px-10 mx-5 h-[calc(100vh-180px)]">
+
+            <div className="flex flex-row px-10 mx-5 h-[calc(100vh-200px)]">
 
 
 
@@ -92,8 +94,7 @@ const DetailPage: React.FC = () => {
 
                 {/* You may also like */}
                 <div className="basis-[25%]">
-
-
+                    <Suggest currentCategory={product.category} currentProduct={product.id} />
                 </div>
 
             </div>

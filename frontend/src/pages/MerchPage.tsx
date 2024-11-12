@@ -78,7 +78,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSelectedAlbums({});
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p></p>;
   if (error)
     return (
       <div className="text-center">
