@@ -1,11 +1,11 @@
 from mongoengine import *
 
 
-def json_formatted(model):
-    model_json = model.to_mongo().to_dict()
-    model_json["id"] = str(model_json["_id"])
-    del model_json["_id"]
-    return model_json
+# def json_formatted(model):
+# model_json = model.to_mongo().to_dict()
+# model_json["id"] = str(model_json["_id"])
+# del model_json["_id"]
+# return model_json
 
 
 class User(Document):
@@ -31,6 +31,13 @@ class User(Document):
     def __str__(self):
         return self.username
 
+    def json_formatted(self):
+        print(f"serializing {self.__str__}")
+        model_json = self.to_mongo().to_dict()
+        model_json["id"] = str(model_json["_id"])
+        del model_json["_id"]
+        return model_json
+
 
 # class Address(Document):
 
@@ -41,6 +48,13 @@ class User(Document):
 class Admin(Document):
     email = StringField(required=True)
     password = StringField(required=True)
+
+    def json_formatted(self):
+        print(f"serializing {self.__str__}")
+        model_json = self.to_mongo().to_dict()
+        model_json["id"] = str(model_json["_id"])
+        del model_json["_id"]
+        return model_json
 
 
 class Product(Document):
@@ -53,9 +67,24 @@ class Product(Document):
     image_url = StringField()
     quantity = IntField()
 
+    def json_formatted(self):
+        print(f"serializing {self.__str__}")
+        model_json = self.to_mongo().to_dict()
+        model_json["id"] = str(model_json["_id"])
+        del model_json["_id"]
+        return model_json
 
-# a collection of purchaces
+
 class Sale(Document):
     date = DateField(required=True)
     user = ReferenceField(User, required=True)
     purchases = ListField(ReferenceField(Product, required=True))
+
+    def json_formatted(self):
+        print(f"serializing {self.__str__}")
+        model_json = self.to_mongo().to_dict()
+        model_json["id"] = str(model_json["_id"])
+        model_json["user"] = user.json_formatted()
+        model_json["purchases"] = [purchase.json_formatted() for purchase in purchases]
+        del model_json["_id"]
+        return model_json

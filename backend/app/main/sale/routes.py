@@ -42,7 +42,7 @@ def get_sales():
 
         products_json = []
         for product in products:
-            products_json.append(json_formatted(product))
+            products_json.append(product.json_formatted())
 
         return jsonify({"products": products_json}), 201
     except Exception as e:
@@ -54,6 +54,6 @@ def get_sales():
 def get_sale(sale_id):
     try:
         sale = Sale.objects.get(id=sale_id)
-        return jsonify(json_formatted(sale_id)), 201
+        return jsonify(sale.json_formatted()), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

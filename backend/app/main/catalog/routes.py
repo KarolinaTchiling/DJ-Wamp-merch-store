@@ -43,7 +43,7 @@ def get_products():
 
         products_json = []
         for product in products:
-            products_json.append(json_formatted(product))
+            products_json.append(product.json_formatted())
 
         return jsonify({"products": products_json}), 201
     except Exception as e:
@@ -75,6 +75,20 @@ def add_product():
 def get_product(product_id):
     try:
         product = Product.objects.get(id=product_id)
-        return jsonify(json_formatted(product)), 201
+        return jsonify(product.json_formatted()), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@catalog.route("/products/<product_id>", methods=["PATCH"])
+@admin_required
+def get_product(product_id):
+    data = request.json
+    try:
+        product = Product.objects.get(id=product_id)
+        for key, value in data.items():
+            if hasattr(product, key):
+                setattr(product, key, value)
+        return jsonify({"message": "updated product"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
