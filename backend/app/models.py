@@ -1,5 +1,6 @@
 from mongoengine import *
 
+
 def json_formatted(model):
     model_json = model.to_mongo().to_dict()
     model_json["id"] = str(model_json["_id"])
@@ -56,11 +57,5 @@ class Product(Document):
 # a collection of purchaces
 class Sale(Document):
     date = DateField(required=True)
-    user = ReferenceField(User,required=True)
-    purchases = ListField(ReferenceField(Product,required=True))
-
-# buying one item
-class Purchase(Document):
-    date = DateField(required=True)
-    user = ReferenceField(User,required=True)
-    product = ReferenceField(Product,required=True)
+    user = ReferenceField(User, required=True)
+    purchases = ListField(ReferenceField(Product, required=True))

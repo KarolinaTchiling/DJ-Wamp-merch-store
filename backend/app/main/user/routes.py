@@ -29,6 +29,7 @@ def add_cc():
     except Exception as e:
         return jsonify({"error adding credit card to user": str(e)}), 500
 
+
 @user.route("/cart", methods=["POST"])
 def add_cc():
     data = request.json
@@ -41,10 +42,11 @@ def add_cc():
 
     try:
         user = User.objects(email=payload["email"]).first()
-        product = Product.objects(id=data['product_id'])
-        return jsonify({"message:":"Added item to user's cart."}), 201
+        product = Product.objects(id=data["product_id"])
+        return jsonify({"message:": "Added item to user's cart."}), 201
     except Exception as e:
         return jsonify({"error adding item to user's cart": str(e)}), 500
+
 
 @user.route("/cart", methods=["GET"])
 def add_cc():
@@ -65,6 +67,7 @@ def add_cc():
     except Exception as e:
         return jsonify({"error getting user's cart": str(e)}), 500
 
+
 @user.route("/cart", methods=["DELETE"])
 def add_cc():
     data = request.json
@@ -77,11 +80,12 @@ def add_cc():
 
     try:
         user = User.objects(email=payload["email"]).first()
-        product = Product.objects(id=data['product_id'])
+        product = Product.objects(id=data["product_id"])
         user.cart.remove(product)
-        return jsonify({"message:":"Removed item from user's cart"}), 201
+        return jsonify({"message:": "Removed item from user's cart"}), 201
     except Exception as e:
         return jsonify({"error removing item from user's cart": str(e)}), 500
+
 
 @user.route("/<user_id>", methods=["GET"])
 @admin_required
@@ -96,8 +100,8 @@ def add_cc():
 
     try:
         user = User.objects(email=payload["email"]).first()
-        product = Product.objects(id=data['product_id'])
+        product = Product.objects(id=data["product_id"])
         user.cart.remove(product)
-        return jsonify({"message:":"Removed item from user's cart"}), 201
+        return jsonify({"message:": "Removed item from user's cart"}), 201
     except Exception as e:
         return jsonify({"error removing item from user's cart": str(e)}), 500

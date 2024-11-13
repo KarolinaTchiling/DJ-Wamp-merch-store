@@ -3,7 +3,7 @@ import datetime
 import jwt
 from . import catalog
 import bcrypt
-from app.models import Product, Purchase, Sale, json_formatted
+from app.models import Product, Sale, json_formatted
 from mongoengine import Q
 from ...auth.session import admin_required
 
