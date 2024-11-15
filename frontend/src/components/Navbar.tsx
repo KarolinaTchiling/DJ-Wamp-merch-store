@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import ProfileDropdown from './ProfileDropdown';
 import CartDropdown from './CartDropdown';
-import Logo from './Logo';
+import Logo from "./Logo.tsx";
 
 // Define a type for the navigation links
 interface NavLink {
@@ -26,19 +26,23 @@ const cartItems = [
   { label: 'item6', link: '/item6' },
   // Add more items as needed
 ];
-  
-const Navbar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
 
+interface Prop{
+  tokenStr: string|null;
+  removeToken : ()=>void;
+  onSearch: (query: string) => void
+}
+
+const Navbar: React.FC<Prop> = (prop) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    onSearch(value);
+    prop.onSearch(value);
   };
-
   return (
-    <nav className="bg-cream p-10 pb-7 text-sm"> 
+    <nav className="bg-cream p-10 pb-7 text-sm">
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
@@ -68,7 +72,7 @@ const Navbar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) =
 
         {/* Profile Dropdown */}
         <li className="basis-[3%] flex justify-end items-center">
-            <ProfileDropdown />
+          <ProfileDropdown tokenStr={prop.tokenStr} removeToken={prop.removeToken}/>
         </li>
 
         {/* Search Bar */}
