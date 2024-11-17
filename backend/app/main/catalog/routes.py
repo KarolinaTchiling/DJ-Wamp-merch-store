@@ -3,7 +3,7 @@ import datetime
 import jwt
 from . import catalog
 import bcrypt
-from app.models import Product, json_formatted
+from app.models import Product
 from mongoengine import Q
 from ...auth.session import admin_required
 
@@ -82,7 +82,7 @@ def get_product(product_id):
 
 @catalog.route("/products/<product_id>", methods=["PATCH"])
 @admin_required
-def get_product(product_id):
+def edit_product(product_id):
     data = request.json
     try:
         product = Product.objects.get(id=product_id)
