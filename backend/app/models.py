@@ -1,10 +1,12 @@
 from mongoengine import *
 
+
 def json_formatted(model):
     model_json = model.to_mongo().to_dict()
     model_json["id"] = str(model_json["_id"])
     del model_json["_id"]
     return model_json
+
 
 class Product(Document):
     name = StringField(required=True)
@@ -16,10 +18,12 @@ class Product(Document):
     image_url = StringField()
     quantity = IntField()
 
+
 # CartItem document that's stored in User's cart
 class CartItem(EmbeddedDocument):
     product_id = ReferenceField(Product, required=True)
     quantity = IntField(default=1)
+
 
 class User(Document):
     fname = StringField(required=True)
@@ -45,14 +49,14 @@ class User(Document):
         self.save()
 
     def update_cart_total(self):
-        """ Recalculate total amount that cart costs """
+        """Recalculate total amount that cart costs"""
         total = 0.0
         for item in self.cart_items:
             product = Product.objects.get(id=item.porduct_id.id)
             total += product.price * item.quantity
         self.cart_total = total
         self.save()
-        
+
     def __str__(self):
         return self.username
 
@@ -70,8 +74,8 @@ class Admin(Document):
 
 class Purchase(Document):
     date = DateField(required=True)
-    user = ReferenceField(User,required=True)
-    product = ReferenceField(Product,required=True)
+    user = ReferenceField(User, required=True)
+    product = ReferenceField(Product, required=True)
     price = FloatField(required=True)
     # {product_id:quantity}
     quantity = DictField()
