@@ -52,7 +52,7 @@ class User(Document):
         """Recalculate total amount that cart costs"""
         total = 0.0
         for item in self.cart_items:
-            product = Product.objects.get(id=item.porduct_id.id)
+            product = Product.objects.get(id=item.product_id.id)
             total += product.price * item.quantity
         self.cart_total = total
         self.save()

@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
-from backend.app.auth.session import get_user_from_token
-from backend.app.models import CartItem, Product, User
+from app.auth.session import get_user_from_token
+from app.models import CartItem, Product, User, json_formatted
 from mongoengine import DoesNotExist
 from . import cart
 
@@ -74,12 +74,11 @@ def add_to_cart():
     # check if product is in user's cart
     for item in user.cart_items:
         if str(item.product_id.id) == product_id:
-            item_quantity += quantity
+            item.quantity += quantity
             user.update_cart_total()
             return jsonify(
                 {
                     "message": "Product quantity updated",
-                    "items": user.cart_items,
                     "total": user.cart_total,
                 }
             ), 200
@@ -93,7 +92,6 @@ def add_to_cart():
     return jsonify(
         {
             "message": "Product added to cart",
-            "items": user.cart_items,
             "total": user.cart_total,
         }
     ), 201
@@ -127,7 +125,7 @@ def edit_cart_item_quantity(product_id):
             if str(item.product_id.id) == product_id:
                 item.quantity = new_quantity
                 user.update_cart_total()
-                return jsonify({"message: Product quantity updated"}), 200
+                return jsonify({"message": "Product quantity updated"}), 200
         return jsonify({"error editing item quantity": "item not in cart"}), 500
     except Exception as e:
         return jsonify({"error editing cart item quantity": str(e)}), 500
