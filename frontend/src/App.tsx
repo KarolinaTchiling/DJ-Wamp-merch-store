@@ -19,7 +19,7 @@ const App: React.FC = () => {
     const { setToken, token, removeToken } = useToken();
 
     return (
-        <div className="bg-cream h-full">
+        <div className="bg-cream min-h-screen">
             <Navbar tokenStr={token} removeToken={removeToken} onSearch={handleSearch}/>
             <Routes>
                 <Route path="/" element={<Navigate to="/catalog/products" replace />} />
