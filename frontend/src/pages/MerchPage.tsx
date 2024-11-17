@@ -22,28 +22,34 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   const [selectedOption, setSelectedOption] = useState<string>("Product name");
 
   // Filtering state
-  const [selectedAlbums, setSelectedAlbums] = useState<Record<string, boolean>>({});
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category");
   const currentCategory = categoryFilter || "All Products";
+
+  const albumFilter = searchParams.get("albums");
+  const [selectedAlbums, setSelectedAlbums] = useState<Record<string, boolean>>(() => {
+    const albums = albumFilter ? albumFilter.split(",") : [];
+    return albums.reduce((acc, album) => {
+      acc[album] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+  });
+
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError("");
 
-    const selectedAlbumKeys = Object.keys(selectedAlbums).filter((key) => selectedAlbums[key]);
-
     const queryParams = [
       searchQuery ? `name=${encodeURIComponent(searchQuery)}` : "",
       `sort_by=${sortBy}`,
       `order=${order}`,
-      selectedAlbumKeys.length > 0 ? `album=${selectedAlbumKeys.join(",")}` : "",
       categoryFilter ? `category=${encodeURIComponent(categoryFilter)}` : "",
+      albumFilter ? `album=${encodeURIComponent(albumFilter)}` : "",
     ]
       .filter(Boolean)
       .join("&");
 
-      console.log("Query Parameters:", queryParams);
     try {
       const response = await axios.get<{ products: Product[] }>(
         `http://127.0.0.1:5000/catalog/products${queryParams ? `?${queryParams}` : ""}`
@@ -55,27 +61,43 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, sortBy, order, selectedAlbums, categoryFilter]);
+  }, [searchQuery, sortBy, order, categoryFilter, albumFilter]);
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts, searchParams]);
+  }, [fetchProducts]);
 
   const handleSortChange = (sortBy: string, order: string, label: string) => {
     setSortBy(sortBy);
     setOrder(order);
     setSelectedOption(label);
+
+    // Update URL query params for sorting
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("sort_by", sortBy);
+    newSearchParams.set("order", order);
+    setSearchParams(newSearchParams);
   };
 
-  const handleAlbumChange = (album: string) => {
-    setSelectedAlbums((prev) => ({
-      ...prev,
-      [album]: !prev[album],
-    }));
+  const handleAlbumChange = (updatedAlbums: Record<string, boolean>) => {
+    setSelectedAlbums(updatedAlbums);
+
+    const selectedAlbumKeys = Object.keys(updatedAlbums).filter((key) => updatedAlbums[key]);
+    const newSearchParams = new URLSearchParams(searchParams); 
+    if (selectedAlbumKeys.length > 0) {
+      newSearchParams.set("albums", selectedAlbumKeys.join(","));
+    } else {
+      newSearchParams.delete("albums");
+    }
+    setSearchParams(newSearchParams);
   };
 
   const clearFilters = () => {
     setSelectedAlbums({});
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("albums");
+    newSearchParams.delete("category");
+    setSearchParams(newSearchParams);
   };
 
   if (loading) return <p>Loading..</p>;
