@@ -39,7 +39,7 @@ def get_cart():
                 "image_url": product.image_url,
             }
         )
-    return jsonify({"items": cart_items, "cart_total": user.cart_total}), 500
+    return jsonify({"items": cart_items, "cart_total": user.cart_total}), 200
 
 
 @cart.route("/", methods=["POST"])
