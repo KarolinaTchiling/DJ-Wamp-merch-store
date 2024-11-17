@@ -1,5 +1,8 @@
 import React, { memo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import MinimumDistanceSlider from "./MinimumDistanceSlider";
+
+
 
 interface SidebarProps {
   selectedAlbums: Record<string, boolean>;
@@ -58,6 +61,47 @@ const Sidebar: React.FC<SidebarProps> = memo(({ selectedAlbums, onAlbumChange })
           </label>
         ))}
       </div>
+
+
+      {/* Price Section */}
+      <div className="w-[280px] pt-5 pl-[50px] text-sm">
+        <h3 className="font-thin pb-2">Filter by Price</h3>
+
+        <div>
+        <MinimumDistanceSlider
+          sx={{
+            color: '#4caf50', // Green thumb and track
+            '& .MuiSlider-thumb': {
+              borderRadius: '8px', // Square thumb
+            },
+            '& .MuiSlider-track': {
+              height: 8, // Thicker track
+            },
+            '& .MuiSlider-rail': {
+              opacity: 0.5,
+              height: 8, // Match rail height to track
+            },
+          }} />
+        </div>
+
+        {/* {albums.map((album) => (
+          <label key={album} className="flex items-center pb-1 pl-1 space-x-3 cursor-pointer">
+            <input
+              type="checkbox"
+              className="input-hidden"
+              checked={selectedAlbums[album] || false}
+              onChange={() => onAlbumChange(album)}
+            />
+            <span
+              className={`w-4 h-4 flex items-center justify-center border-2 ${
+                selectedAlbums[album] ? "bg-tea border-tea" : "bg-transparent border-tea"
+              }`}
+            ></span>
+            <span className="text-black font-normal">{album}</span>
+          </label>
+        ))} */}
+      </div>
+
     </div>
   );
 });
