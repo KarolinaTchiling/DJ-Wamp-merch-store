@@ -5,30 +5,26 @@ import MinimumDistanceSlider from "./MinimumDistanceSlider";
 
 
 interface SidebarProps {
+  selectedCategory: string;
   selectedAlbums: Record<string, boolean>;
+
+  onCategoryChange: (category: string) => void;
   onAlbumChange: (updatedAlbums: Record<string, boolean>) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = memo(({ selectedAlbums, onAlbumChange }) => {
+const Sidebar: React.FC<SidebarProps> = memo(({ selectedCategory, selectedAlbums, onCategoryChange, onAlbumChange }) => {
   const categories = ["All Products", "Apparel", "Music", "Accessories", "Pre-orders", "Concert"];
   const albums = ["Stares from Above", "Heavens", "Angels", "Cloud Flare"];
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentCategory = searchParams.get("category") || "All Products";
+  const handleCategoryClick = (category: string) => {
+    onCategoryChange(category); // Pass the selected category to the parent
+  };
 
-  const handleAlbumChange = (album: string) => {
+  const handleAlbumCheckboxChange = (album: string) => {
     const updatedAlbums = { ...selectedAlbums, [album]: !selectedAlbums[album] };
-    onAlbumChange(updatedAlbums);
+    onAlbumChange(updatedAlbums); // Pass the updated albums state to the parent
   };
 
-  const handleCategoryChange = (category: string) => {
-    if (category === "All Products") {
-      searchParams.delete("category");
-    } else {
-      searchParams.set("category", category);
-    }
-    setSearchParams(searchParams);
-  };
 
   return (
     <div className="mb-2 font-bold text-coffee">
@@ -37,20 +33,17 @@ const Sidebar: React.FC<SidebarProps> = memo(({ selectedAlbums, onAlbumChange })
       {/* Categories Section */}
       <div className="w-[280px] pt-3 pl-[50px] text-sm">
         <h3 className="font-thin pb-2">Categories</h3>
-        {categories.map((category) => {
-          const isActive = category === currentCategory || (category === "All Products" && !searchParams.has("category"));
-          return (
-            <div
-              key={category}
-              onClick={() => handleCategoryChange(category)}
-              className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer ${
-                isActive ? "font-semibold text-black" : "font-normal text-black"
-              }`}
-            >
-              {category}
-            </div>
-          );
-        })}
+        {categories.map((category) => (
+          <div
+            key={category}
+            onClick={() => handleCategoryClick(category)} // Use handler for category
+            className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer ${
+              category === selectedCategory ? "font-semibold text-black" : "font-normal text-black"
+            }`}
+          >
+            {category}
+          </div>
+        ))}
       </div>
 
 
@@ -63,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = memo(({ selectedAlbums, onAlbumChange })
               type="checkbox"
               className="input-hidden"
               checked={selectedAlbums[album] || false}
-              onChange={() => handleAlbumChange(album)}
+              onChange={() => handleAlbumCheckboxChange(album)} // Use handler for album
             />
             <span
               className={`w-4 h-4 flex items-center justify-center border-2 ${

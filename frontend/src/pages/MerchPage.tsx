@@ -23,9 +23,10 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
 
   // Filtering state
   const [searchParams, setSearchParams] = useSearchParams();
+  // Single category filter
   const categoryFilter = searchParams.get("category");
   const currentCategory = categoryFilter || "All Products";
-
+  // Muli-album filter
   const albumFilter = searchParams.get("albums");
   const [selectedAlbums, setSelectedAlbums] = useState<Record<string, boolean>>(() => {
     const albums = albumFilter ? albumFilter.split(",") : [];
@@ -79,6 +80,16 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSearchParams(newSearchParams);
   };
 
+  const handleCategoryChange = (category: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (category === "All Products") {
+      newSearchParams.delete("category");
+    } else {
+      newSearchParams.set("category", category);
+    }
+    setSearchParams(newSearchParams);
+  };
+
   const handleAlbumChange = (updatedAlbums: Record<string, boolean>) => {
     setSelectedAlbums(updatedAlbums);
 
@@ -115,7 +126,12 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     <div className="flex mt-4">
       {/* Sidebar for filtering */}
       <div className="border-r border-r-camel mb-10">
-        <Sidebar selectedAlbums={selectedAlbums} onAlbumChange={handleAlbumChange} />
+        <Sidebar 
+          selectedCategory={currentCategory}
+          selectedAlbums={selectedAlbums}
+          onCategoryChange={handleCategoryChange}
+          onAlbumChange={handleAlbumChange}
+         />
         <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
           Clear Filters
         </Button>
