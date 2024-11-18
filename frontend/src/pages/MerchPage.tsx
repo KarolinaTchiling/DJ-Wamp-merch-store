@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import axios from "axios";
 import { Product } from "../types";
 
+
 interface MerchPageProps {
   searchQuery: string; // Passed from the navbar
 }
@@ -36,17 +37,16 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       return acc;
     }, {} as Record<string, boolean>);
   });
-  console.log(albumFilter);
-
+  // price range
   const priceFilter = searchParams.get("priceRange");
   const [priceRange, setPriceRange] = useState<number[]>(() => {
     if (priceFilter) {
       const [min, max] = priceFilter.split(",").map(Number);
       if (!isNaN(min) && !isNaN(max)) {
-        return [min, max];
+        return [min, max === 150 ? Infinity : max]; // Convert 150 to Infinity
       }
     }
-    return [0, 150];
+    return [0, Infinity]; // Default range, with no upper limit
   });
   
   const fetchProducts = useCallback(async () => {
@@ -130,6 +130,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSearchParams(newSearchParams); // Sync with URL
   };
 
+  
   const clearFilters = () => {
     setSelectedAlbums({});
     setPriceRange([0, 150]); // Reset price range

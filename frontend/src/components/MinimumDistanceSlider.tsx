@@ -15,31 +15,42 @@ export default function MinimumDistanceSlider({
 }: MinimumDistanceSliderProps) {
   const [value, setValue] = React.useState<number[]>(priceRange);
 
+  // Handle immediate changes while dragging the slider
   const handleChange = (
     event: Event,
     newValue: number | number[],
     activeThumb: number
   ) => {
-    if (!Array.isArray(newValue)) {
-      return;
-    }
+    if (!Array.isArray(newValue)) return;
 
-    // Update the state while maintaining the minimum distance
     if (activeThumb === 0) {
-      const updatedValue = [
+      setValue([
         Math.min(newValue[0], value[1] - minDistance),
         value[1],
-      ];
-      setValue(updatedValue);
-      onPriceChange(updatedValue); // Call the callback with updated values
+      ]);
     } else {
-      const updatedValue = [
+      setValue([
         value[0],
         Math.max(newValue[1], value[0] + minDistance),
-      ];
-      setValue(updatedValue);
-      onPriceChange(updatedValue); // Call the callback with updated values
+      ]);
     }
+  };
+
+  // Handle committed changes (when the user stops interacting with the slider)
+  const handleChangeCommitted = (
+    event: React.SyntheticEvent | Event,
+    newValue: number | number[]
+  ) => {
+    if (!Array.isArray(newValue)) return;
+
+    // Enforce minimum distance rule
+    const adjustedValue = [
+      Math.min(newValue[0], value[1] - minDistance), // Ensure min is within range
+      Math.max(newValue[1], value[0] + minDistance), // Ensure max is within range
+    ];
+
+    setValue(adjustedValue); // Update state
+    onPriceChange(adjustedValue); // Trigger callback with adjusted values
   };
 
   return (
@@ -66,17 +77,18 @@ export default function MinimumDistanceSlider({
             backgroundColor: "#D4A373",
           },
         }}
-        value={value} // Controlled value from state
+        value={value}
         min={0}
         max={150}
         step={10}
-        onChange={handleChange} // Call handleChange for updates
+        onChange={handleChange} // Updates state while dragging
+        onChangeCommitted={handleChangeCommitted} // Fires only on release
         valueLabelDisplay="off"
         disableSwap
       />
       <div className="flex justify-between mt-0 -mt-2 -mx-2 text-black font-normal text-sm">
         <span>${value[0]}</span>
-        {value[1] === 150 ? `$${value[1]}+` : `$${value[1]}`}
+        <span>{priceRange[1] === Infinity ? "$150+" : `$${priceRange[1]}`}</span>
       </div>
     </Box>
   );
