@@ -53,14 +53,17 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setLoading(true);
     setError("");
 
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1] === Infinity ? 999999 : priceRange[1];
+
     const queryParams = [
       searchQuery ? `name=${encodeURIComponent(searchQuery)}` : "",
       `sort_by=${sortBy}`,
       `order=${order}`,
       categoryFilter ? `category=${encodeURIComponent(categoryFilter)}` : "",
       albumFilter ? `album=${encodeURIComponent(albumFilter)}` : "",
-      `min_price=${searchParams.get("min_price") || "0"}`,
-      `max_price=${searchParams.get("max_price") || "150"}`,
+      `min_price=${minPrice}`,
+      `max_price=${maxPrice}`,
     ]
       .filter(Boolean)
       .join("&");
@@ -77,7 +80,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       setLoading(false);
     }
     console.log("Query params:", queryParams);
-  }, [searchQuery, sortBy, order, categoryFilter, albumFilter, searchParams.toString()]);
+  }, [searchQuery, sortBy, order, categoryFilter, albumFilter, priceRange]);
 
   useEffect(() => {
     fetchProducts();
@@ -133,7 +136,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   
   const clearFilters = () => {
     setSelectedAlbums({});
-    setPriceRange([0, 150]); // Reset price range
+    setPriceRange([0, Infinity]); // Reset price range
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete("albums");
     newSearchParams.delete("category");

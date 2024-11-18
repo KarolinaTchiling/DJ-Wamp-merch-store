@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 
 const minDistance = 20;
+const maxForMinThumb = 130; // Maximum value the minimum thumb can reach
 
 interface MinimumDistanceSliderProps {
   onPriceChange: (priceRange: number[]) => void; // Callback for price range changes
@@ -15,7 +16,7 @@ export default function MinimumDistanceSlider({
 }: MinimumDistanceSliderProps) {
   const [value, setValue] = React.useState<number[]>(priceRange);
 
-  // Handle immediate changes while dragging the slider
+  // Handle changes while dragging the slider
   const handleChange = (
     event: Event,
     newValue: number | number[],
@@ -23,17 +24,23 @@ export default function MinimumDistanceSlider({
   ) => {
     if (!Array.isArray(newValue)) return;
 
+    let updatedValue = [...value];
     if (activeThumb === 0) {
-      setValue([
-        Math.min(newValue[0], value[1] - minDistance),
+      // Adjust minimum thumb with minDistance constraint and max limit
+      updatedValue = [
+        Math.min(newValue[0], Math.min(value[1] - minDistance, maxForMinThumb)),
         value[1],
-      ]);
+      ];
     } else {
-      setValue([
+      // Adjust maximum thumb with minDistance constraint and interpret 150 as Infinity
+      const maxValue = newValue[1] === 150 ? Infinity : newValue[1];
+      updatedValue = [
         value[0],
-        Math.max(newValue[1], value[0] + minDistance),
-      ]);
+        Math.max(maxValue, value[0] + minDistance), // Ensure max respects minDistance from min
+      ];
     }
+
+    setValue(updatedValue);
   };
 
   // Handle committed changes (when the user stops interacting with the slider)
@@ -43,10 +50,10 @@ export default function MinimumDistanceSlider({
   ) => {
     if (!Array.isArray(newValue)) return;
 
-    // Enforce minimum distance rule
+    // Enforce constraints on commit
     const adjustedValue = [
-      Math.min(newValue[0], value[1] - minDistance), // Ensure min is within range
-      Math.max(newValue[1], value[0] + minDistance), // Ensure max is within range
+      Math.min(newValue[0], Math.min(value[1] - minDistance, maxForMinThumb)), // Ensure min respects minDistance and maxForMinThumb
+      newValue[1] === 150 ? Infinity : Math.max(newValue[1], value[0] + minDistance), // Interpret 150 as Infinity
     ];
 
     setValue(adjustedValue); // Update state
@@ -77,7 +84,10 @@ export default function MinimumDistanceSlider({
             backgroundColor: "#D4A373",
           },
         }}
-        value={value}
+        value={[
+          value[0],
+          value[1] === Infinity ? 150 : value[1], // Display 150 for Infinity in the slider
+        ]}
         min={0}
         max={150}
         step={10}
@@ -88,7 +98,7 @@ export default function MinimumDistanceSlider({
       />
       <div className="flex justify-between mt-0 -mt-2 -mx-2 text-black font-normal text-sm">
         <span>${value[0]}</span>
-        <span>{priceRange[1] === Infinity ? "$150+" : `$${priceRange[1]}`}</span>
+        <span>{value[1] === Infinity ? "$150+" : `$${value[1]}`}</span>
       </div>
     </Box>
   );
