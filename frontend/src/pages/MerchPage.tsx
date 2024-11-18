@@ -23,6 +23,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
 
   // Filtering state
   const [searchParams, setSearchParams] = useSearchParams();
+
   // Single category filter
   const categoryFilter = searchParams.get("category");
   const currentCategory = categoryFilter || "All Products";
@@ -35,8 +36,19 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       return acc;
     }, {} as Record<string, boolean>);
   });
+  console.log(albumFilter);
 
-
+  const priceFilter = searchParams.get("priceRange");
+  const [priceRange, setPriceRange] = useState<number[]>(() => {
+    if (priceFilter) {
+      const [min, max] = priceFilter.split(",").map(Number);
+      if (!isNaN(min) && !isNaN(max)) {
+        return [min, max];
+      }
+    }
+    return [0, 150];
+  });
+  
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -47,6 +59,8 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       `order=${order}`,
       categoryFilter ? `category=${encodeURIComponent(categoryFilter)}` : "",
       albumFilter ? `album=${encodeURIComponent(albumFilter)}` : "",
+      `min_price=${searchParams.get("min_price") || "0"}`,
+      `max_price=${searchParams.get("max_price") || "150"}`,
     ]
       .filter(Boolean)
       .join("&");
@@ -62,7 +76,8 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, sortBy, order, categoryFilter, albumFilter]);
+    console.log("Query params:", queryParams);
+  }, [searchQuery, sortBy, order, categoryFilter, albumFilter, searchParams.toString()]);
 
   useEffect(() => {
     fetchProducts();
@@ -87,7 +102,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     } else {
       newSearchParams.set("category", category);
     }
-    setSearchParams(newSearchParams);
+    setSearchParams(newSearchParams); // Sync with URL
   };
 
   const handleAlbumChange = (updatedAlbums: Record<string, boolean>) => {
@@ -103,11 +118,26 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSearchParams(newSearchParams);
   };
 
+  const handlePriceChange = (values: number[]) => {
+    console.log("Slider values:", values);
+    setPriceRange(values); 
+
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set("min_price", String(values[0]));
+    newSearchParams.set("max_price", String(values[1]));
+
+    console.log("Updated query params:", newSearchParams.toString());
+    setSearchParams(newSearchParams); // Sync with URL
+  };
+
   const clearFilters = () => {
     setSelectedAlbums({});
+    setPriceRange([0, 150]); // Reset price range
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete("albums");
     newSearchParams.delete("category");
+    newSearchParams.delete("min_price");
+    newSearchParams.delete("max_price");
     setSearchParams(newSearchParams);
   };
 
@@ -126,12 +156,15 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     <div className="flex mt-4">
       {/* Sidebar for filtering */}
       <div className="border-r border-r-camel mb-10">
-        <Sidebar 
-          selectedCategory={currentCategory}
-          selectedAlbums={selectedAlbums}
-          onCategoryChange={handleCategoryChange}
-          onAlbumChange={handleAlbumChange}
-         />
+        <Sidebar
+            selectedCategory={currentCategory}
+            selectedAlbums={selectedAlbums}
+            minPrice={priceRange[0]}
+            maxPrice={priceRange[1]}
+            onCategoryChange={handleCategoryChange}
+            onAlbumChange={handleAlbumChange}
+            onPriceChange={handlePriceChange}
+          />
         <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
           Clear Filters
         </Button>
