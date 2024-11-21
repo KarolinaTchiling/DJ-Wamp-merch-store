@@ -92,7 +92,7 @@ def get_user():
     try:
         user = User.objects(email=payload["email"]).first()
         if user is None:
-            user = User.objects(email=data["user_email"]).first()
+            user = User.objects(email=data["email"]).first()
         return jsonify(user.json_formatted()), 201
     except Exception as e:
         return jsonify({"error getting user data": str(e)}), 500
@@ -107,7 +107,7 @@ def get_user():
     try:
         user = User.objects(email=payload["email"]).first()
         if user is None:
-            user = User.objects(email=data["user_email"]).first()
+            user = User.objects(email=data["email"]).first()
 
         for key, value in data.items():
             if hasattr(user, key):

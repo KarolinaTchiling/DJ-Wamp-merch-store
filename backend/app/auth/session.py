@@ -99,7 +99,7 @@ def user_or_admin_required(f):
             # Check if the user is an admin
             user = User.objects(email=email).first()
             admin = Admin.objects(email=email).first()
-            if user and admin is None:
+            if user and (admin is None and User.objects(email=request.json["email"])):
                 return jsonify({"message": "Invalid user token"}), 500
 
         except jwt.ExpiredSignatureError:
