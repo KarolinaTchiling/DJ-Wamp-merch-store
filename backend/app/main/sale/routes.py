@@ -1,11 +1,11 @@
 from flask import render_template, redirect, url_for, request, jsonify
 import datetime
 import jwt
-from . import catalog
+from . import sale
 import bcrypt
 from app.models import Product, Sale
 from mongoengine import Q
-from ...auth.session import admin_required
+from ...auth.session import admin_required, get_user_from_token, get_referenced_user
 
 
 @sale.route("/history", methods=["GET"])
@@ -55,5 +55,24 @@ def get_sale(sale_id):
     try:
         sale = Sale.objects.get(id=sale_id)
         return jsonify(sale.json_formatted()), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# you can make sales if you aren't logged in (TODO)
+@sale.route("/", methods=["POST"])
+def make_sale():
+    token = request.headers.get("Authorization")
+    payload = get_user_from_token(token)
+    user = get_referenced_user(payload)
+    try:
+        sale = Sale(
+            date=datetime.date.today(),
+            user=user,
+            purchases=user.cart_items,
+            approved=True,
+        )
+        sale.save()
+        return jsonify({"message": "sale recorded"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

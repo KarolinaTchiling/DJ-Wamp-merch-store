@@ -1,7 +1,6 @@
 from mongoengine import *
 
 
-
 class Product(Document):
     name = StringField(required=True)
     category = StringField()
@@ -19,6 +18,31 @@ class Product(Document):
         del model_json["_id"]
         return model_json
 
+
+# CartItem document that's stored in User's cart
+class CartItem(EmbeddedDocument):
+    product_id = ReferenceField(Product, required=True)
+    quantity = IntField(default=1)
+
+    def json_formatted(self):
+        print(f"serializing {self.__str__}")
+        cart_items = []
+
+        for item in user.cart_items:
+            product = Product.objects.get(id=item.product_id.id)
+            cart_items.append(
+                {
+                    "product_id": str(product.id),
+                    "name": product.name,
+                    "price": product.price,
+                    "total_price": product.price * item.quantity,
+                    "quantity": item.quantity,
+                    "image_url": product.image_url,
+                }
+            )
+        return cart_items
+
+
 class User(Document):
     fname = StringField(required=True)
     lname = StringField(required=True)
@@ -33,14 +57,17 @@ class User(Document):
     city = StringField(required=True)
     province = StringField(required=True)
     postal_code = StringField(required=True)
-    cart = ListField(ReferenceField(Product))
+
+    # Shopping Cart
+    cart_items = ListField(EmbeddedDocumentField(CartItem), default=[])
+    cart_total = FloatField(default=0.0)
 
     def update_credit_card(self, new_cc):
         self.cc_info = new_cc
         self.save()
 
     def __str__(self):
-        return self.username
+        return self.email
 
     def json_formatted(self):
         print(f"serializing {self.__str__}")
@@ -48,6 +75,15 @@ class User(Document):
         model_json["id"] = str(model_json["_id"])
         del model_json["_id"]
         return model_json
+
+    def update_cart_total(self):
+        """Recalculate total amount that cart costs"""
+        total = 0.0
+        for item in self.cart_items:
+            product = Product.objects.get(id=item.product_id.id)
+            total += product.price * item.quantity
+        self.cart_total = total
+        self.save()
 
 
 class Admin(Document):
@@ -62,18 +98,19 @@ class Admin(Document):
         return model_json
 
 
-
-
 class Sale(Document):
     date = DateField(required=True)
-    user = ReferenceField(User, required=True)
-    purchases = ListField(ReferenceField(Product, required=True))
+    user = ReferenceField(User)
+    purchases = ListField(EmbeddedDocumentField(CartItem), required=True)
+    approved = BooleanField(required=True)
 
     def json_formatted(self):
         print(f"serializing {self.__str__}")
         model_json = self.to_mongo().to_dict()
         model_json["id"] = str(model_json["_id"])
-        model_json["user"] = user.json_formatted()
-        model_json["purchases"] = [purchase.json_formatted() for purchase in purchases]
+        model_json["user"] = User.objects.get(id=self.user)
+        model_json["purchases"] = [
+            cart_item.json_formatted() for cart_item in purchases
+        ]
         del model_json["_id"]
         return model_json

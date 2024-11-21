@@ -89,6 +89,7 @@ def edit_product(product_id):
         for key, value in data.items():
             if hasattr(product, key):
                 setattr(product, key, value)
+        product.save()
         return jsonify({"message": "updated product"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
