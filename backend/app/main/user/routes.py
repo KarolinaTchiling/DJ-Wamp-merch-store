@@ -3,7 +3,7 @@ import datetime
 import jwt
 from . import user
 import bcrypt
-from app.models import User, Product, json_formatted
+from app.models import User, Product
 from app.auth.session import (
     get_user_from_token,
     admin_required,
@@ -100,7 +100,7 @@ def get_user():
 
 @user.route("/<user_id>", methods=["PATCH"])
 @user_or_admin_required
-def get_user():
+def edit_user():
     data = request.json
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
