@@ -3,18 +3,18 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import { Product } from '../types'; 
 import Button from '../components/Button.tsx';
 import Suggest from '../components/Suggest.tsx';
-import Quantity from '../components/Quantity.tsx';
+import QuantityControl from '../components/QuantityControl.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-
+import { addToCart, getCart } from '../cart/CartUtility'; 
 
 
 const DetailPage: React.FC = () => {
 
     const location = useLocation();
     const { name } = useParams<{ name: string }>();
-
     const [product, setProduct] = useState<Product | null>(location.state as Product);
+    const [selectedQuantity, setSelectedQuantity] = useState<number>(1); // Default to 1
 
     useEffect(() => {
         // Reset product and fetch new data when route changes
@@ -38,6 +38,22 @@ const DetailPage: React.FC = () => {
     }, [name, location.state]); 
 
     if (!product) return <div>Loading...</div>;
+
+    const handleAddToCart = () => {
+        console.log(`Adding ${selectedQuantity} of ${product.name} to the cart.`);
+
+        const totalPrice = selectedQuantity * product.price;
+
+        addToCart({
+            product_id: product.id,
+            name: product.name,
+            price: product.price,
+            total_price: totalPrice,
+            quantity: selectedQuantity
+        });
+        
+        console.log('Cart Contents:', getCart());
+    };
 
     return(
         <>
@@ -95,8 +111,11 @@ const DetailPage: React.FC = () => {
                             <p className="pt-4">$ {product.price}</p>
                             <p className="pt-4 text-sm"> {product.description}</p>
                             <p className="pt-3 pb-5"> In stock: {product.quantity}</p>
-                            <Quantity />
-                            <Button>Add to Cart</Button>
+                            <QuantityControl
+                                quantity={selectedQuantity}
+                                setQuantity={setSelectedQuantity}
+                            />
+                            <Button onClick={handleAddToCart}>Add to Cart</Button>
                         </div>
 
                         {/* Shipping info */}
