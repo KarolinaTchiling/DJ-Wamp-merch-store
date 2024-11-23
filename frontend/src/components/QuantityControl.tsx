@@ -11,9 +11,9 @@ const QuantityControl: React.FC<QuantityControlProps> = ({ quantity, setQuantity
     return (
         <div className="flex items-center space-x-4">
             <p>Quantity:</p>
-            <button onClick={decrement} className="px-4 py-2 text-camel">-</button>
+            <button onClick={decrement} className="px-4 py-2 text-camel font-bold">-</button>
             <span>{quantity}</span>
-            <button onClick={increment} className="px-4 py-2 text-camel">+</button>
+            <button onClick={increment} className="px-4 py-2 text-camel font-bold">+</button>
         </div>
     );
 };

@@ -16,6 +16,8 @@ const DetailPage: React.FC = () => {
     const [product, setProduct] = useState<Product | null>(location.state as Product);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1); // Default to 1
 
+    // console.log('Location State:', location.state);
+    
     useEffect(() => {
         // Reset product and fetch new data when route changes
         const fetchProduct = async () => {

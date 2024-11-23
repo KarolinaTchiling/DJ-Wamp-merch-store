@@ -5,6 +5,7 @@ export interface CartItem {
     price: number;
     total_price: number;
     quantity: number;
+    image_url: string;
 }
 
 
@@ -22,6 +23,23 @@ export function addToCart(item: CartItem): void {
 
     localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
     console.log('Item added to cart:', cart);
+}
+
+
+export function updateCart(item: CartItem): void {
+    const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]'); // Retrieve cart
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.product_id === item.product_id);
+
+    if (existingItemIndex !== -1) {
+        // Update the quantity and total_price of the existing item
+        cart[existingItemIndex].quantity = item.quantity;
+        cart[existingItemIndex].total_price = item.quantity * cart[existingItemIndex].price;
+    } else {
+        console.warn(`Item with product_id ${item.product_id} not found in the cart.`);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+    console.log('Cart updated:', cart);
 }
 
 export function getCart(): CartItem[] {
