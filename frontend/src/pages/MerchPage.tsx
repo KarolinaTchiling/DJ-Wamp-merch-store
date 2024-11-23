@@ -79,7 +79,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     } finally {
       setLoading(false);
     }
-    console.log("Query params:", queryParams);
+    // console.log("Query params:", queryParams);
   }, [searchQuery, sortBy, order, categoryFilter, albumFilter, priceRange]);
 
   useEffect(() => {
@@ -122,14 +122,14 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
   };
 
   const handlePriceChange = (values: number[]) => {
-    console.log("Slider values:", values);
+    // console.log("Slider values:", values);
     setPriceRange(values); 
 
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.set("min_price", String(values[0]));
     newSearchParams.set("max_price", String(values[1]));
 
-    console.log("Updated query params:", newSearchParams.toString());
+    // console.log("Updated query params:", newSearchParams.toString());
     setSearchParams(newSearchParams); // Sync with URL
   };
 
