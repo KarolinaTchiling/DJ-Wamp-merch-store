@@ -7,11 +7,13 @@ import { update } from 'lodash';
 
 interface CartDropdownItemProps {
     item: CartItem;
+    closeDropdown: () => void;
 }
 
-const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item }) => {
+const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown }) => {
     const [selectedQuantity, setSelectedQuantity] = useState<number>(item.quantity);
     const [product, setProduct] = useState<CartItem | null>(null);
+    
 
     // Necessary fetch of the full product in order for it to be saved as a state and be sent when clicked on the product in the cart
     useEffect(() => {
@@ -35,7 +37,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item }) => {
     }
 
 
-    const handleAddToCart = () => {
+    const handleUpdateCart = () => {
         console.log(`Adding ${selectedQuantity} of ${item.name} to the cart.`);
         const totalPrice = selectedQuantity * item.price;
 
@@ -58,6 +60,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item }) => {
             <div>
             <Link 
                 to={`/catalog/products/${encodeURIComponent(item.name)}`}
+                onClick={closeDropdown}
                 state={product} // Pass the item as state
             >
                 <img
@@ -71,6 +74,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item }) => {
             <div className="flex flex-1 flex-col">
                 <Link 
                     to={`/catalog/products/${encodeURIComponent(item.name)}`}
+                    onClick={closeDropdown}
                     state={product} // Pass the item as state
                 >
                     <span className="font-bold">{item.name}</span>
@@ -84,7 +88,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item }) => {
                         <div className="mr-6 flex items-center justify-between flex-row">
                             <div>Price: ${item.price.toFixed(2)}</div>
                             <div>
-                                <Button onClick={handleAddToCart} className="mt-0 px-1 py-0.5 ">Update</Button>
+                                <Button onClick={handleUpdateCart} className="mt-0 px-1 py-0.5 ">Update</Button>
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,12 @@
 import cart from '../assets/cart.svg';
-import { CartItem, addToCart, getCart } from '../cart/CartUtility'; 
+import { CartItem, getCart } from '../cart/CartUtility'; 
 import CartItemDisplay from './CartDropdownItem'; // Import the new component
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const CartDropdown: React.FC = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null)
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
     // Retrieve cart items when the component mounts
@@ -14,12 +15,41 @@ const CartDropdown: React.FC = () => {
         setCartItems(items);
     }, []);
 
-    const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
-
+    const toggleDropdown = () => {
+        if (!isDropdownOpen) {
+            // If opening the dropdown, refresh the cart items
+            const updatedItems = getCart();
+            setCartItems(updatedItems);
+        }
+        setDropdownOpen(!isDropdownOpen);
+    };
     const closeDropdown = () => setDropdownOpen(false);
 
+    // Add event listener to detect outside clicks
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current && 
+                !dropdownRef.current.contains(event.target as Node) // Click is outside the dropdown
+            ) {
+                closeDropdown();
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        // Cleanup on unmount
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             {/* Cart Icon */}
             <img
                 src={cart}
@@ -52,7 +82,7 @@ const CartDropdown: React.FC = () => {
                             <>
                                 {cartItems.map((item) => (
                                    <li key={item.product_id}>
-                                        <CartItemDisplay item={item} />
+                                        <CartItemDisplay item={item} closeDropdown={closeDropdown}/>
                                     </li>
                                 ))}
                                 <li 

@@ -31,9 +31,14 @@ export function updateCart(item: CartItem): void {
     const existingItemIndex = cart.findIndex(cartItem => cartItem.product_id === item.product_id);
 
     if (existingItemIndex !== -1) {
-        // Update the quantity and total_price of the existing item
-        cart[existingItemIndex].quantity = item.quantity;
-        cart[existingItemIndex].total_price = item.quantity * cart[existingItemIndex].price;
+        if (item.quantity > 0) {
+            // Update the quantity and total_price of the existing item
+            cart[existingItemIndex].quantity = item.quantity;
+            cart[existingItemIndex].total_price = item.quantity * cart[existingItemIndex].price;
+        } else {
+            // Remove the item if the quantity is 0
+            cart.splice(existingItemIndex, 1);
+        }
     } else {
         console.warn(`Item with product_id ${item.product_id} not found in the cart.`);
     }
