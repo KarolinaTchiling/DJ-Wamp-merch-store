@@ -49,9 +49,10 @@ const DetailPage: React.FC = () => {
             name: product.name,
             price: product.price,
             total_price: totalPrice,
-            quantity: selectedQuantity
+            quantity: selectedQuantity,
+            image_url: product.image_url,
         });
-        
+
         console.log('Cart Contents:', getCart());
     };
 
