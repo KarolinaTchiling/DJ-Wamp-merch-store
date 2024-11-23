@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import cart from '../assets/cart.svg';
+import { CartItem, addToCart, getCart } from '../cart/CartUtility'; 
+import CartItemDisplay from './CartDropdownItem'; // Import the new component
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-const CartDropdown = ({ items }) => {
+const CartDropdown: React.FC = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const [isEmpty, setIsEmpty] = useState(true); // Simulate login state
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+    // Retrieve cart items when the component mounts
+    useEffect(() => {
+        const items = getCart();
+        setCartItems(items);
+    }, []);
 
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
-    const closeDropdown = () => setDropdownOpen(false); // Close dropdown function
+    const closeDropdown = () => setDropdownOpen(false);
 
     return (
         <div className="relative">
-            {/* Profile Icon */}
+            {/* Cart Icon */}
             <img
                 src={cart}
-                alt="Profile"
+                alt="Cart"
                 className={`cursor-pointer transition-transform ${
                     isDropdownOpen ? 'scale-110' : ''
                 }`}
@@ -24,10 +32,10 @@ const CartDropdown = ({ items }) => {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-                <div className="absolute top-full -right-0.5 mt-2 bg-cream text-black border border-camel shadow-md w-40 z-50">
+                <div className="absolute top-full -right-0.5 mt-2 bg-cream text-black border border-camel shadow-md w-[350px] z-50">
                     <ul className="flex flex-col">
-                        {isEmpty ? (
-                            // Cart Empty dropdown
+                        {cartItems.length === 0 ? (
+                            // Empty cart dropdown
                             <>
                                 <li className="px-3 py-1 border-b border-camel">
                                     Your cart is empty :(
@@ -40,17 +48,11 @@ const CartDropdown = ({ items }) => {
                                 </li>
                             </>
                         ) : (
-                            // Cart not empty dropdown
+                            // Cart items dropdown
                             <>
-                                {items.map((item, index) => (
-                                    <li
-                                        key={index}
-                                        className="px-3 py-1 hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
-                                        onClick={closeDropdown} 
-                                    >
-                                        <Link to={item.link} className="block w-full h-full">
-                                            {item.label}
-                                        </Link>
+                                {cartItems.map((item) => (
+                                   <li key={item.product_id}>
+                                        <CartItemDisplay item={item} />
                                     </li>
                                 ))}
                                 <li 
@@ -67,6 +69,7 @@ const CartDropdown = ({ items }) => {
         </div>
     );
 };
+
 
 export default CartDropdown;
 
