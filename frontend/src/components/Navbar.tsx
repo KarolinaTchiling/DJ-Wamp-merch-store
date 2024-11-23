@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import ProfileDropdown from './ProfileDropdown';
 import CartDropdown from './CartDropdown';
-import Logo from './Logo';
+import Logo from "./Logo.tsx";
 
 // Define a type for the navigation links
 interface NavLink {
@@ -12,7 +12,7 @@ interface NavLink {
   
 // Sample navigation links
 const navLinks: NavLink[] = [
-  { name: 'Merch', href: '/' },
+  { name: 'Merch', href: '/catalog/products' },
   { name: 'Tour Dates', href: '/tour' },
   { name: 'Contact', href: '/contact' }
 ];
@@ -26,10 +26,23 @@ const cartItems = [
   { label: 'item6', link: '/item6' },
   // Add more items as needed
 ];
-  
-const Navbar: React.FC = () => {
+
+interface Prop{
+  tokenStr: string|null;
+  removeToken : ()=>void;
+  onSearch: (query: string) => void
+}
+
+const Navbar: React.FC<Prop> = (prop) => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    prop.onSearch(value);
+  };
   return (
-    <nav className="bg-cream p-10 pb-7 text-sm"> 
+    <nav className="bg-cream p-10 pb-7 text-sm">
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
@@ -59,7 +72,7 @@ const Navbar: React.FC = () => {
 
         {/* Profile Dropdown */}
         <li className="basis-[3%] flex justify-end items-center">
-            <ProfileDropdown />
+          <ProfileDropdown tokenStr={prop.tokenStr} removeToken={prop.removeToken}/>
         </li>
 
         {/* Search Bar */}
@@ -68,6 +81,8 @@ const Navbar: React.FC = () => {
           <input
             type="text"
             className="border border-camel bg-transparent p-1 flex-grow w-full"
+            value={searchTerm}
+            onChange={handleInputChange}
           />
         </li>
       </ul>

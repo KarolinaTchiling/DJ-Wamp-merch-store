@@ -1,6 +1,7 @@
 from mongoengine import *
 
 
+
 class Product(Document):
     name = StringField(required=True)
     category = StringField()
@@ -43,6 +44,23 @@ class CartItem(EmbeddedDocument):
         return cart_items
 
 
+class Product(Document):
+    name = StringField(required=True)
+    category = StringField()
+    brand = StringField()
+    album = StringField()
+    price = FloatField()
+    description = StringField()
+    image_url = StringField()
+    quantity = IntField()
+
+
+# CartItem document that's stored in User's cart
+class CartItem(EmbeddedDocument):
+    product_id = ReferenceField(Product, required=True)
+    quantity = IntField(default=1)
+
+
 class User(Document):
     fname = StringField(required=True)
     lname = StringField(required=True)
@@ -64,6 +82,15 @@ class User(Document):
 
     def update_credit_card(self, new_cc):
         self.cc_info = new_cc
+        self.save()
+
+    def update_cart_total(self):
+        """Recalculate total amount that cart costs"""
+        total = 0.0
+        for item in self.cart_items:
+            product = Product.objects.get(id=item.product_id.id)
+            total += product.price * item.quantity
+        self.cart_total = total
         self.save()
 
     def __str__(self):
@@ -114,3 +141,12 @@ class Sale(Document):
         ]
         del model_json["_id"]
         return model_json
+
+class Purchase(Document):
+    date = DateField(required=True)
+    user = ReferenceField(User, required=True)
+    product = ReferenceField(Product, required=True)
+    price = FloatField(required=True)
+    # {product_id:quantity}
+    quantity = DictField()
+
