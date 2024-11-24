@@ -17,6 +17,7 @@ interface CatalogProductProps {
         isNavigating.current = true;
 
         navigate(`/catalog/products/${encodeURIComponent(product.name)}`, { state: product });
+        // window.location.reload();
     };
 
     return (

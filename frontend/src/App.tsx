@@ -9,6 +9,7 @@ import AccountPage from "./pages/AccountPage.tsx";
 import OrderHistory from "./pages/OrderHistory.tsx";
 import DetailPage from "./pages/DetailPage.tsx";
 import MerchPage from "./pages/MerchPage.tsx";
+import CartPage from "./pages/CartPage.tsx";
 
 const App: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>(''); // Shared search state
@@ -26,6 +27,7 @@ const App: React.FC = () => {
 
                 <Route path="/catalog/products" element={<MerchPage searchQuery={searchQuery}/>} />
                 <Route path="/catalog/products/:name" element={<DetailPage />} />
+                <Route path="/cart" element={<CartPage />} />
 
                 {/* only show login route if the user is not signed in
                 if logged in, let them see their account*/}
