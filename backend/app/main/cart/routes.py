@@ -13,7 +13,6 @@ from mongoengine import DoesNotExist
 from . import cart
 
 
-
 # shouldn't require user
 @cart.route("/", methods=["GET"])
 @user_or_admin_required
@@ -40,11 +39,9 @@ def get_cart():
     return jsonify({"items": cart_items, "cart_total": user.cart_total}), 200
 
 
-
 # shouldn't require user
 @cart.route("/", methods=["POST"])
 @user_or_admin_required
-
 def add_to_cart():
     data = request.json
     token = request.headers.get("Authorization")
@@ -86,22 +83,18 @@ def add_to_cart():
     ), 201
 
 
-
 # shouldn't require user
 @cart.route("/<product_id>", methods=["PATCH"])
 @user_or_admin_required
-
 def edit_cart_item_quantity(product_id):
     data = request.json
     token = request.headers.get("Authorization")
     new_quantity = data["quantity"]
 
-
     payload = get_user_from_token(token)
 
     if new_quantity < 0:
         return jsonify({"error": "Quantity cannot be less than 0"})
-
 
     user = get_referenced_user(payload)
 
@@ -114,7 +107,6 @@ def edit_cart_item_quantity(product_id):
         return jsonify({"error editing item quantity": "item not in cart"}), 500
     except Exception as e:
         return jsonify({"error editing cart item quantity": str(e)}), 500
-
 
 
 # shoudn't require user
@@ -141,7 +133,6 @@ def clear_cart():
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
-
 
     user.cart_items = []
     user.update_cart_total()
