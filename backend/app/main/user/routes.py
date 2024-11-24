@@ -39,12 +39,11 @@ def add_cc():
 @user.route("/", methods=["GET"])
 @user_or_admin_required
 def get_user():
-    data = request.json
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
     try:
-        return jsonify(user.json_formatted()), 201
+        return jsonify({"user":user.json_formatted()}), 201
     except Exception as e:
         return jsonify({"error getting user data": str(e)}), 500
 
