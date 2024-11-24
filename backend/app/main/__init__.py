@@ -9,11 +9,9 @@ from .sale import sale as sale_blueprint
 from .cart import cart as cart_blueprint
 
 
-
 main.register_blueprint(user_blueprint)
 main.register_blueprint(catalog_blueprint)
 main.register_blueprint(cart_blueprint)
-
 main.register_blueprint(sale_blueprint)
 
 

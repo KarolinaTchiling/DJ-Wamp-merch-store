@@ -23,10 +23,14 @@ def add_cc():
     payload = get_user_from_token(token)
     user = User.objects(email=payload["email"]).first()
     try:
-        cipher = Fernet(user.decryption_key)
+        decryption_key = Fernet.generate_key().decode("utf-8")
+        cipher = Fernet(decryption_key.encode("utf-8"))
+
         cc_string = data["card"]
-        encrypted_card = cipher.encrypt(cc_string.encode())
-        user.update_credit_card(encrypted_card)
+        encrypted_card = cipher.encrypt(cc_string.encode()).decode("utf-8")
+        user.cc_info = encrypted_card
+        user.decryption_key = decryption_key
+        user.save()
         return jsonify({"message": "Card information updated"}), 201
     except Exception as e:
         return jsonify({"error adding credit card to user": str(e)}), 500
