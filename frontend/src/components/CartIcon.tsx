@@ -23,7 +23,7 @@ const CartIcon: React.FC<{ count: number; onClick: () => void; className?: strin
         textAnchor="middle"
         fill="#D4A373"
         fontSize="12"
-        fontWeight="bold"
+        fontWeight="thin"
       >
         {count}
       </text>
