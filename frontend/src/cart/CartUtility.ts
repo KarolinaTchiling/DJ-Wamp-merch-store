@@ -54,6 +54,11 @@ export function getCart(): CartItem[] {
 export function getTotal(): number {
     const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
     const total = cart.reduce((sum, item) => sum + item.total_price, 0);
+    return total;
+}
 
+export function getCartCount(): number {
+    const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+    const total = cart.reduce((sum, item) => sum + item.quantity, 0);
     return total;
 }

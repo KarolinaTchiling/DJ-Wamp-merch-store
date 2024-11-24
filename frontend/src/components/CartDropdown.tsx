@@ -1,8 +1,8 @@
-import cart from '../assets/cart.svg';
-import { CartItem, getCart, getTotal } from '../cart/CartUtility'; 
+import { CartItem, getCart, getTotal, getCartCount } from '../cart/CartUtility'; 
 import CartItemDisplay from './CartDropdownItem'; // Import the new component
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import CartIcon from './CartIcon';
 
 const CartDropdown: React.FC = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -60,14 +60,20 @@ const CartDropdown: React.FC = () => {
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Cart Icon */}
-            <img
+            <CartIcon 
+                count={getCartCount()} 
+                onClick={toggleDropdown}
+                className={`transition-transform ${isDropdownOpen ? 'scale-110' : ''}`} 
+             />
+            
+            {/* <img
                 src={cart}
                 alt="Cart"
                 className={`cursor-pointer transition-transform ${
                     isDropdownOpen ? 'scale-110' : ''
                 }`}
                 onClick={toggleDropdown}
-            />
+            /> */}
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (

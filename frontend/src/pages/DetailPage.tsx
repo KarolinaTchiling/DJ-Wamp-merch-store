@@ -10,7 +10,6 @@ import { addToCart, getCart } from '../cart/CartUtility';
 
 
 const DetailPage: React.FC = () => {
-
     const location = useLocation();
     const { name } = useParams<{ name: string }>();
     const [product, setProduct] = useState<Product | null>(location.state as Product);
@@ -56,6 +55,7 @@ const DetailPage: React.FC = () => {
         });
 
         console.log('Cart Contents:', getCart());
+        window.location.reload();
     };
 
     return(
