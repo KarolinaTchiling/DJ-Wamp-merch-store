@@ -6,6 +6,7 @@ from mongoengine import connect, disconnect
 from mongoengine import Document, StringField
 from app import create_app
 from ..models import *
+from ..auth.session import get_user_from_token
 
 
 def test_get_user(test_client, create_user, login_user):
@@ -16,64 +17,23 @@ def test_get_user(test_client, create_user, login_user):
     assert response.json["user"] == user.json_formatted()
 
 
-def test_patch_user(test_client):
-    user_data = {
-        "fname": "wampington",
-        "lname": "Mcsus",
-        "email": "testingpatching@domain.com",
-        "password": "wamp123",
-        "street": "8 wamp avenue",
-        "city": "brampton",
-        "province": "wamplandia",
-        "postal": "W1W1W1",
-        "card": "1234123412341234-1212-123",
-    }
-    response = test_client.post("/signup", json=user_data)
-
-    login_data = {
-        "email": "testingpatching@domain.com",
-        "password": "wamp123",
-    }
-    response = test_client.post("/login", json=login_data)
-    jwt = response.json["token"]
-    headers = {"Authorization": f"Bearer {jwt}"}
+def test_patch_user(test_client, login_user, create_user):
+    headers = {"Authorization": f"Bearer {login_user}"}
     changed_json = {"fname": "wampette", "lname": "LeSus"}
     response = test_client.patch("/user/", json=changed_json, headers=headers)
     assert response.status_code == 201
-    user = User.objects(email=login_data["email"]).first()
+    user = User.objects(email=create_user["email"]).first()
 
     assert user.fname == changed_json["fname"]
     assert user.lname == changed_json["lname"]
 
 
-def test_patch_card(test_client):
-    user_data = {
-        "fname": "wampington",
-        "lname": "Mcsus",
-        "email": "testingcardpatch@domain.com",
-        "password": "wamp123",
-        "street": "8 wamp avenue",
-        "city": "brampton",
-        "province": "wamplandia",
-        "postal": "W1W1W1",
-        "card": "1234123412341234-1212-123",
-    }
-    response = test_client.post("/signup", json=user_data)
-    assert response.status_code == 201
-    user = User.objects(email=user_data["email"]).first()
-    assert user != None
-
-    login_data = {
-        "email": "testingcardpatch@domain.com",
-        "password": "wamp123",
-    }
-    response = test_client.post("/login", json=login_data)
-    jwt = response.json["token"]
-    headers = {"Authorization": f"Bearer {jwt}"}
+def test_patch_card(test_client, login_user, create_user):
+    headers = {"Authorization": f"Bearer {login_user}"}
     patch_json = {"card": "4321432143214321-4343-432"}
     response = test_client.patch("/user/cc", json=patch_json, headers=headers)
     assert response.status_code == 201
-    user = User.objects(email=user_data["email"]).first()
+    user = User.objects(email=create_user["email"]).first()
     assert patch_json["card"] == user.get_credit_card_string()
 
 
