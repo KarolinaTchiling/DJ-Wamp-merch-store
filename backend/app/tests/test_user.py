@@ -8,12 +8,12 @@ from app import create_app
 from ..models import *
 
 
-def test_get_user(test_client,create_user,login_user):
+def test_get_user(test_client, create_user, login_user):
     headers = {"Authorization": f"Bearer {login_user}"}
     response = test_client.get("/user/", headers=headers)
     assert response.status_code == 201
     user = User.objects(email=create_user["email"]).first()
-    assert response.json['user'] == user.json_formatted()
+    assert response.json["user"] == user.json_formatted()
 
 
 def test_patch_user(test_client):
@@ -76,7 +76,8 @@ def test_patch_card(test_client):
     user = User.objects(email=user_data["email"]).first()
     assert patch_json["card"] == user.get_credit_card_string()
 
-'''
+
+"""
 def test_sale_post(test_client):
     admin_data ={
         "email":"sudowamp@domain.com",
@@ -118,4 +119,4 @@ def test_sale_post(test_client):
     response = test_client.post("/products", json=product_data, headers=headers)
     assert response.status_code == 201
     response = test.client.post("/sale")
-'''
+"""

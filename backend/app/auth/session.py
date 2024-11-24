@@ -99,7 +99,10 @@ def user_or_admin_required(f):
             # Check if the user is an admin
             user = User.objects(email=email).first()
             admin = Admin.objects(email=email).first()
-            if user is None and (admin is None and User.objects(email=request.json.get("email").first() is None)):
+            if user is None and (
+                admin is None
+                and User.objects(email=request.json.get("email").first() is None)
+            ):
                 return jsonify(
                     {"message": "Invalid user token or no user email provided."}
                 ), 500

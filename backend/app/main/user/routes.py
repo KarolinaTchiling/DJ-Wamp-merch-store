@@ -43,7 +43,7 @@ def get_user():
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
     try:
-        return jsonify({"user":user.json_formatted()}), 201
+        return jsonify({"user": user.json_formatted()}), 201
     except Exception as e:
         return jsonify({"error getting user data": str(e)}), 500
 

@@ -15,6 +15,7 @@ def test_client():
     with app.test_client() as client:
         yield client
 
+
 @pytest.fixture(scope="module")
 def create_user(test_client):
     user_data = {
@@ -31,6 +32,7 @@ def create_user(test_client):
     response = test_client.post("/signup", json=user_data)
     assert response.status_code == 201
     return user_data
+
 
 @pytest.fixture(scope="module")
 def create_admin(test_client):
@@ -55,6 +57,7 @@ def login_user(test_client, create_user):
     assert jwt is not None
     return jwt
 
+
 @pytest.fixture
 def login_admin(test_client, create_admin):
     login_data = {
@@ -67,31 +70,29 @@ def login_admin(test_client, create_admin):
     assert jwt is not None
     return jwt
 
+
 @pytest.fixture(scope="module")
-def post_product(test_client,login_admin):
+def post_product(test_client, login_admin):
     product_data = {
-    "name":"DJ WAMP's Angels Tee",
-    "category": "Apparel",
-    "brand": "Wamp Collection",
-    "album": "Wamp Collection",
-    "price": 59.99,
-    "description":"DJ Wamp's angels know how to shred on the decks.",
-    "image_url":"https://djwamp.s3.us-east-2.amazonaws.com/tee4.png",
-    "quantity":5
+        "name": "DJ WAMP's Angels Tee",
+        "category": "Apparel",
+        "brand": "Wamp Collection",
+        "album": "Wamp Collection",
+        "price": 59.99,
+        "description": "DJ Wamp's angels know how to shred on the decks.",
+        "image_url": "https://djwamp.s3.us-east-2.amazonaws.com/tee4.png",
+        "quantity": 5,
     }
-    headers = {"Authorization": f"Bearer {login_admin}"};
-    response = test_client.post('/catalog/products',json=product_data,headers=headers)
+    headers = {"Authorization": f"Bearer {login_admin}"}
+    response = test_client.post("/catalog/products", json=product_data, headers=headers)
     id = Product.objects(name=product_data["name"]).first()
     assert response.status_code == 201
     return id
 
-@pytest.fixture
-def post_cart(test_client,login_user,post_product):
-    purchase_data = {
-        "product_id":post_product,
-        "quantity":1
-    }
-    headers = {"Authorization": f"Bearer {login_admin}"};
-    response = test_client.post(json=product_data,headers=headers)
-    assert response.status_code == 201
 
+@pytest.fixture
+def post_cart(test_client, login_user, post_product):
+    purchase_data = {"product_id": post_product, "quantity": 1}
+    headers = {"Authorization": f"Bearer {login_admin}"}
+    response = test_client.post(json=product_data, headers=headers)
+    assert response.status_code == 201
