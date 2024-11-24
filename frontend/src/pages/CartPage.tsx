@@ -117,7 +117,7 @@ const CartPage: React.FC = () => {
                     {/* Cost info */}
                     <div className="mt-5 border-t border-t-camel">
                         <div className="flex justify-between pt-3">
-                            <p className="">Sub Total</p>
+                            <p className="">Subtotal</p>
                             <p className="">${totalPrice.toFixed(2)}</p>
                         </div>
 
