@@ -50,3 +50,10 @@ export function updateCart(item: CartItem): void {
 export function getCart(): CartItem[] {
     return JSON.parse(localStorage.getItem('cart') || '[]'); // Retrieve cart or return empty array
 }
+
+export function getTotal(): number {
+    const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+    const total = cart.reduce((sum, item) => sum + item.total_price, 0);
+
+    return total;
+}

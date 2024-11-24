@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { CartItem, updateCart, getCart } from '../cart/CartUtility'; 
 import QuantityControl from '../components/QuantityControl.tsx';
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '../components/Button.tsx';
-import { update } from 'lodash';
 
 interface CartDropdownItemProps {
     item: CartItem;
     closeDropdown: () => void;
+    onUpdate: () => void;
 }
 
-const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown }) => {
+const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown, onUpdate }) => {
     const [selectedQuantity, setSelectedQuantity] = useState<number>(item.quantity);
     const [product, setProduct] = useState<CartItem | null>(null);
     
@@ -51,6 +51,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
         });
 
         console.log('Cart Contents:', getCart());
+        onUpdate();
     };
 
     // const location = useLocation();
