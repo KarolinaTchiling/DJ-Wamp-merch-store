@@ -1,10 +1,10 @@
-import Suggest from '../components/Suggest.tsx';
+// import Suggest from '../components/Suggest.tsx';
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '../components/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 import QuantityControl from '../components/QuantityControl.tsx';
 import { useCentralCart } from "../cart/centralCart";
-import { useTokenContext } from "../TokenContext";
+// import { useTokenContext } from "../TokenContext";
 
 
 const CartPage: React.FC = () => {
@@ -13,7 +13,7 @@ const CartPage: React.FC = () => {
     const [cartItems, setCartItems] = useState<any[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
-    const { token } = useTokenContext();
+    // const { token } = useTokenContext();
 
     const handleReturnToShopping = () => {navigate('/');};  // go to merch page
     const handleCheckout = () => {navigate('/checkout');};  // go the checkout page
@@ -36,7 +36,7 @@ const CartPage: React.FC = () => {
     useEffect(() => {
         fetchCart(); // Fetch cart data when the component mounts
     }, []);
-    // console.log("Cart Items:", cartItems);
+
     const handleQuantityChange = async (productId: string, newQuantity: number) => {
         console.log("Updating product_id:", productId, "to quantity:", newQuantity);
         try {
