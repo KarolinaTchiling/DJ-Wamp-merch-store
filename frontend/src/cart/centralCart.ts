@@ -1,5 +1,5 @@
 import { addToCartBackend, getCartBackend, updateCartBackend} from "./backendCart"; // Backend methods
-import { addToCart, updateCart, getCart, getTotal} from "./localCart"; // Local methods
+import { addToCart, updateCart, getCart, getTotal, getCartCount} from "./localCart"; // Local methods
 import { useTokenContext } from "../TokenContext"; // Access user token
 import { Product, CartItem } from "../types.ts";
 
@@ -25,7 +25,8 @@ export const useCentralCart = () => {
         }
     };
 
-    const handleCartTotal = async () => {
+    // Get the total cost of the cart
+    const handleCartTotal = async (): Promise<number> => {
         if (token) {
             console.log("Fetching cart from backend with token:", token);
             try {
@@ -40,6 +41,32 @@ export const useCentralCart = () => {
         } else {
             console.log("Fetching cart from local storage");
             return getTotal();
+        }
+    };
+
+    // Get the total number of items in the cart
+    const handleCartCount = async (): Promise<number> => {
+        if (token) {
+            console.log("Fetching cart count from backend with token:", token);
+            try {
+                const response = await getCartBackend(token);
+                console.log("Backend cart fetched:", response);
+                const items = response.items || []; // Fallback to empty array if undefined
+                const totalQuantity = items.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
+                return totalQuantity;
+            } catch (error: any) {
+                console.error("Failed to fetch backend cart count:", error.message);
+                alert("Failed to fetch cart count. Please try again.");
+                return 0; // Return 0 in case of error
+            }
+        } else {
+            console.log("Fetching cart count from local storage");
+            try {
+                return getCartCount(); // Ensure this handles errors internally
+            } catch (error: any) {
+                console.error("Failed to fetch local cart count:", error.message);
+                return 0; // Return 0 in case of error
+            }
         }
     };
 
@@ -67,6 +94,7 @@ export const useCentralCart = () => {
         }
     };
 
+    // Update the quantity of item in the cat
     const handleUpdateCart = async (item: CartItem, selectedQuantity: number) => {
         console.log("handleUpdateCart called with:", { item, selectedQuantity });
 
@@ -115,7 +143,7 @@ export const useCentralCart = () => {
     //     }
     // };
 
-    return { handleGetCart, handleCartTotal, handleAddToCart, handleUpdateCart };
+    return { handleGetCart, handleCartTotal, handleCartCount, handleAddToCart, handleUpdateCart };
 };
 
 

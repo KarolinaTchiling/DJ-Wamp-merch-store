@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { CartItem, updateCart, getCart } from '../cart/CartUtility'; 
+import { useCentralCart } from '../cart/centralCart';
 import QuantityControl from '../components/QuantityControl.tsx';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.tsx';
+import { Product, CartItem } from "../types.ts";
 
 interface CartDropdownItemProps {
-    item: CartItem;
+    item: CartItem; 
     closeDropdown: () => void;
     onUpdate: () => void;
 }
 
 const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown, onUpdate }) => {
     const [selectedQuantity, setSelectedQuantity] = useState<number>(item.quantity);
-    const [product, setProduct] = useState<CartItem | null>(null);
+    const [product, setProduct] = useState<any | null>(null); 
+    const { handleUpdateCart } = useCentralCart(); 
     
 
     // Necessary fetch of the full product in order for it to be saved as a state and be sent when clicked on the product in the cart
@@ -32,27 +34,20 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
         fetchFullProduct();
     }, [item.name]);
 
+    // Handle cart updates
+    const handleUpdate = async () => {
+        console.log(`Updating ${selectedQuantity} of ${item.name} in the cart.`);
+        try {
+            await handleUpdateCart(item, selectedQuantity); // Use centralized cart update function
+            onUpdate(); // Trigger parent component update
+        } catch (error: any) {
+            console.error('Failed to update cart:', error.message);
+        }
+    };
+
     if (!product) {
         return <div>Loading...</div>; // Show a loading indicator until data is fetched
     }
-
-
-    const handleUpdateCart = () => {
-        console.log(`Adding ${selectedQuantity} of ${item.name} to the cart.`);
-        const totalPrice = selectedQuantity * item.price;
-
-        updateCart({
-            product_id: item.product_id,
-            name: item.name,
-            price: item.price,
-            total_price: totalPrice,
-            quantity: selectedQuantity,
-            image_url: item.image_url,
-        });
-
-        console.log('Cart Contents:', getCart());
-        onUpdate();
-    };
 
     // const location = useLocation();
     // console.log('Location State:', location.state); 
@@ -89,7 +84,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
                         <div className="mr-6 flex items-center justify-between flex-row">
                             <div>Price: ${item.price.toFixed(2)}</div>
                             <div>
-                                <Button onClick={handleUpdateCart} className="mt-0 px-1 py-0.5 ">Update</Button>
+                                <Button onClick={handleUpdate} className="mt-0 px-1 py-0.5 ">Update</Button>
                             </div>
                         </div>
                     </div>
