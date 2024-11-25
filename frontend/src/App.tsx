@@ -10,7 +10,7 @@ import OrderHistory from "./pages/OrderHistory.tsx";
 import DetailPage from "./pages/DetailPage.tsx";
 import MerchPage from "./pages/MerchPage.tsx";
 import CartPage from "./pages/CartPage.tsx";
-import LogInPageContextToken from "./pages/LoginPageContextToken.tsx";
+import LogInPageContextToken from "./pages/LogInPageContextToken.tsx";
 
 
 const App: React.FC = () => {

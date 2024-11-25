@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend} from './backendCart';
-import { getCart, addToCart, updateCart, removeFromCart} from './localCart';
+import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend, clearCartBackend} from './backendCart';
+import { getCart, addToCart, updateCart, removeFromCart, clearCart} from './localCart';
 import { CartItem, Cart, Product } from '../types';
 
 interface CartContextProps {
@@ -11,6 +11,7 @@ interface CartContextProps {
     handleUpdateCart: (productId: string, quantity: number) => Promise<void>;
     handleRemoveFromCart: (productId: string) => Promise<void>;
     refreshCart: () => Promise<void>;
+    handleCartMergeOnLogin: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -99,6 +100,81 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const handleCartMergeOnLogin = async () => {
+        const localCart = getCart();
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            const backendCart = await getCartBackend(token);
+
+            // Case 1: Local cart only
+            if (localCart.items.length > 0 && backendCart.items.length === 0) {
+                for (const item of localCart.items) {
+                    await addToCartBackend(item.product_id, item.quantity, token);
+                }
+                localStorage.removeItem('cart'); // Clear local cart
+                console.log("Local cart successfully transferred to backend cart and deleted!");
+                
+
+                
+
+
+            // // Case 2: Both carts exist
+            // } else if (localCart.items.length > 0 && backendCart.items.length > 0) {
+            //     const userChoice = await promptUserChoice();    //prompt user for choice
+
+            //     if (userChoice === 'local') {
+            //         // Replace backend cart with local cart
+            //         await clearCartBackend(token);
+            //         for (const item of localCart.items) {
+            //             await addToCartBackend(item.product_id, item.quantity, token);
+            //         }
+            //         localStorage.removeItem('cart');
+
+            //         // Use backend cart and discard local cart
+            //         } else if (userChoice === 'backend') {
+            //             localStorage.removeItem('cart');
+
+            //         // Combine both carts together
+            //         } else if (userChoice === 'combine') {
+            //             // Combine carts
+            //             const mergedCartItems = mergeCarts(localCart.items, backendCart.items);
+            //             await clearCartBackend(token);
+            //             for (const item of mergedCartItems) {
+            //                 await addToCartBackend(item.product_id, item.quantity, token);
+            //             }
+            //             localStorage.removeItem('cart');
+            //         }
+            // }
+        }
+        await refreshCart(); // Refresh cart data in context
+    }
+    
+    // // Merge carts helper functions ------
+    // const promptUserChoice = () => {
+    //     return new Promise((resolve) => {
+    //         // Display modal to user with options
+    //         const handleChoice = (choice) => resolve(choice); // 'local', 'backend', 'combine'
+    //         // Implement modal UI here
+    //     });
+    // };
+
+    // const mergeCarts = (localItems: CartItem[], backendItems: CartItem[]) => {
+    //     const mergedItems = [...backendItems];
+    //     for (const localItem of localItems) {
+    //         const backendItem = mergedItems.find(item => item.product_id === localItem.product_id);
+    //         if (backendItem) {
+    //             backendItem.quantity += localItem.quantity; // Merge quantities
+    //             backendItem.total_price += localItem.total_price; // Adjust total price
+    //         } else {
+    //             mergedItems.push(localItem); // Add new item from local cart
+    //         }
+    //     }
+    //     return mergedItems;
+    };
+
+
+
     useEffect(() => {
         refreshCart();
     }, []);
@@ -113,6 +189,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 handleUpdateCart,
                 handleRemoveFromCart,
                 refreshCart,
+                handleCartMergeOnLogin
             }}
         >
             {children}

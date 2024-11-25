@@ -5,9 +5,11 @@ import Googollogo from "../assets/Googollogo.png";
 import Logo from "../components/Logo.tsx";
 import Button from "../components/Button.tsx";
 import axios from 'axios';
+import { useCartContext } from '../cart/CartContext.tsx';
 
 const LogInPage: React.FC = () => {
     const { setToken } = useTokenContext(); // Access setToken from TokenContext
+    const { handleCartMergeOnLogin } = useCartContext(); 
     const navigate = useNavigate(); // React Router hook for navigation
 
     // Login form state starts with email and password as empty strings
@@ -24,6 +26,8 @@ const LogInPage: React.FC = () => {
             console.log("Axios Response:", response);
             // Set the token using TokenContext
             setToken(response.data.token);
+
+            await handleCartMergeOnLogin();
 
             // Redirect to the merch page
             navigate('/');

@@ -29,4 +29,10 @@ export const removeFromCartBackend = async (productId: string, token: string) =>
     });
 };
 
+export const clearCartBackend = async (token: string) => {
+    await axios.delete('http://127.0.0.1:5000/cart/', {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+};
+
 
