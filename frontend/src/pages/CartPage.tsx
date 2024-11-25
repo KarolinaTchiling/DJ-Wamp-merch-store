@@ -1,41 +1,18 @@
 // import Suggest from '../components/Suggest.tsx';
-import React, { useState, useEffect, useRef } from 'react';
-import Button from '../components/Button.tsx';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCartContext } from '../cart/CartContext'; // Updated CartContext import
+import Button from '../components/Button.tsx';
 import QuantityControl from '../components/QuantityControl.tsx';
-import { useCentralCart } from "../cart/centralCart";
-// import { useTokenContext } from "../TokenContext";
 
 
 const CartPage: React.FC = () => {
     const navigate = useNavigate();
-    const { handleGetCart, handleCartTotal, handleUpdateCart } = useCentralCart();
-    const [cartItems, setCartItems] = useState<any[]>([]);
-    const [cartTotal, setCartTotal] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(true);
-    // const { token } = useTokenContext();
+    const { cartItems, cartTotal, handleUpdateCart, refreshCart } = useCartContext();
 
     const handleReturnToShopping = () => {navigate('/');};  // go to merch page
     const handleCheckout = () => {navigate('/checkout');};  // go the checkout page
 
-    // Fetch the cart and total
-    const fetchCart = async () => {
-        setLoading(true);
-        try {
-            const items = await handleGetCart(); // Fetch cart items
-            const total = await handleCartTotal(); // Fetch cart total
-            setCartItems(items); // Store items
-            setCartTotal(total); // Store total
-        } catch (error) {
-            console.error("Failed to fetch cart data:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchCart(); // Fetch cart data when the component mounts
-    }, []);
 
     const handleQuantityChange = async (productId: string, newQuantity: number) => {
         console.log("Updating product_id:", productId, "to quantity:", newQuantity);
@@ -45,10 +22,9 @@ const CartPage: React.FC = () => {
                 console.error("Cart item not found for product_id:", productId);
                 return;
             }
-            console.log("Cart item found:", cartItem);
-    
-            await handleUpdateCart(cartItem, newQuantity);
-            fetchCart(); // Refresh cart after update
+
+            await handleUpdateCart(productId, newQuantity);
+            await refreshCart(); // Refresh cart data
         } catch (error) {
             console.error("Failed to update cart:", error);
         }
@@ -78,9 +54,8 @@ const CartPage: React.FC = () => {
                         {cartItems.length > 0 ? (
                             <ul>
                                 {cartItems.map((item) => (
-                                    <li key={item.product_id} className="">
-                                        <div className="flex mt-3">
-
+                                    <li key={item.product_id} className="mt-3">
+                                        <div className="flex">
                                             <div className="flex basis-[25%] pr-5">
                                                 <img
                                                     src={item.image_url}
@@ -92,7 +67,7 @@ const CartPage: React.FC = () => {
                                             <div className="flex basis-[40%] pr-5" >
                                                 <div>
                                                     <p className="pb-4">{item.name}</p>
-                                                    <p>${item.price}</p>
+                                                    <p>${item.price.toFixed(2)}</p>
                                                 </div>
 
                                             </div>

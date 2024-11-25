@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCentralCart } from '../cart/centralCart';
+import { useCartContext } from '../cart/CartContext';
 import QuantityControl from '../components/QuantityControl.tsx';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.tsx';
@@ -14,7 +14,7 @@ interface CartDropdownItemProps {
 const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown, onUpdate }) => {
     const [selectedQuantity, setSelectedQuantity] = useState<number>(item.quantity);
     const [product, setProduct] = useState<any | null>(null); 
-    const { handleUpdateCart } = useCentralCart(); 
+    const { handleUpdateCart } = useCartContext(); 
     
 
     // Necessary fetch of the full product in order for it to be saved as a state and be sent when clicked on the product in the cart
@@ -38,7 +38,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
     const handleUpdate = async () => {
         console.log(`Updating ${selectedQuantity} of ${item.name} in the cart.`);
         try {
-            await handleUpdateCart(item, selectedQuantity); // Use centralized cart update function
+            await handleUpdateCart(item.product_id, selectedQuantity); // Update the cart using the context
             onUpdate(); // Trigger parent component update
         } catch (error: any) {
             console.error('Failed to update cart:', error.message);
