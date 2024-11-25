@@ -6,7 +6,7 @@ import Suggest from '../components/Suggest.tsx';
 import QuantityControl from '../components/QuantityControl.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import { addToCart, getCart } from '../cart/CartUtility'; 
+import { useCentralCart } from "../cart/centralCart";
 
 
 const DetailPage: React.FC = () => {
@@ -14,8 +14,11 @@ const DetailPage: React.FC = () => {
     const { name } = useParams<{ name: string }>();
     const [product, setProduct] = useState<Product | null>(location.state as Product);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1); // Default to 1
+    const { handleAddToCart } = useCentralCart();
+
 
     // console.log('Location State:', location.state);
+    // console.log(token);
     
     useEffect(() => {
         // Reset product and fetch new data when route changes
@@ -40,23 +43,10 @@ const DetailPage: React.FC = () => {
 
     if (!product) return <div>Loading...</div>;
 
-    const handleAddToCart = () => {
-        console.log(`Adding ${selectedQuantity} of ${product.name} to the cart.`);
-
-        const totalPrice = selectedQuantity * product.price;
-
-        addToCart({
-            product_id: product.id,
-            name: product.name,
-            price: product.price,
-            total_price: totalPrice,
-            quantity: selectedQuantity,
-            image_url: product.image_url,
-        });
-
-        console.log('Cart Contents:', getCart());
-        window.location.reload();
+    const handleAddToCartWrapper = () => {
+        handleAddToCart(product, selectedQuantity);
     };
+
 
     return(
         <>
@@ -106,7 +96,7 @@ const DetailPage: React.FC = () => {
                     </div>
 
                     {/* Product Info */}
-                    <div className="basis-2/3 pl-8 border-r border-r-camel pr-[80px]">
+                    <div className="basis-2/3 pl-8 border-r border-r-camel pr-[80px] h-[calc(100vh-250px)] overflow-y-auto scrollbar-hidden">
 
                         {/* Product desc + checkout */}
                         <div>
@@ -118,7 +108,7 @@ const DetailPage: React.FC = () => {
                                 quantity={selectedQuantity}
                                 setQuantity={setSelectedQuantity}
                             />
-                            <Button onClick={handleAddToCart}>Add to Cart</Button>
+                            <Button onClick={handleAddToCartWrapper}>Add to Cart</Button>
                         </div>
 
                         {/* Shipping info */}
