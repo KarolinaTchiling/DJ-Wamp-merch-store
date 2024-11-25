@@ -3,7 +3,7 @@ import { useCartContext } from '../cart/CartContext';
 import QuantityControl from '../components/QuantityControl.tsx';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.tsx';
-import { Product, CartItem } from "../types.ts";
+import { CartItem } from "../types.ts";
 
 interface CartDropdownItemProps {
     item: CartItem; 
