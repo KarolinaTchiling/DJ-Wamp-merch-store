@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { useTokenContext } from "../TokenContext";
-import { useCentralCart } from "../cart/centralCart";
+import { useCentralCart } from "../cart/centralCart"; // Centralized cart logic
+import { useTokenContext } from "../TokenContext"; // Access user token
+import { Product } from "../types"; // Adjust path as needed
 
 const TestPage: React.FC = () => {
-    const { token } = useTokenContext();
-    const { handleGetCart } = useCentralCart();
+    const { token } = useTokenContext(); // Retrieve the token
+    const { handleGetCart, handleCartTotal } = useCentralCart();
 
-    const [cartItems, setCartItems] = useState<any[]>([]);
-    const [cartTotal, setCartTotal] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [cartItems, setCartItems] = useState<any[]>([]); // State for cart items
+    const [cartTotal, setCartTotal] = useState<number>(0); // State for cart total
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
 
+    // Fetch the cart and total
     const fetchCart = async () => {
         setLoading(true);
         try {
             const items = await handleGetCart(); // Fetch cart items
-            setCartItems(items); // Store the items
-            setCartTotal(calculateCartTotal(items)); // Calculate and set the total
+            const total = await handleCartTotal(); // Fetch cart total
+            setCartItems(items); // Store items
+            setCartTotal(total); // Store total
         } catch (error) {
-            console.error("Failed to fetch cart:", error);
+            console.error("Failed to fetch cart data:", error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchCart();
+        fetchCart(); // Fetch cart data when the component mounts
     }, []);
 
-    const calculateCartTotal = (items: any[]) => {
-        return items.reduce((total, item) => total + item.total_price, 0);
-    };
 
     return (
         <div className="p-4">
@@ -48,18 +48,18 @@ const TestPage: React.FC = () => {
                     <div>
                         <ul>
                             {cartItems.map((item, index) => (
-                                <li key={index} className="py-2 border-b border-gray-300">
+                                <li key={index} className="py-2 border-b border-gray-300 flex items-center gap-4">
                                     <img
                                         src={item.image_url}
                                         alt={item.name}
                                         className="w-16 h-16 object-cover"
                                     />
-                                    <p>
-                                        <strong>{item.name}</strong>
-                                    </p>
-                                    <p>Price: ${item.price}</p>
-                                    <p>Quantity: {item.quantity}</p>
-                                    <p>Total: ${item.total_price}</p>
+                                    <div>
+                                        <p><strong>{item.name}</strong></p>
+                                        <p>Price: ${item.price.toFixed(2)}</p>
+                                        <p>Quantity: {item.quantity}</p>
+                                        <p>Total: ${item.total_price.toFixed(2)}</p>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
@@ -71,6 +71,7 @@ const TestPage: React.FC = () => {
                     <p>Your cart is empty.</p>
                 )}
             </div>
+
         </div>
     );
 };

@@ -1,53 +1,59 @@
-
 import Suggest from '../components/Suggest.tsx';
-import { CartItem, updateCart, getCart, getTotal } from '../cart/CartUtility'; 
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '../components/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 import QuantityControl from '../components/QuantityControl.tsx';
+import { useCentralCart } from "../cart/centralCart";
+import { useTokenContext } from "../TokenContext";
 
 
 const CartPage: React.FC = () => {
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [totalPrice, setTotalPrice] = useState<number>(0);
     const navigate = useNavigate();
+    const { handleGetCart, handleCartTotal, handleUpdateCart } = useCentralCart();
+    const [cartItems, setCartItems] = useState<any[]>([]);
+    const [cartTotal, setCartTotal] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+    const { token } = useTokenContext();
 
-    const handleReturnToShopping = () => {
-        navigate('/'); // Replace with your desired route
+    const handleReturnToShopping = () => {navigate('/');};  // go to merch page
+    const handleCheckout = () => {navigate('/checkout');};  // go the checkout page
+
+    // Fetch the cart and total
+    const fetchCart = async () => {
+        setLoading(true);
+        try {
+            const items = await handleGetCart(); // Fetch cart items
+            const total = await handleCartTotal(); // Fetch cart total
+            setCartItems(items); // Store items
+            setCartTotal(total); // Store total
+        } catch (error) {
+            console.error("Failed to fetch cart data:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleCheckout = () => {
-        navigate('/checkout'); // Replace with your desired route
-    };
-
-    // Retrieve cart items when the component mounts
     useEffect(() => {
-        const items = getCart();
-        setCartItems(items);
-        setTotalPrice(getTotal());
+        fetchCart(); // Fetch cart data when the component mounts
     }, []);
-
-    // Update the quantity for a specific cart item
-    const handleQuantityChange = (productId: string, newQuantity: number) => {
-        const updatedCart = cartItems.map((item) =>
-            item.product_id === productId
-                ? { ...item, quantity: newQuantity, total_price: item.price * newQuantity }
-                : item
-        );
-        setCartItems(updatedCart);
-        setTotalPrice(updatedCart.reduce((sum, item) => sum + item.total_price, 0));
-
-        updateCart({
-            product_id: productId, 
-            quantity: newQuantity,
-            name: '',
-            price: 0,
-            total_price: 0,
-            image_url: ''
-        });
+    // console.log("Cart Items:", cartItems);
+    const handleQuantityChange = async (productId: string, newQuantity: number) => {
+        console.log("Updating product_id:", productId, "to quantity:", newQuantity);
+        try {
+            const cartItem = cartItems.find((item) => item.product_id === productId);
+            if (!cartItem) {
+                console.error("Cart item not found for product_id:", productId);
+                return;
+            }
+            console.log("Cart item found:", cartItem);
+    
+            await handleUpdateCart(cartItem, newQuantity);
+            fetchCart(); // Refresh cart after update
+        } catch (error) {
+            console.error("Failed to update cart:", error);
+        }
     };
 
-    
 
     return (
         <div className="flex flex-row mt pl-4 mx-0 h-[calc(100vh-200px)]">
@@ -92,7 +98,7 @@ const CartPage: React.FC = () => {
                                             </div>
 
                                             <div className="flex basis-[25%] items-start -mt-2">
-                                                
+                                            
                                                 <QuantityControl
                                                     quantity={item.quantity}
                                                     setQuantity={(newQuantity) =>
@@ -118,7 +124,7 @@ const CartPage: React.FC = () => {
                     <div className="mt-5 border-t border-t-camel">
                         <div className="flex justify-between pt-3">
                             <p className="">Subtotal</p>
-                            <p className="">${totalPrice.toFixed(2)}</p>
+                            <p className="">${cartTotal.toFixed(2)}</p>
                         </div>
 
                         <div className="flex justify-between pt-3">
@@ -128,7 +134,7 @@ const CartPage: React.FC = () => {
 
                         <div className="flex justify-between pt-3">
                             <p className="">Estimated Taxes</p>
-                            <p className="">${(totalPrice*0.15).toFixed(2)}</p>
+                            <p className="">${(cartTotal*0.15).toFixed(2)}</p>
                         </div>
 
                         <p className="text-camel pt-3">Actual taxes and shipping calculated at checkout</p>

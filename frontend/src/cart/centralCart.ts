@@ -1,7 +1,7 @@
-import { addToCartBackend, getCartBackend} from "./backendCart"; // Backend methods
-import { addToCart, getCart, getTotal} from "./localCart"; // Local methods
+import { addToCartBackend, getCartBackend, updateCartBackend} from "./backendCart"; // Backend methods
+import { addToCart, updateCart, getCart, getTotal} from "./localCart"; // Local methods
 import { useTokenContext } from "../TokenContext"; // Access user token
-import { Product } from "../types.ts";
+import { Product, CartItem } from "../types.ts";
 
 export const useCentralCart = () => {
     const { token } = useTokenContext(); // Access login status
@@ -67,6 +67,37 @@ export const useCentralCart = () => {
         }
     };
 
+    const handleUpdateCart = async (item: CartItem, selectedQuantity: number) => {
+        console.log("handleUpdateCart called with:", { item, selectedQuantity });
+
+        if (!item || !item.product_id) {
+            console.error("Invalid cart item or missing product_id:", item);
+            return;
+        }
+
+        if (token) {
+            console.log("Using backend cart with token:", token);
+            try {
+                const response = await updateCartBackend(item.product_id, selectedQuantity, token);
+                console.log("Product updated in backend cart:", response);
+            } catch (error: any) {
+                console.error("Failed to update product in backend cart:", error.message);
+            }
+        } else {
+            console.log("Using local cart");
+            updateCart({
+                product_id: item.product_id,
+                quantity: selectedQuantity,
+                name: item.name,
+                price: item.price,
+                total_price: selectedQuantity * item.price,
+                image_url: item.image_url,
+            });
+        }
+    };
+
+
+
     // // Delete cart or clear items
     // const handleDeleteCart = async () => {
     //     if (token) {
@@ -84,7 +115,7 @@ export const useCentralCart = () => {
     //     }
     // };
 
-    return { handleGetCart, handleCartTotal, handleAddToCart };
+    return { handleGetCart, handleCartTotal, handleAddToCart, handleUpdateCart };
 };
 
 
