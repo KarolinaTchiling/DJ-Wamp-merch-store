@@ -8,7 +8,7 @@ import QuantityControl from '../components/QuantityControl.tsx';
 
 const CartPage: React.FC = () => {
     const navigate = useNavigate();
-    const { cartItems, cartTotal, handleUpdateCart, refreshCart } = useCartContext();
+    const { cartItems, cartTotal, handleUpdateCart, refreshCart, handleRemoveFromCart } = useCartContext();
 
     const handleReturnToShopping = () => {navigate('/');};  // go to merch page
     const handleCheckout = () => {navigate('/checkout');};  // go the checkout page
@@ -30,21 +30,36 @@ const CartPage: React.FC = () => {
         }
     };
 
+    const handleRemove = async (productId: string) => {
+        console.log("Removing product_id", productId, "from cart.");
+        try {
+            const cartItem = cartItems.find((item) => item.product_id === productId);
+            if (!cartItem) {
+                console.error("Cart item not found for product_id:", productId);
+                return;
+            }
+            await handleRemoveFromCart(productId);
+            await refreshCart(); // Refresh cart data
+        } catch (error) {
+            console.error("Failed to update cart:", error);
+        }
+    };
+
 
     return (
         <div className="flex flex-row mt pl-4 mx-0 h-[calc(100vh-200px)]">
             {/* Product */}
-            <div className="basis-[45%] flex flex-row">
+            <div className="basis-[50%] flex flex-row pr-[70px] border-r border-r-camel">
                 {/* Product Info */}
-                <div className="pl-8 border-r border-r-camel pr-[70px]">
+                <div className="pl-8 w-full">
                     {/* Product desc + checkout */}
                     <div>
                         <div className="text-xl">Your Cart</div>
                     </div>
                     <div>
                         <div className="flex mt-1 mb-1">
-                            <div className="flex basis-[73%]">Product</div>
-                            <div className="flex basis-[22%]">Quantity</div>
+                            <div className="flex basis-[60%]">Product</div>
+                            <div className="flex basis-[30%] justify-center">Quantity</div>
                             <div className="flex basis-[10%] justify-end">Total</div>
                         </div>
                     </div>
@@ -64,7 +79,7 @@ const CartPage: React.FC = () => {
                                                 />
                                             </div>
 
-                                            <div className="flex basis-[40%] pr-5" >
+                                            <div className="flex basis-[35%] pr-5" >
                                                 <div>
                                                     <p className="pb-4">{item.name}</p>
                                                     <p>${item.price.toFixed(2)}</p>
@@ -72,15 +87,16 @@ const CartPage: React.FC = () => {
 
                                             </div>
 
-                                            <div className="flex basis-[25%] items-start -mt-2">
-                                            
+                                            <div className="flex basis-[30%] items-center -mt-2 flex-col">
                                                 <QuantityControl
                                                     quantity={item.quantity}
                                                     setQuantity={(newQuantity) =>
                                                         handleQuantityChange(item.product_id, newQuantity)
                                                     }
                                                     hideLabel={true}
-                                                />
+                                                />                          
+                                                <Button onClick={() => handleRemove(item.product_id)}className="mt-0 px-5 py-0.8 ">Remove</Button>
+                      
                                             </div>
 
                                             <div className="flex basis-[10%] justify-end">
@@ -91,8 +107,14 @@ const CartPage: React.FC = () => {
                                 ))}
                             </ul>
                         ) : (
-                            <p>Your cart is empty.</p>
+                            <div className="flex flex-col items-center justify-center w-full h-full">
+                                <p>Your cart is empty.</p>
+                                <Button onClick={handleReturnToShopping} className="mt-5">Continue Shopping</Button>
+                            </div>
                         )}
+
+                        
+
                     </div>
 
                     {/* Cost info */}
@@ -119,11 +141,12 @@ const CartPage: React.FC = () => {
                             <p className=""><Button onClick={handleCheckout}>Checkout</Button></p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             {/* You may also like */}
-            <div className="basis-[55%]">
+            <div className="basis-[50%]">
                 {/* <Suggest currentCategory={items.category} currentProduct={product.id} /> */}
             </div>
         </div>

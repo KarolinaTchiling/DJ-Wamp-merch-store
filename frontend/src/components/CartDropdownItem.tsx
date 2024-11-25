@@ -12,9 +12,8 @@ interface CartDropdownItemProps {
 }
 
 const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown, onUpdate }) => {
-    const [selectedQuantity, setSelectedQuantity] = useState<number>(item.quantity);
     const [product, setProduct] = useState<any | null>(null); 
-    const { handleUpdateCart } = useCartContext(); 
+    const { cartItems, handleUpdateCart, refreshCart, handleRemoveFromCart } = useCartContext(); 
     
 
     // Necessary fetch of the full product in order for it to be saved as a state and be sent when clicked on the product in the cart
@@ -35,15 +34,37 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
     }, [item.name]);
 
     // Handle cart updates
-    const handleUpdate = async () => {
-        console.log(`Updating ${selectedQuantity} of ${item.name} in the cart.`);
+    const handleQuantityChange = async (productId: string, newQuantity: number) => {
+        console.log("Updating product_id:", productId, "to quantity:", newQuantity);
         try {
-            await handleUpdateCart(item.product_id, selectedQuantity); // Update the cart using the context
-            onUpdate(); // Trigger parent component update
-        } catch (error: any) {
-            console.error('Failed to update cart:', error.message);
+            const cartItem = cartItems.find((item) => item.product_id === productId);
+            if (!cartItem) {
+                console.error("Cart item not found for product_id:", productId);
+                return;
+            }
+
+            await handleUpdateCart(productId, newQuantity);
+            await refreshCart(); // Refresh cart data
+        } catch (error) {
+            console.error("Failed to update cart:", error);
         }
     };
+
+    const handleRemove = async (productId: string) => {
+        console.log("Removing product_id", productId, "from cart.");
+        try {
+            const cartItem = cartItems.find((item) => item.product_id === productId);
+            if (!cartItem) {
+                console.error("Cart item not found for product_id:", productId);
+                return;
+            }
+            await handleRemoveFromCart(productId);
+            await refreshCart(); // Refresh cart data
+        } catch (error) {
+            console.error("Failed to update cart:", error);
+        }
+    };
+
 
     if (!product) {
         return <div>Loading...</div>; // Show a loading indicator until data is fetched
@@ -76,15 +97,17 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
                     <span className="font-bold">{item.name}</span>
                 </Link>
                 <div className="ml-3 flex flex-col text-sm">
-                        <QuantityControl
-                            quantity={selectedQuantity}
-                            setQuantity={setSelectedQuantity}
-                        />
+                    <QuantityControl
+                        quantity={item.quantity}
+                        setQuantity={(newQuantity) =>
+                            handleQuantityChange(item.product_id, newQuantity)
+                        }
+                    />
 
                         <div className="mr-6 flex items-center justify-between flex-row">
                             <div>Price: ${item.price.toFixed(2)}</div>
                             <div>
-                                <Button onClick={handleUpdate} className="mt-0 px-1 py-0.5 ">Update</Button>
+                                <Button onClick={() => handleRemove(item.product_id)} className="mt-0 px-1 py-0.5 ">Remove</Button>
                             </div>
                         </div>
                     </div>

@@ -76,7 +76,7 @@ const CartDropdown: React.FC = () => {
                             <>
                                 {cartItems.map((item) => (
                                    <li key={item.product_id}>
-                                        <CartItemDisplay item={item} closeDropdown={closeDropdown} onUpdate={refreshCart} />
+                                        <CartItemDisplay item={item} closeDropdown={closeDropdown} />
                                     </li>
                                 ))}
                                 <li 
