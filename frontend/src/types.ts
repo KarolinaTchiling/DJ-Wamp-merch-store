@@ -18,3 +18,8 @@ export interface CartItem {
     quantity: number;
     image_url: string;
 }
+
+export interface Cart {
+    cart_total: number;
+    items: CartItem[];
+}

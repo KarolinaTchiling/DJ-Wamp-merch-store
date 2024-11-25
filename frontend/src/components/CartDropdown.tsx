@@ -8,7 +8,7 @@ const CartDropdown: React.FC = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const { cartItems, cartTotal, cartCount, refreshCart } = useCartContext(); // Access cart data and methods from context
+    const { cartItems, cartTotal, refreshCart } = useCartContext(); // Access cart data and methods from context
 
 
     // Toggle dropdown visibility

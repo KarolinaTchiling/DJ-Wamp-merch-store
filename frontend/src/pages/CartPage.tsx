@@ -15,7 +15,6 @@ const CartPage: React.FC = () => {
 
 
     const handleQuantityChange = async (productId: string, newQuantity: number) => {
-        console.log("Updating product_id:", productId, "to quantity:", newQuantity);
         try {
             const cartItem = cartItems.find((item) => item.product_id === productId);
             if (!cartItem) {
@@ -31,7 +30,6 @@ const CartPage: React.FC = () => {
     };
 
     const handleRemove = async (productId: string) => {
-        console.log("Removing product_id", productId, "from cart.");
         try {
             const cartItem = cartItems.find((item) => item.product_id === productId);
             if (!cartItem) {

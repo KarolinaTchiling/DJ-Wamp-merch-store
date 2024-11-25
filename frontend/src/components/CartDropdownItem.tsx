@@ -8,10 +8,9 @@ import { Product, CartItem } from "../types.ts";
 interface CartDropdownItemProps {
     item: CartItem; 
     closeDropdown: () => void;
-    onUpdate: () => void;
 }
 
-const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown, onUpdate }) => {
+const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown}) => {
     const [product, setProduct] = useState<any | null>(null); 
     const { cartItems, handleUpdateCart, refreshCart, handleRemoveFromCart } = useCartContext(); 
     
@@ -35,7 +34,6 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
 
     // Handle cart updates
     const handleQuantityChange = async (productId: string, newQuantity: number) => {
-        console.log("Updating product_id:", productId, "to quantity:", newQuantity);
         try {
             const cartItem = cartItems.find((item) => item.product_id === productId);
             if (!cartItem) {
@@ -51,7 +49,6 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
     };
 
     const handleRemove = async (productId: string) => {
-        console.log("Removing product_id", productId, "from cart.");
         try {
             const cartItem = cartItems.find((item) => item.product_id === productId);
             if (!cartItem) {
