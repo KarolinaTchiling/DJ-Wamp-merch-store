@@ -1,4 +1,3 @@
-
 export interface CartItem {
     product_id: string;
     name: string;
@@ -8,6 +7,9 @@ export interface CartItem {
     image_url: string;
 }
 
+export function getCart(): CartItem[] {
+    return JSON.parse(localStorage.getItem('cart') || '[]'); // Retrieve cart or return empty array
+}
 
 export function addToCart(item: CartItem): void {
     const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]'); // Retrieve cart
@@ -47,9 +49,6 @@ export function updateCart(item: CartItem): void {
     console.log('Cart updated:', cart);
 }
 
-export function getCart(): CartItem[] {
-    return JSON.parse(localStorage.getItem('cart') || '[]'); // Retrieve cart or return empty array
-}
 
 export function getTotal(): number {
     const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
