@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend, clearCartBackend} from './backendCart';
 import { getCart, addToCart, updateCart, removeFromCart, clearCart} from './localCart';
 import { CartItem, Cart, Product } from '../types';
+import usePromptUserChoice from '../components/PromptUserChoice';
 
 interface CartContextProps {
     cartItems: CartItem[];
@@ -20,6 +21,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
     const [cartCount, setCartCount] = useState<number>(0);
+
+    const promptUserChoice = usePromptUserChoice();
+
 
     // Fetch cart data from backend or local storage
     const refreshCart = async () => {
@@ -104,73 +108,69 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const localCart = getCart();
         const token = localStorage.getItem('token');
 
-        if (token) {
-            const backendCart = await getCartBackend(token);
+        if (!token) {
+            console.error('Cannot merge carts without a valid token.');
+            return;
+        }
+        const backendCart = await getCartBackend(token);
 
-            // Case 1: Local cart only
-            if (localCart.items.length > 0 && backendCart.items.length === 0) {
+        // Case 1: Local cart only
+        if (localCart.items.length > 0 && backendCart.items.length === 0) {
+            for (const item of localCart.items) {
+                await addToCartBackend(item.product_id, item.quantity, token);
+            }
+            localStorage.removeItem('cart'); // Clear local cart
+            console.log("Local cart successfully transferred to backend cart! (local cart deleted)");
+    
+        // Case 2: Both carts exist
+        } else if (localCart.items.length > 0 && backendCart.items.length > 0) {
+            const userChoice = await promptUserChoice();    //prompt user for choice
+
+            // Replace backend cart with local cart
+            if (userChoice === 'local') {
+                await clearCartBackend(token);
                 for (const item of localCart.items) {
                     await addToCartBackend(item.product_id, item.quantity, token);
                 }
-                localStorage.removeItem('cart'); // Clear local cart
-                console.log("Local cart successfully transferred to backend cart and deleted!");
-                
+                localStorage.removeItem('cart');
+                console.log("Local cart successfully overwritten backend cart! (local cart deleted)");
 
-                
+                // Use backend cart and discard local cart
+            } else if (userChoice === 'backend') {
+                localStorage.removeItem('cart');
+                console.log("Backend cart successfully overwritten local cart! (local cart deleted)");
 
-
-            // // Case 2: Both carts exist
-            // } else if (localCart.items.length > 0 && backendCart.items.length > 0) {
-            //     const userChoice = await promptUserChoice();    //prompt user for choice
-
-            //     if (userChoice === 'local') {
-            //         // Replace backend cart with local cart
-            //         await clearCartBackend(token);
-            //         for (const item of localCart.items) {
-            //             await addToCartBackend(item.product_id, item.quantity, token);
-            //         }
-            //         localStorage.removeItem('cart');
-
-            //         // Use backend cart and discard local cart
-            //         } else if (userChoice === 'backend') {
-            //             localStorage.removeItem('cart');
-
-            //         // Combine both carts together
-            //         } else if (userChoice === 'combine') {
-            //             // Combine carts
-            //             const mergedCartItems = mergeCarts(localCart.items, backendCart.items);
-            //             await clearCartBackend(token);
-            //             for (const item of mergedCartItems) {
-            //                 await addToCartBackend(item.product_id, item.quantity, token);
-            //             }
-            //             localStorage.removeItem('cart');
-            //         }
-            // }
+                //Combine both carts together
+            } else if (userChoice === 'combine') {
+                // Combine carts
+                const mergedCartItems = mergeCarts(localCart.items, backendCart.items);
+                await clearCartBackend(token);
+                for (const item of mergedCartItems) {
+                    await addToCartBackend(item.product_id, item.quantity, token);
+                }
+                localStorage.removeItem('cart');
+                console.log("Backend cart successfully merged with local cart! (local cart deleted)");
+            }
+        } else {
+            console.log("Local cart was empty, backend cart successfully loaded!");
         }
+        
         await refreshCart(); // Refresh cart data in context
     }
     
-    // // Merge carts helper functions ------
-    // const promptUserChoice = () => {
-    //     return new Promise((resolve) => {
-    //         // Display modal to user with options
-    //         const handleChoice = (choice) => resolve(choice); // 'local', 'backend', 'combine'
-    //         // Implement modal UI here
-    //     });
-    // };
 
-    // const mergeCarts = (localItems: CartItem[], backendItems: CartItem[]) => {
-    //     const mergedItems = [...backendItems];
-    //     for (const localItem of localItems) {
-    //         const backendItem = mergedItems.find(item => item.product_id === localItem.product_id);
-    //         if (backendItem) {
-    //             backendItem.quantity += localItem.quantity; // Merge quantities
-    //             backendItem.total_price += localItem.total_price; // Adjust total price
-    //         } else {
-    //             mergedItems.push(localItem); // Add new item from local cart
-    //         }
-    //     }
-    //     return mergedItems;
+    const mergeCarts = (localItems: CartItem[], backendItems: CartItem[]) => {
+        const mergedItems = [...backendItems];
+        for (const localItem of localItems) {
+            const backendItem = mergedItems.find(item => item.product_id === localItem.product_id);
+            if (backendItem) {
+                backendItem.quantity += localItem.quantity; // Merge quantities
+                backendItem.total_price += localItem.total_price; // Adjust total price
+            } else {
+                mergedItems.push(localItem); // Add new item from local cart
+            }
+        }
+        return mergedItems;
     };
 
 

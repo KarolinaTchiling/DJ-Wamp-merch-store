@@ -27,6 +27,7 @@ const LogInPage: React.FC = () => {
             // Set the token using TokenContext
             setToken(response.data.token);
 
+            
             await handleCartMergeOnLogin();
 
             // Redirect to the merch page
