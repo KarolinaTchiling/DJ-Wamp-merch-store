@@ -83,8 +83,10 @@ const CartDropdown: React.FC = () => {
                                     className="px-5 pr-8 py-2 hover:text-white border-camel hover:font-medium hover:bg-camel flex justify-between items-center"
                                     onClick={closeDropdown} 
                                 >
-                                    <span className="inline font-bold">Cart Total: &nbsp;$ {cartTotal.toFixed(2)}</span>
-                                    <Link to="/cart" className="text-right inline">Go to Cart &nbsp;&nbsp; →</Link>
+                                    <Link to="/cart" className="flex justify-between items-center w-full">
+                                        <div className="font-bold">Cart Total: &nbsp;$ {cartTotal.toFixed(2)}</div>
+                                        <div>Go to Cart &nbsp;&nbsp; → </div>
+                                    </Link>
                                 </li>
                             </>
                         )}
