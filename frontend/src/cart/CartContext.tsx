@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend, clearCartBackend} from './backendCart';
-import { getCart, addToCart, updateCart, removeFromCart, clearCart} from './localCart';
+import { getCart, addToCart, updateCart, removeFromCart} from './localCart';
 import { CartItem, Cart, Product } from '../types';
 import usePromptUserChoice from '../components/PromptUserChoice';
 
@@ -124,7 +124,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
         // Case 2: Both carts exist
         } else if (localCart.items.length > 0 && backendCart.items.length > 0) {
-            const userChoice = await promptUserChoice();    //prompt user for choice
+            const userChoice = await promptUserChoice(localCart, backendCart);   //prompt user for choice
 
             // Replace backend cart with local cart
             if (userChoice === 'local') {

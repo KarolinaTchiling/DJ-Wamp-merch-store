@@ -1,43 +1,64 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Cart } from '../types';
+import CartSummary from './CartSummary';
+import Button from '../components/Button.tsx';
 
 interface PromptUserChoiceProps {
-    onChoice: (choice: string) => void;
+    localCart: Cart; // Local cart data
+    backendCart: Cart; // Backend cart data
+    onChoice: (choice: string) => void; // Callback for user choice
 }
 
-const PromptUserChoice: React.FC<PromptUserChoiceProps> = ({ onChoice }) => {
+const PromptUserChoice: React.FC<PromptUserChoiceProps> = ({ localCart, backendCart, onChoice }) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded shadow-lg">
-                <h2 className="text-xl font-semibold mb-4">Choose Cart Merge Option</h2>
-                <p className="mb-4">How would you like to handle your cart?</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-coffee bg-opacity-20 z-50 border border-camel">
+            <div className="bg-cream w-[1000px] p-6 shadow-lg border border-camel">
+                <h2 className="text-xl text-center font-semibold mb-4">Welcome back!</h2>
+                <p className="mb-1 text-center">Seems you already had a cart going from your last visit! How would you like to handle your cart?</p>
+
+                <div className="flex flex-row pb-2">
+                     {/* Optional: Display local cart summary */}
+                    <div className="mb-4 my-4 mx-2 basis-[50%] border border-camel">
+                        <h3 className="text-lg py-2 font-semibold text-center">Your New Cart</h3>
+                        <CartSummary cart={localCart}/>
+                    </div>
+
+                {/* Optional: Display backend cart summary */}
+                    <div className="mb-4 my-4 mx-2 basis-[50%] border border-camel">
+                        <h3 className="text-lg py-2 font-semibold text-center">Your Saved Cart</h3>
+                        <CartSummary cart={backendCart}/>
+                    </div>
+
+                </div>
+
                 <div className="flex gap-4 justify-center">
-                    <button
+                    <Button
                         onClick={() => onChoice('local')}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        className="mt-0"
                     >
-                        Use Local Cart
-                    </button>
-                    <button
+                        Use New Cart 
+                    </Button>
+                    <Button
                         onClick={() => onChoice('backend')}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                        className="mt-0"
                     >
-                        Use Backend Cart
-                    </button>
-                    <button
+                        Use Saved Cart
+                    </Button>
+                    <Button
                         onClick={() => onChoice('combine')}
-                        className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                        className="mt-0"
                     >
                         Combine Carts
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
     );
 };
 
-const usePromptUserChoice = (): (() => Promise<string>) => {
-    const promptUserChoice = (): Promise<string> => {
+export const usePromptUserChoice = (): ((localCart: Cart, backendCart: Cart) => Promise<string>) => {
+    const promptUserChoice = (localCart: Cart, backendCart: Cart): Promise<string> => {
         return new Promise((resolve) => {
             const rootElement = document.createElement('div');
             document.body.appendChild(rootElement);
@@ -49,7 +70,7 @@ const usePromptUserChoice = (): (() => Promise<string>) => {
             };
 
             const root = createRoot(rootElement);
-            root.render(<PromptUserChoice onChoice={handleChoice} />);
+            root.render(<PromptUserChoice localCart={localCart} backendCart={backendCart} onChoice={handleChoice} />);
         });
     };
 
