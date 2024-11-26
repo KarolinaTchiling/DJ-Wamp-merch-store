@@ -132,7 +132,7 @@ const DetailPage: React.FC = () => {
 
                 {/* You may also like */}
                 <div className="basis-[25%]">
-                    <Suggest currentCategory={product.category} currentProduct={product.id} />
+                    <Suggest currentCategory={product.category} currentProduct={product.id} columns={1} />
                 </div>
             </div>
         </>

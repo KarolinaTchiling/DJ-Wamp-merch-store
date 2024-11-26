@@ -1,4 +1,4 @@
-// import Suggest from '../components/Suggest.tsx';
+import Suggest from '../components/Suggest.tsx';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../cart/CartContext'; // Updated CartContext import
@@ -47,7 +47,7 @@ const CartPage: React.FC = () => {
     return (
         <div className="flex flex-row mt pl-4 mx-0 h-[calc(100vh-200px)]">
             {/* Product */}
-            <div className="basis-[50%] flex flex-row pr-[70px] border-r border-r-camel">
+            <div className="basis-[60%] flex flex-row pr-[70px] border-r border-r-camel">
                 {/* Product Info */}
                 <div className="pl-8 w-full">
                     {/* Product desc + checkout */}
@@ -144,8 +144,8 @@ const CartPage: React.FC = () => {
             </div>
 
             {/* You may also like */}
-            <div className="basis-[50%]">
-                {/* <Suggest currentCategory={items.category} currentProduct={product.id} /> */}
+            <div className="basis-[40%] pr-20 mr-10">
+                <Suggest currentCategory={"Apparel"} currentProduct={"67292a21c56a15390bcec035"} columns={2} />
             </div>
         </div>
     );
