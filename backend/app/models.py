@@ -48,6 +48,7 @@ class CartItem(EmbeddedDocument):
 
 
 # # CartItem document that's stored in User's cart
+
 # class CartItem(EmbeddedDocument):
 #     product_id = ReferenceField(Product, required=True)
 #     quantity = IntField(default=1)
