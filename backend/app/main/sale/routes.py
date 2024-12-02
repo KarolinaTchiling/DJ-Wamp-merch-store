@@ -5,7 +5,12 @@ from . import sale
 import bcrypt
 from app.models import Product, Sale
 from mongoengine import Q
-from ...auth.session import admin_required, get_user_from_token, get_referenced_user
+from ...auth.session import (
+    admin_required,
+    get_user_from_token,
+    get_referenced_user,
+    user_or_admin_required,
+)
 
 
 @sale.route("/history", methods=["GET"])
@@ -15,36 +20,34 @@ def get_sales():
         # get query parameters for filtering, sorting, and searching
         date = request.args.get("date")
         user = request.args.get("user_id")
-        product = request.args.get("product")
+        product = request.args.get("product_id")
         total_price = request.args.get("total_price")
         sort_by = request.args.get("sort_by", "name")
         order = request.args.get("order", "asc")
-        # query would have to look through every purchase in the sale, to get the products purchased.
         # build query
         query = Q()
-        if category:
-            query &= Q(category__icontains=category)
-        if brand:
-            query &= Q(brand__icontains=brand)
-        if album:
-            query &= Q(album__icontains=album)
-        if name:
-            query &= Q(name__icontains=name)
-        if min_price:
-            query &= Q(price__gte=float(min_price))
-        if max_price:
-            query &= Q(price__lte=float(max_price))
+        if date:
+            query &= Q(date__date=date)
+        if user:
+            query &= Q(user=user)
+        if total_price:
+            query &= Q(total_price=total_price)
+        if product:
+            query &= Q(purchases__product_name=product)
 
-        products = Product.objects(query)
+        # products = Product.objects(query)
+        sales = Sale.objects(query)
+        print(sales)
         # sort results
         sort_order = 1 if order == "asc" else -1
-        products = products.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
+        sales = sales.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
 
-        products_json = []
-        for product in products:
-            products_json.append(product.json_formatted())
+        sales_json = []
+        print("formatting sales")
+        for sale in sales:
+            sales_json.append(sale.json_formatted())
 
-        return jsonify({"products": products_json}), 201
+        return jsonify({"sales": sales_json}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -59,8 +62,8 @@ def get_sale(sale_id):
         return jsonify({"error": str(e)}), 500
 
 
-# you can make sales if you aren't logged in (TODO)
 @sale.route("/", methods=["POST"])
+@user_or_admin_required
 def make_sale():
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
@@ -69,10 +72,13 @@ def make_sale():
         sale = Sale(
             date=datetime.date.today(),
             user=user,
+            total_price=user.cart_total,
             purchases=user.cart_items,
             approved=True,
         )
         sale.save()
+        # clear a user's cart after a order
+
         return jsonify({"message": "sale recorded"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
