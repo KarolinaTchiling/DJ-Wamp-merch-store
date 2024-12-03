@@ -37,24 +37,6 @@ class CartItem(EmbeddedDocument):
         }
 
 
-# class Product(Document):
-#     name = StringField(required=True)
-#     category = StringField()
-#     brand = StringField()
-#     album = StringField()
-#     price = FloatField()
-#     description = StringField()
-#     image_url = StringField()
-#     quantity = IntField()
-
-
-# # CartItem document that's stored in User's cart
-
-# class CartItem(EmbeddedDocument):
-#     product_id = ReferenceField(Product, required=True)
-#     quantity = IntField(default=1)
-
-
 class User(Document):
     fname = StringField(required=True)
     lname = StringField(required=True)
@@ -137,6 +119,8 @@ class Sale(Document):
         return model_json
 
 
+"""
+
 class Purchase(Document):
     date = DateField(required=True)
     user = ReferenceField(User, required=True)
@@ -144,3 +128,4 @@ class Purchase(Document):
     price = FloatField(required=True)
     # {product_id:quantity}
     quantity = DictField()
+"""

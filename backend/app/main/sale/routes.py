@@ -3,7 +3,7 @@ import datetime
 import jwt
 from . import sale
 import bcrypt
-from app.models import Product, Sale
+from app.models import Product, Sale, User
 from mongoengine import Q
 from ...auth.session import (
     admin_required,
@@ -19,23 +19,27 @@ def get_sales():
     try:
         # get query parameters for filtering, sorting, and searching
         date = request.args.get("date")
-        user = request.args.get("user_id")
-        product = request.args.get("product_id")
+        user_email = request.args.get("user_email")
+        product_name = request.args.get("product_name")
         total_price = request.args.get("total_price")
         sort_by = request.args.get("sort_by", "name")
         order = request.args.get("order", "asc")
+        print(
+            f"Query params: {date}\n {user_email} \n {product_name} \n {total_price} \n {sort_by} \n {order}"
+        )
         # build query
         query = Q()
         if date:
             query &= Q(date__date=date)
-        if user:
-            query &= Q(user=user)
+        if user_email:
+            user = User.objects(email=user_email).first()
+            query &= Q(user=user.id)
         if total_price:
-            query &= Q(total_price=total_price)
-        if product:
-            query &= Q(purchases__product_name=product)
+            query &= Q(total_price=float(total_price))
+        if product_name:
+            product = Product.objects(name=product_name).first()
+            query &= Q(purchases__product_id=product.id)
 
-        # products = Product.objects(query)
         sales = Sale.objects(query)
         print(sales)
         # sort results
