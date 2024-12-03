@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, request, jsonify
-import datetime
+from datetime import datetime, timedelta
 import jwt
 from . import sale
 import bcrypt
@@ -29,8 +29,12 @@ def get_sales():
         )
         # build query
         query = Q()
+        #query a specific day
         if date:
-            query &= Q(date__date=date)
+            date = datetime.strptime(date, "%Y-%m-%d")  # Adjust format as needed
+            start_of_day = date
+            end_of_day = date + timedelta(days=1)
+            query &= Q(date__gte=start_of_day, date__lt=end_of_day)  # Use range query
         if user_email:
             user = User.objects(email=user_email).first()
             query &= Q(user=user.id)
