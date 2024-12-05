@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import ProfileDropdown from './ProfileDropdown';
 import CartDropdown from './CartDropdown';
-import CartIcon from './CartIcon';
 import Logo from "./Logo.tsx";
 
 // Define a type for the navigation links
@@ -18,19 +17,7 @@ const navLinks: NavLink[] = [
   { name: 'Contact', href: '/contact' }
 ];
 
-const cartItems = [
-  { label: 'item1', link: '/item1' },
-  { label: 'item2', link: '/item2' },
-  { label: 'item3', link: '/item3' },
-  { label: 'item4', link: '/item4' },
-  { label: 'item5', link: '/item5' },
-  { label: 'item6', link: '/item6' },
-  // Add more items as needed
-];
-
 interface Prop{
-  tokenStr: string|null;
-  removeToken : ()=>void;
   onSearch: (query: string) => void
 }
 
@@ -47,7 +34,7 @@ const Navbar: React.FC<Prop> = (prop) => {
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
-        <li className="basis-[24%] flex justify-start">  <Logo size={25}/></li>
+        <li className="basis-[24%] flex justify-start"> <a href={"/catalog/products"}> <Logo size={25}/></a></li>
 
         {/* Page Links */}
         <li className="basis-[50%] pr-[90px]">
@@ -68,12 +55,12 @@ const Navbar: React.FC<Prop> = (prop) => {
 
         {/* Shopping Cart */}
         <li className="basis-[3%] flex justify-end items-center">
-          <CartDropdown items={cartItems} />
+          <CartDropdown/>
         </li>
 
         {/* Profile Dropdown */}
         <li className="basis-[3%] flex justify-end items-center">
-          <ProfileDropdown tokenStr={prop.tokenStr} removeToken={prop.removeToken}/>
+          <ProfileDropdown/>
         </li>
 
         {/* Search Bar */}

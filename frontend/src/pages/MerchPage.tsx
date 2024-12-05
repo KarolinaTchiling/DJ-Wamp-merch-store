@@ -193,7 +193,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
               }}
               >
               {products.map((product) => (
-                <CatalogProduct key={product.id} product={product} />
+                <CatalogProduct key={product.id} product={product}/>
               ))}
             </div>
           </div>
