@@ -98,7 +98,8 @@ def post_cart(test_client, login_user, post_product):
     response = test_client.post("/cart/", json=purchase_data, headers=headers)
     assert response.status_code == 201
 
-'''
+
+"""
 NEED 2 FIX
 def post_sale(test_client, create_user, login_user, post_product, post_cart):
     headers = {"Authorization": f"Bearer {login_user}"}
@@ -107,4 +108,4 @@ def post_sale(test_client, create_user, login_user, post_product, post_cart):
     }
     response = test_client.post("/checkout/", json=json_body, headers=headers)
     assert response.status_code == 201
-'''
+"""

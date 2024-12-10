@@ -124,10 +124,9 @@ def test_patch_products(
     response = test_client.get(f"/catalog/products/{post_product.id}", headers=headers)
     assert response.json["name"] == json_body["name"]
 
+
 def test_checkout(test_client, create_user, login_user, post_product, post_cart):
     headers = {"Authorization": f"Bearer {login_user}"}
-    json_body = {
-        "use_saved_info":True
-    }
+    json_body = {"use_saved_info": True}
     response = test_client.post("/checkout/", json=json_body, headers=headers)
     assert response.status_code == 201
