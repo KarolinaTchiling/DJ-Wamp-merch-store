@@ -108,16 +108,28 @@ const DetailPage: React.FC = () => {
                                     }
                                 }}
                             />
-                            <div className="relative">
-                                <Button onClick={handleAddToCartWrapper}>Add to Cart</Button>
-                                {/* Popup Notification with Fade-Out */}
+                        <div className="relative">
+                                <Button
+                                    onClick={() => {
+                                        if (product.quantity > 0) {
+                                            handleAddToCartWrapper();
+                                        }
+                                    }}
+                                    disabled={product.quantity === 0} // Disable button when quantity is 0
+                                    className={`${
+                                        product.quantity === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
+                                >
+                                    Add to Cart
+                                </Button>
+                                {/* Popup Notification */}
                                 <div
                                     className={`absolute -top-3 -left-7 text-coffee px-3 py-1 transition-opacity duration-500 ${
                                         popupVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
                                     }`}
-                                > ✨Wamptastic✨
+                                >
+                                    {product.quantity === 0 ? '' : '✨Wamptastic✨'}
                                 </div>
-                                
                             </div>
                         </div>
                         
