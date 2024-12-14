@@ -3,6 +3,8 @@ import axios from "axios";
 import Button from "../components/Button.tsx";
 import { useCartContext } from "../cart/CartContext";
 import { useTokenContext } from "../components/TokenContext";
+import {useOrderDialog} from '../components/OrderDialog.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface AccountInfo {
   fname: string;
@@ -33,7 +35,9 @@ const CheckoutGuest: React.FC = () => {
     postal: "",
   });
   const { handleCartMergeOnLogin } = useCartContext(); // Access cart merge logic
-  const { setToken } = useTokenContext(); // Access token handling logic
+  const { setToken, setUserType } = useTokenContext(); // Access token handling logic
+  const showOrderDialog = useOrderDialog();
+  const navigate = useNavigate();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -78,7 +82,7 @@ const CheckoutGuest: React.FC = () => {
         postal,
       });
 
-      alert("User registered successfully!");
+      // alert("User registered successfully!");
 
       // Step 2: Automatically log the user in
       const loginResponse = await axios.post("http://127.0.0.1:5000/login", {
@@ -88,6 +92,7 @@ const CheckoutGuest: React.FC = () => {
 
       const token = loginResponse.data.token;
       setToken(token); // Save the token in the context or localStorage for future use
+      setUserType("user");
 
       // Step 3: Merge frontend and backend carts
       await handleCartMergeOnLogin();
@@ -102,10 +107,10 @@ const CheckoutGuest: React.FC = () => {
           },
         }
       );
+      await showOrderDialog();
+      navigate('/order-history');
+      // alert(saleResponse.data.message || "Sale recorded successfully!");
 
-      alert(saleResponse.data.message || "Sale recorded successfully!");
-
-      // Optionally, redirect to a confirmation page or clear the local state
     } catch (error: any) {
       console.error("Error during checkout process:", error);
       alert(
@@ -115,8 +120,7 @@ const CheckoutGuest: React.FC = () => {
     }
   }
 
-  const fieldStyle =
-    "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
+  const fieldStyle = "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
 
   return (
     <div>

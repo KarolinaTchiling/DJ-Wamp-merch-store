@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "../components/Button.tsx";
+import {useOrderDialog} from '../components/OrderDialog.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface AccountInfo {
   cc_info: string;
@@ -26,6 +28,9 @@ const Checkout: React.FC = () => {
   const [noCard, setNoCard] = useState(false);
   const [isEditCC, setIsEditCC] = useState(false);
   const [isEditAddress, setIsEditAddress] = useState(false);
+  const showOrderDialog = useOrderDialog();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     // Fetch account data
@@ -147,7 +152,10 @@ const Checkout: React.FC = () => {
           },
         }
       );
-      alert(response.data.message || "Order placed successfully!");
+      await showOrderDialog();
+      navigate('/order-history');
+
+      // alert(response.data.message || "Order placed successfully!");
     } catch (error: any) {
       console.error("Error placing order:", error);
       alert(
@@ -156,8 +164,7 @@ const Checkout: React.FC = () => {
     }
   }
 
-  const fieldStyle =
-    "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
+  const fieldStyle = "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
   const labelDivStyle = "mb-4 w-full";
 
   return (
