@@ -1,4 +1,4 @@
-from mongoengine import *
+from mongoengine import Document, StringField, FloatField, IntField, EmbeddedDocument, ReferenceField, ListField, EmbeddedDocumentField, DateTimeField, BooleanField
 from cryptography.fernet import Fernet
 
 
