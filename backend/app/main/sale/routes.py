@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from datetime import datetime, timedelta
+import datetime
 import jwt
 from . import sale
 import bcrypt
@@ -127,7 +128,7 @@ def make_sale():
     user = get_referenced_user(payload)
     try:
         sale = Sale(
-            date=datetime.date.today(),
+            date=datetime.datetime.now(),
             user=user,
             total_price=user.cart_total,
             purchases=user.cart_items,
@@ -135,7 +136,8 @@ def make_sale():
         )
         sale.save()
         # clear a user's cart after a order
-        # user.cart_items = []
+        user.cart_items = []
+        user.update_cart_total()
         return jsonify({"message": "sale recorded"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

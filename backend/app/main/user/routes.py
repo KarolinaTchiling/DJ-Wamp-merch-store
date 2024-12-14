@@ -145,6 +145,26 @@ def edit_user():
     except Exception as e:
         return jsonify({"error updating user data": str(e)}), 500
 
+@user.route("/address", methods=["PATCH"])
+# @user_required
+def update_address():
+    data = request.json
+    token = request.headers.get("Authorization")
+    payload = get_user_from_token(token)
+    user = User.objects(email=payload["email"]).first()
+    try:
+        # Update the user's address fields
+        user.street = data.get("street", user.street)
+        user.city = data.get("city", user.city)
+        user.province = data.get("province", user.province)
+        user.postal_code = data.get("postal_code", user.postal_code)
+
+        # Save changes
+        user.save()
+        return jsonify({"message": "Shipping address updated successfully"}), 201
+    except Exception as e:
+        return jsonify({"error updating shipping address": str(e)}), 500
+
 
 @user.route("/<user_id>", methods=["PATCH"])
 @admin_required

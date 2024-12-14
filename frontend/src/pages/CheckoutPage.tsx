@@ -4,11 +4,15 @@ import { useCartContext } from '../cart/CartContext.tsx'; // Updated CartContext
 import Button from '../components/Button.tsx';
 import { Link } from 'react-router-dom';
 import Checkout from '../components/Checkout.tsx';
+import CheckoutGuest from '../components/CheckoutGuest.tsx';
+import { useTokenContext } from "../components/TokenContext";
 
 
-const CartPage: React.FC = () => {
+const CheckoutPage: React.FC = () => {
     const navigate = useNavigate();
     const { cartItems, cartTotal } = useCartContext();
+    const {token} =useTokenContext();
+    const isSignedIn = Boolean(token);
 
     const handleReturnToShopping = () => {navigate('/');};  // go to merch page
 
@@ -27,7 +31,7 @@ const CartPage: React.FC = () => {
         <div className="flex flex-row mt pl-4 mx-0 h-[calc(100vh-200px)]">
 
             {/* Product */}
-            <div className="basis-[45%] flex flex-row pr-[70px] border-r border-r-camel">
+            <div className="basis-[50%] flex flex-row pr-[70px] border-r border-r-camel">
             
 
                 {/* Product Info */}
@@ -115,9 +119,10 @@ const CartPage: React.FC = () => {
             </div>
 
             {/* You may also like */}
-            <div className="basis-[55%] pt-10 pl-20 pr-20 mr-10">
-                <Checkout/>
+            <div className="basis-[50%] pt-10 pl-20 pr-20 mr-10">
+                {isSignedIn ? <Checkout /> : <CheckoutGuest />}
             </div>
+            
         </div>
 
         </div>
@@ -126,7 +131,7 @@ const CartPage: React.FC = () => {
     );
 };
 
-export default CartPage;
+export default CheckoutPage;
 
 
 
