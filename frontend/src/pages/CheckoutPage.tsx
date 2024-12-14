@@ -5,6 +5,7 @@ import Button from '../components/Button.tsx';
 import { Link } from 'react-router-dom';
 import Checkout from '../components/Checkout.tsx';
 import CheckoutGuest from '../components/CheckoutGuest.tsx';
+import OrderDialog from '../components/OrderDialog.tsx';
 import { useTokenContext } from "../components/TokenContext";
 
 
@@ -122,7 +123,8 @@ const CheckoutPage: React.FC = () => {
             <div className="basis-[50%] pt-10 pl-20 pr-20 mr-10">
                 {isSignedIn ? <Checkout /> : <CheckoutGuest />}
             </div>
-            
+
+    
         </div>
 
         </div>
