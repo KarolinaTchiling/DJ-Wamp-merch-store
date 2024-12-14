@@ -3,11 +3,10 @@ from flask import jsonify, request
 
 from app.auth.session import (
     get_user_from_token,
-    user_required,
     get_referenced_user,
     user_or_admin_required,
 )
-from app.models import CartItem, Product, User
+from app.models import CartItem, Product
 
 from mongoengine import DoesNotExist
 from . import cart
