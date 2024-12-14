@@ -6,7 +6,7 @@ import { useTokenContext } from './TokenContext.tsx'; // Adjust the path as need
 const ProfileDropdown: React.FC = () => {
     const {token, removeToken} =useTokenContext();
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const checkLoggedIn = !(!token && token !== "");
+    const checkLoggedIn = Boolean(token);
 
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
     const closeDropdown = () => setDropdownOpen(false); // Function to close dropdown
