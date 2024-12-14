@@ -31,6 +31,7 @@ const LogInPage: React.FC = () => {
             setToken(response.data.token);
             setUserType("user");
             await handleCartMergeOnLogin();
+            window.location.href = '/account-settings';
         }).catch((error) => {
             if (error.response) {
                 console.log(error.response);
