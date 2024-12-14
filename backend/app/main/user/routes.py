@@ -76,7 +76,6 @@ def get_users():
         if postal_code:
             query &= Q(postal_code__icontains=postal_code)
 
-
         users = User.objects(query)
         # sort results
         sort_order = 1 if order == "asc" else -1
@@ -128,7 +127,6 @@ def edit_user():
 @user.route("/<user_id>", methods=["PATCH"])
 @admin_required
 def admin_edit_user(user_id):
-
     data = request.json
     try:
         u = User.objects.get(id=user_id)
