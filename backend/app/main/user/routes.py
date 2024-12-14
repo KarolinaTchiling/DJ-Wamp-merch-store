@@ -13,7 +13,6 @@ from app.auth.session import (
     user_or_admin_required,
     get_referenced_user,
 )
-from mongoengine import Q
 from cryptography.fernet import Fernet
 
 
@@ -128,7 +127,6 @@ def edit_user():
 @user.route("/<user_id>", methods=["PATCH"])
 @admin_required
 def admin_edit_user(user_id):
-
     data = request.json
     try:
         u = User.objects.get(id=user_id)
