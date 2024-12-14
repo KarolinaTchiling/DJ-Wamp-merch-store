@@ -153,6 +153,7 @@ const Checkout: React.FC = () => {
         }
       );
       await showOrderDialog();
+      window.location.href = '/order-history';
       navigate('/order-history');
 
       // alert(response.data.message || "Order placed successfully!");
