@@ -26,6 +26,7 @@ const Navbar: React.FC<Prop> = (prop) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
+    console.log('Search term:', value);
     prop.onSearch(value);
   };
   return (
@@ -63,7 +64,7 @@ const Navbar: React.FC<Prop> = (prop) => {
         </li>
 
         {/* Search Bar */}
-        <li className="basis-[20%] flex items-center space-x-2 pl-[30px]">
+        <li className="basis-[20%] flex items-center text-black space-x-2 pl-[30px]">
           <span>Search</span>
           <input
             type="text"
