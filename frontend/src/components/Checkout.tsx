@@ -352,10 +352,10 @@ const Checkout: React.FC = () => {
       </div>
   
       {/* Button Outside Scrollable Section */}
-      <div className="mt-6">
+      <div className="mt-2">
         <Button
           onClick={placeOrder}
-          className="w-full py-2 bg-tea text-coffee rounded"
+          className="w-full py-2 bg-tea text-coffee"
         >
           Place Order
         </Button>

@@ -125,10 +125,17 @@ const CheckoutGuest: React.FC = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <p className="-mt-5 text-2xl pb-8">Make an Account to Checkout</p>
+        <p className="-mt-5 text-2xl pb-5">Make an Account to Checkout</p>
 
         {/* Scrollable Form Section */}
         <div className="overflow-y-auto h-[calc(100vh-380px)] scrollbar-hidden">
+
+          <div className="flex flex-row align-items-center justify-between pb-10">
+            <p className="text-xl">Already have Account?</p>
+            <Button className="m-0 px-10"
+            onClick={() => navigate('/login')}> Sign In</Button>
+          </div>
+
           <div className="grid gap-8">
             {/* First-Time User Fields */}
             <div className="grid grid-cols-2 gap-4">
@@ -273,9 +280,9 @@ const CheckoutGuest: React.FC = () => {
         <div className="mt-6">
           <Button
             type="submit"
-            className="w-full py-2 bg-tea text-coffee rounded"
+            className="w-full py-2 bg-tea text-coffee"
           >
-            Sign Up and Place Order
+            Place Order
           </Button>
         </div>
       </form>
