@@ -94,12 +94,24 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
                     <span className="font-bold">{item.name}</span>
                 </Link>
                 <div className="ml-3 flex flex-col text-sm">
-                    <QuantityControl
+
+                     <QuantityControl
+                        quantity={item.quantity}
+                        setQuantity={(newQuantity) => {
+                            // Ensure the quantity does not exceed the available stock
+                            if (newQuantity <= product.quantity) {
+                                handleQuantityChange(item.product_id, newQuantity);
+                            } else {
+                                handleQuantityChange(item.product_id, product.quantity); // Limit to max stock
+                            }
+                        }}
+                    />
+                    {/* <QuantityControl
                         quantity={item.quantity}
                         setQuantity={(newQuantity) =>
                             handleQuantityChange(item.product_id, newQuantity)
                         }
-                    />
+                    /> */}
 
                         <div className="mr-6 flex items-center justify-between flex-row">
                             <div>Price: ${item.price.toFixed(2)}</div>

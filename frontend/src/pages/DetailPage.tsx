@@ -99,7 +99,14 @@ const DetailPage: React.FC = () => {
                             <p className="pt-3 pb-5">In stock: {product.quantity}</p>
                             <QuantityControl
                                 quantity={selectedQuantity}
-                                setQuantity={setSelectedQuantity}
+                                setQuantity={(newQuantity) => {
+                                    // Ensure the quantity does not exceed the available stock
+                                    if (newQuantity <= product.quantity) {
+                                        setSelectedQuantity(newQuantity);
+                                    } else {
+                                        setSelectedQuantity(product.quantity); // Limit to max stock
+                                    }
+                                }}
                             />
                             <div className="relative">
                                 <Button onClick={handleAddToCartWrapper}>Add to Cart</Button>
