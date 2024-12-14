@@ -95,7 +95,6 @@ def get_users():
         if postal_code:
             query &= Q(postal_code__icontains=postal_code)
 
-
         users = User.objects(query)
         # sort results
         sort_order = 1 if order == "asc" else -1
