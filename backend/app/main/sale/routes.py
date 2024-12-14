@@ -1,5 +1,8 @@
 from flask import request, jsonify
 from datetime import datetime, timedelta
+import datetime
+import jwt
+
 from . import sale
 from app.models import Product, Sale, User
 from mongoengine import Q
@@ -123,17 +126,36 @@ def make_sale():
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
+
     try:
+        # Validate stock for all items in the cart
+        for item in user.cart_items:
+            product = item.product_id  # Directly get the referenced Product object
+            if product.quantity < item.quantity:
+                return jsonify({"error": f"Insufficient stock for product {product.name}"}), 400
+
+        # Deduct stock and create sale
+        for item in user.cart_items:
+            product = item.product_id  # Directly get the referenced Product object
+            product.quantity -= item.quantity
+            product.save()
+
+        # Create the sale record
         sale = Sale(
-            date=datetime.date.today(),
+            date=datetime.datetime.now(),
             user=user,
             total_price=user.cart_total,
             purchases=user.cart_items,
             approved=True,
         )
         sale.save()
-        # clear a user's cart after a order
-        # user.cart_items = []
-        return jsonify({"message": "sale recorded"}), 201
+
+        # Clear the user's cart after order
+        user.cart_items = []
+        user.update_cart_total()
+
+        return jsonify({"message": "Sale recorded and stock updated"}), 201
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+

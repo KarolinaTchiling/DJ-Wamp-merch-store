@@ -13,6 +13,10 @@ const OrderHistory: React.FC = () => {
             method: "get",
             baseURL: "http://localhost:5000",
             url: `/sale/orders`,
+            params: {
+                sort_by: "date", // Specify the field to sort by
+                order: "desc",   // Specify the sort order ('asc' or 'desc')
+            },
         }).then((response: axios.AxiosResponse) => {
             setOrders(response.data.sales);
             console.log(`user email ${orders[0].user.email}`);

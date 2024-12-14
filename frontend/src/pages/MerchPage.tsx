@@ -80,7 +80,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     } finally {
       setLoading(false);
     }
-    // console.log("Query params:", queryParams);
+    console.log("Query params:", queryParams);
   }, [searchQuery, sortBy, order, categoryFilter, albumFilter, priceRange]);
 
   useEffect(() => {
@@ -146,7 +146,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
     setSearchParams(newSearchParams);
   };
 
-  if (loading) return <p>Loading..</p>;
+  if (loading) return <p></p>;
   if (error)
     return (
       <div className="text-center">
@@ -179,7 +179,7 @@ const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
       <div className="flex-grow ml-[45px] mr-[200px]">
         <div className="text-xl"  style={{fontFamily: "'Lexend Zetta', sans-serif"}}>MERCH STORE - {currentCategory} </div>
 
-        <div className="flex justify-between items-center pt-2 py-5">
+        <div className="flex justify-between items-center pt-6 pb-2">
           <div>Showing {products.length} products</div>
           <SortDropdown onSortChange={handleSortChange} selectedOption={selectedOption} />
         </div>

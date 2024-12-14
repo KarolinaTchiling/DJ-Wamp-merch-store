@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useLocation } from 'react-router-dom'; 
 import ProfileDropdown from './ProfileDropdown';
 import CartDropdown from './CartDropdown';
 import Logo from "./Logo.tsx";
@@ -22,10 +22,14 @@ interface Prop{
 
 const Navbar: React.FC<Prop> = (prop) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const location = useLocation();
+
+  const isSearchEnabled = location.pathname === '/catalog/products';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
+    console.log('Search term:', value);
     prop.onSearch(value);
   };
   return (
@@ -63,13 +67,15 @@ const Navbar: React.FC<Prop> = (prop) => {
         </li>
 
         {/* Search Bar */}
-        <li className="basis-[20%] flex items-center space-x-2 pl-[30px]">
+        <li className="basis-[20%] flex items-center text-black space-x-2 pl-[30px]">
           <span>Search</span>
           <input
             type="text"
-            className="border border-camel bg-transparent p-1 flex-grow w-full"
+            className="border border-camel bg-transparent p-1 flex-grow w-full text-black placeholder-coffee"
             value={searchTerm}
             onChange={handleInputChange}
+            disabled={!isSearchEnabled} // Disable input if not on the allowed page
+            placeholder={!isSearchEnabled ? 'Search disabled on this page' : 'Product Name'}
           />
         </li>
       </ul>

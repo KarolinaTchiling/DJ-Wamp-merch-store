@@ -14,7 +14,8 @@ const DetailPage: React.FC = () => {
     const [product, setProduct] = useState<Product | null>(location.state as Product);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1); // Default to 1
     const [popupVisible, setPopupVisible] = useState(false); // Controls visibility
-    const { handleAddToCart } = useCartContext();
+    const { handleAddToCart , cartItems} = useCartContext();
+    const cartItem = cartItems.find((item) => item.product_id === product.id) || { quantity: 0 };
 
     useEffect(() => {
         // Reset product and fetch new data when route changes
@@ -42,6 +43,7 @@ const DetailPage: React.FC = () => {
     const handleAddToCartWrapper = async () => {
         try {
             await handleAddToCart(product, selectedQuantity); // Add product to cart
+            setSelectedQuantity(1);
             setPopupVisible(true); // Show the popup
             setTimeout(() => setPopupVisible(false), 800); // Start fade out
         } catch (error) {
@@ -96,21 +98,40 @@ const DetailPage: React.FC = () => {
                             <h1 className="text-xl">{product.name}</h1>
                             <p className="pt-4">$ {product.price.toFixed(2)}</p>
                             <p className="pt-4 text-sm">{product.description}</p>
-                            <p className="pt-3 pb-5">In stock: {product.quantity}</p>
+                            <p className="pt-3 pb-5"> In stock: {product.quantity - (cartItem?.quantity || 0)}</p>
                             <QuantityControl
                                 quantity={selectedQuantity}
-                                setQuantity={setSelectedQuantity}
+                                setQuantity={(newQuantity) => {
+                                    // Ensure the quantity does not exceed the available stock
+                                    if (newQuantity <= product.quantity - (cartItem?.quantity || 0)) {
+                                        setSelectedQuantity(newQuantity);
+                                    } else {
+                                        setSelectedQuantity((product.quantity - (cartItem?.quantity || 0))); // Limit to max stock
+                                    }
+                                }}
                             />
                             <div className="relative">
-                                <Button onClick={handleAddToCartWrapper}>Add to Cart</Button>
-                                {/* Popup Notification with Fade-Out */}
+                                <Button
+                                    onClick={() => {
+                                        if (product.quantity - (cartItem?.quantity || 0) > 0) {
+                                            handleAddToCartWrapper();
+                                        }
+                                    }}
+                                    disabled={product.quantity - (cartItem?.quantity || 0) === 0} // Disable button when quantity is 0
+                                    className={`${
+                                        product.quantity - (cartItem?.quantity || 0) === 0 ? 'opacity-50 cursor-not-allowed hover:bg-cream hover:text-black' : ''
+                                    }`}
+                                >
+                                    Add to Cart
+                                </Button>
+                                {/* Popup Notification */}
                                 <div
                                     className={`absolute -top-3 -left-7 text-coffee px-3 py-1 transition-opacity duration-500 ${
                                         popupVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
                                     }`}
-                                > ✨Wamptastic✨
+                                >
+                                    {product.quantity - (cartItem?.quantity || 0) === 0 ? '' : '✨Wamptastic✨'}
                                 </div>
-                                
                             </div>
                         </div>
                         

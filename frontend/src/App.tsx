@@ -11,6 +11,7 @@ import MerchPage from "./pages/MerchPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import Footer from "./components/Footer.tsx";
 import CartPage from "./pages/CartPage.tsx";
+import CheckoutPage from "./pages/CheckoutPage.tsx";
 import RouteNotFound from "./pages/RouteNotFound.tsx";
 import AdminSidebar from "./components/Admin/Admin-Sidebar.tsx";
 
@@ -54,13 +55,13 @@ const App: React.FC = () => {
         console.log("user type", userType);
         return (
             <div>
-                <Navbar onSearch={handleSearch}/>
                 <Outlet />
             </div>
         )};
     return (
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
+                <Navbar onSearch={handleSearch}/>
                 <Routes>
                 <Route path='/' element={<UserLayout />}>
                     <Route index element={<Navigate to="/catalog/products" replace />} />
@@ -68,6 +69,7 @@ const App: React.FC = () => {
                     <Route path="/catalog/products" element={<MerchPage searchQuery={searchQuery}/>} />
                     <Route path="/catalog/products/:name" element={<DetailPage />} />
                     <Route path="/cart" element={<CartPage />} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
 
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="*" element={<RouteNotFound url={"/"} label={"Back to Home"}/>} />
