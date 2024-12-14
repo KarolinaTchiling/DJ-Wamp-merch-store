@@ -15,7 +15,7 @@ const DetailPage: React.FC = () => {
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1); // Default to 1
     const [popupVisible, setPopupVisible] = useState(false); // Controls visibility
     const { handleAddToCart , cartItems} = useCartContext();
-    const cartItem = cartItems.find((item) => item.product_id === product.id);
+    const cartItem = cartItems.find((item) => item.product_id === product.id) || { quantity: 0 };
 
     useEffect(() => {
         // Reset product and fetch new data when route changes
