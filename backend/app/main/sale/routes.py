@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for, request, jsonify
+from flask import request, jsonify
 from datetime import datetime, timedelta
 import datetime
 import jwt
+
 from . import sale
-import bcrypt
 from app.models import Product, Sale, User
 from mongoengine import Q
 from ...auth.session import (

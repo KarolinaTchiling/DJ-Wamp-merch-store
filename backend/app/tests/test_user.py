@@ -1,12 +1,4 @@
-import pytest
-import mongomock
-from mongomock import MongoClient
-from flask import json
-from mongoengine import connect, disconnect
-from mongoengine import Document, StringField
-from app import create_app
 from ..models import *
-from ..auth.session import get_user_from_token
 
 
 # USER

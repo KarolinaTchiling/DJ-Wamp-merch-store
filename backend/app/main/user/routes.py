@@ -1,11 +1,9 @@
-from flask import render_template, redirect, url_for, request, jsonify
-import datetime
-import jwt
+from flask import request, jsonify
 from . import user
 from mongoengine import Q
 import bcrypt
 from ...auth.session import generate_token
-from app.models import User, Product
+from app.models import User
 from app.auth.session import (
     get_user_from_token,
     admin_required,
