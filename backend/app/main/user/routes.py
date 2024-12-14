@@ -37,6 +37,28 @@ def add_cc():
     except Exception as e:
         return jsonify({"error adding credit card to user": str(e)}), 500
 
+@user.route("/cc", methods=["GET"])
+@user_required
+def get_decoded_cc():
+    # Extract the user's token and fetch their information
+    token = request.headers.get("Authorization")
+    payload = get_user_from_token(token)
+    user = User.objects(email=payload["email"]).first()
+    
+    if not user or not user.cc_info or not user.decryption_key:
+        return jsonify({"error": "Credit card information not found"}), 404
+
+    try:
+        # Decrypt the credit card information
+        encrypted_card = user.cc_info
+        decryption_key = user.decryption_key
+        cipher = Fernet(decryption_key.encode("utf-8"))
+        decrypted_card = cipher.decrypt(encrypted_card.encode("utf-8")).decode("utf-8")
+        
+        return jsonify({"cc_info": decrypted_card}), 200
+    except Exception as e:
+        return jsonify({"error": f"Unable to decode card: {str(e)}"}), 500
+
 
 @user.route("/users", methods=["GET"])
 @admin_required
