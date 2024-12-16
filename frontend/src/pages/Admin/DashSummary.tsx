@@ -35,62 +35,31 @@ const Dashboard: React.FC = () => {
             {count:users.length, name: 'Total Users', href: '/admin/users' },
             {count:products.length, name: 'Total Inventory', href: '/admin/inventory' }]);
 
-    function getGlance(){
-        /*
-        * Get # of sales/orders
-        * */
-        axios({
-            method: "get",
-            baseURL: "http://localhost:5000",
-            url: "/sale/history",
-        }).then((response) => {
-            setOrders(response.data.sales);
-        }).catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+            function getGlance() {
+                axios.get("http://localhost:5000/sale/history")
+                    .then((response) => setOrders(response.data.sales))
+                    .catch(console.error);
+            
+                axios.get("http://localhost:5000/user/users")
+                    .then((response) => setUsers(response.data.users))
+                    .catch(console.error);
+            
+                axios.get("http://localhost:5000/catalog/products")
+                    .then((response) => {
+                        setProducts(response.data.products);
+            
+                        // Set glance state after all data is loaded
+                        setGlanceState([
+                            { count: response.data.products.length, name: 'Total Inventory', href: '/admin/inventory' },
+                            { count: users.length, name: 'Total Users', href: '/admin/users' },
+                            { count: orders.length, name: 'Total Orders', href: '/admin/orders' },
+                        ]);
+                    })
+                    .catch(console.error);
             }
-        })
-        /*
-        * Get # of users
-        * */
-        axios({
-            method: "get",
-            baseURL: "http://localhost:5000",
-            url: "/user/users",
-        }).then((response) => {
-            setUsers(response.data.users);
-        }).catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
-        })
-        /*
-        * Get # of products
-        * */
-        axios({
-            method: "get",
-            baseURL: "http://localhost:5000",
-            url: "/catalog/products",
-        }).then((response) => {
-            setProducts(response.data.products);
-        }).catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
-        })
-        setGlanceState(
-            [{count:orders.length, name: 'Total Orders', href: '/admin/orders' },
-                {count:users.length, name: 'Total Users', href: '/admin/users' },
-                {count:products.length, name: 'Total Inventory', href: '/admin/inventory' }]
-        )
-    }
-    useEffect(()=>{getGlance()},[orders,users,products]);
+    useEffect(() => {
+        getGlance();
+    }, []); // Only run once when the component mounts
 
     return (
         <div className={"flex flex-col w-full"}>
