@@ -166,6 +166,10 @@ const Orders: React.FC = () => {
         }
     }, [currentPage]);
 
+    useEffect(() => {
+        getOrders();
+    }, []);
+
     function editOrder(event: React.FormEvent) {
         // handle sending info to flask once the form is submitted
         if(order.id) {
