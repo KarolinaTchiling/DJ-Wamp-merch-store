@@ -55,13 +55,14 @@ const App: React.FC = () => {
         console.log("user type", userType);
         return (
             <div>
+                <Navbar onSearch={handleSearch}/>
                 <Outlet />
             </div>
         )};
     return (
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
-                <Navbar onSearch={handleSearch}/>
+                {/* <Navbar onSearch={handleSearch}/> */}
                 <Routes>
                 <Route path='/' element={<UserLayout />}>
                     <Route index element={<Navigate to="/catalog/products" replace />} />

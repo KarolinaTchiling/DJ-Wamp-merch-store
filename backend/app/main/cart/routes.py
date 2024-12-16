@@ -20,21 +20,40 @@ def get_cart():
     # get user from token
     user = get_referenced_user(payload)
 
+    # Initialize the cart items and the updated cart list
     cart_items = []
+    updated_cart_items = []  # Ensure this is defined before usage
 
     for item in user.cart_items:
-        product = Product.objects.get(id=item.product_id.id)
-        cart_items.append(
-            {
-                "product_id": str(product.id),
-                "name": product.name,
-                "price": product.price,
-                "total_price": product.price * item.quantity,
-                "quantity": item.quantity,
-                "image_url": product.image_url,
-            }
-        )
-    return jsonify({"items": cart_items, "cart_total": user.cart_total}), 200
+        try:
+            # Get the product and ensure it's not deleted
+            product = Product.objects.get(id=item.product_id.id, is_deleted=False)
+            
+            # Add valid cart item to the response and updated cart
+            cart_items.append(
+                {
+                    "product_id": str(product.id),
+                    "name": product.name,
+                    "price": product.price,
+                    "total_price": product.price * item.quantity,
+                    "quantity": item.quantity,
+                    "image_url": product.image_url,
+                }
+            )
+            updated_cart_items.append(item)
+        except Product.DoesNotExist:
+            # Skip items with deleted products
+            continue
+
+    # Recalculate the cart total
+    cart_total = sum(item["total_price"] for item in cart_items)
+
+    # Update the user's cart and cart_total if any changes occurred
+    if len(updated_cart_items) != len(user.cart_items) or user.cart_total != cart_total:
+        user.update(set__cart_items=updated_cart_items, set__cart_total=cart_total)
+        user.reload()  # Reload user to reflect the updated cart and total
+
+    return jsonify({"items": cart_items, "cart_total": cart_total}), 200
 
 
 @cart.route("/", methods=["POST"])
