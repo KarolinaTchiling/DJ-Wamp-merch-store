@@ -17,12 +17,22 @@ def sync_user_cart(user):
         try:
             # Check if the product exists and is not deleted
             product = Product.objects.get(id=item.product_id.id, is_deleted=False)
-            updated_cart_items.append(item)
+
+            # Adjust quantity if it exceeds available stock
+            if item.quantity > product.quantity:
+                item.quantity = product.quantity  # Set to maximum allowable stock
+
+            # Only add items with valid quantities
+            if item.quantity > 0:
+                updated_cart_items.append(item)
         except Product.DoesNotExist:
             continue
 
     # Update the user's cart if necessary
-    if len(updated_cart_items) != len(user.cart_items):
+    if len(updated_cart_items) != len(user.cart_items) or any(
+        item.quantity != old_item.quantity
+        for item, old_item in zip(updated_cart_items, user.cart_items)
+    ):
         user.update(
             set__cart_items=updated_cart_items,
             set__cart_total=sum(
