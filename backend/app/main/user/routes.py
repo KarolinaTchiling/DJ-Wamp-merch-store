@@ -12,6 +12,7 @@ from app.auth.session import (
     get_referenced_user,
 )
 from cryptography.fernet import Fernet
+from app.main.cart.routes import  sync_user_cart
 
 
 # card data send in "xxxxxxxxxxxxxxxx-xxxx-xxx" (16 nums, exp(mmyy),cvv), one string
@@ -100,6 +101,10 @@ def get_users():
         sort_order = 1 if order == "asc" else -1
         users = users.order_by(f"{'-' if sort_order == -1 else ''}{sort_by}")
 
+        # Synchronize carts for all users
+        for user in users:
+            sync_user_cart(user)
+
         users_json = []
         print("formatting users")
         for u in users:
@@ -116,6 +121,10 @@ def get_user():
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
+
+    # Synchronize the user's cart
+    sync_user_cart(user)
+
     try:
         print("user routes.py: get user passed")
         return jsonify({"user": user.json_formatted()}), 201
@@ -131,6 +140,10 @@ def edit_user():
     token = request.headers.get("Authorization")
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
+
+    # Sync cart to remove deleted products
+    sync_user_cart(user)
+
     try:
         for key, value in data.items():
             if hasattr(user, key):
@@ -173,6 +186,10 @@ def admin_edit_user(user_id):
             if hasattr(u, key):
                 setattr(u, key, value)
         u.save()
+
+        # Sync cart to remove deleted products
+        sync_user_cart(u)
+
         return jsonify({"message": "updated u"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
