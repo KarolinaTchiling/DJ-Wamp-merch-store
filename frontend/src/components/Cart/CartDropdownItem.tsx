@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useCartContext } from '../cart/CartContext';
-import QuantityControl from '../components/QuantityControl.tsx';
+import { useCartContext } from '../../cart/CartContext.tsx';
+import QuantityControl from './QuantityControl.tsx';
 import { Link } from 'react-router-dom';
-import Button from '../components/Button.tsx';
-import { CartItem } from "../types.ts";
+import Button from '../Button.tsx';
+import { CartItem } from "../../types.ts";
 
 interface CartDropdownItemProps {
     item: CartItem; 

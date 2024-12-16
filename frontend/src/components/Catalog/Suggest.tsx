@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import CatalogProduct from "../components/CatalogProduct";
-import { Product } from '../types'; 
+import CatalogProduct from "./CatalogProduct";
+import { Product } from '../../types'; 
 import axios from "axios";
 
 interface SuggestProps {

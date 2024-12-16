@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useForm, FormProvider} from "react-hook-form";
-import AccountSidebar from "../components/AccountSidebar.tsx";
+import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
 import axios from "axios";
 import {User} from "../types.ts";
 import Button from "../components/Button.tsx";

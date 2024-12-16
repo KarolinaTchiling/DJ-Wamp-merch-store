@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import Sidebar from "../components/Sidebar"; 
-import CatalogProduct from "../components/CatalogProduct";
-import SortDropdown from "../components/SortDropdown";
+import Sidebar from "../components/Sidebars/Sidebar"; 
+import CatalogProduct from "../components/Catalog/CatalogProduct";
+import SortDropdown from "../components/Catalog/SortDropdown";
 import Button from "../components/Button";
 import axios from "axios";
 import { Product } from "../types";

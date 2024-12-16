@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
-import ProfileDropdown from './ProfileDropdown';
-import CartDropdown from './CartDropdown';
+import ProfileDropdown from './ProfileDropdown.tsx';
+import CartDropdown from './Cart/CartDropdown.tsx';
 import Logo from "./Logo.tsx";
 
 // Define a type for the navigation links

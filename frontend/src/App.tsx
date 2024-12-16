@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar.tsx';
 import TestPage from './pages/TestPage';
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";

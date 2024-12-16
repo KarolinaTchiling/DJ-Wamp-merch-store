@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "../components/Button.tsx";
-import {useOrderDialog} from '../components/OrderDialog.tsx';
+import Button from "../Button.tsx";
+import {useOrderDialog} from './OrderDialog.tsx';
 import { useNavigate } from 'react-router-dom';
 
 interface AccountInfo {

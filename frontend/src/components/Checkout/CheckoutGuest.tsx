@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Button from "../components/Button.tsx";
-import { useCartContext } from "../cart/CartContext";
-import { useTokenContext } from "../components/TokenContext";
-import {useOrderDialog} from '../components/OrderDialog.tsx';
+import Button from "../Button.tsx";
+import { useCartContext } from "../../cart/CartContext.tsx";
+import { useTokenContext } from "../TokenContext.tsx";
+import {useOrderDialog} from './OrderDialog.tsx';
 import { useNavigate } from 'react-router-dom';
 
 interface AccountInfo {

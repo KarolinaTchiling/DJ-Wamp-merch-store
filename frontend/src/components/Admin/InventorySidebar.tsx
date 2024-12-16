@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import MinimumDistanceSlider from "../MinimumDistanceSlider";
+import MinimumDistanceSlider from "../Sidebars/MinimumDistanceSlider";
 
 interface SidebarProps {
   selectedCategory: string;

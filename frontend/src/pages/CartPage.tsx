@@ -1,9 +1,9 @@
-import Suggest from '../components/Suggest.tsx';
+import Suggest from '../components/Catalog/Suggest.tsx';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../cart/CartContext'; // Updated CartContext import
 import Button from '../components/Button.tsx';
-import QuantityControl from '../components/QuantityControl.tsx';
+import QuantityControl from '../components/Cart/QuantityControl.tsx';
 
 
 

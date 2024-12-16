@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import AccountSidebar from "../components/AccountSidebar.tsx";
+import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
 import OrderBlock from "../components/OrderBlock.tsx";
 import {Order} from "../types.ts";
 import axios from "axios";
