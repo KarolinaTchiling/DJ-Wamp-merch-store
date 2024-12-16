@@ -19,7 +19,7 @@ def get_products():
         order = request.args.get("order", "asc")
 
         # build query
-        query = Q()
+        query = Q(is_deleted=False)
         if category:
             category_list = category.split(",")
             query &= Q(category__in=category_list)  # OR logic
@@ -99,7 +99,7 @@ def edit_product(product_id):
 def delete_product(product_id):
     try:
         product = Product.objects.get(id=product_id)
-        product.delete()
+        product.update(set__is_deleted=True)
         return jsonify({"message": "product deleted"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
