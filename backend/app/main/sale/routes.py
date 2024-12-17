@@ -121,6 +121,23 @@ def get_sale(sale_id):
         return jsonify({"error": str(e)}), 500
 
 
+@sale.route("/<sale_id>/toggle-approval", methods=["PATCH"])
+@admin_required
+def toggle_sale_approval(sale_id):
+    try:
+        sale = Sale.objects.get(id=sale_id)
+        sale.approved = not sale.approved
+        sale.save()
+        return jsonify({
+            "message": "Approval status updated successfully",
+            "sale": sale.json_formatted()
+        }), 200
+    except Sale.DoesNotExist:
+        return jsonify({"error": "Sale not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @sale.route("/", methods=["POST"])
 @user_or_admin_required
 def make_sale():
