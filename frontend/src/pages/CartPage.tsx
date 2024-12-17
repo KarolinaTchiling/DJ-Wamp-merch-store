@@ -1,4 +1,5 @@
-import Suggest from '../components/Catalog/Suggest.tsx';
+// import Suggest from '../components/Catalog/Suggest.tsx';
+import SuggestBest from '../components/Checkout/BestSeller.tsx';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../cart/CartContext'; // Updated CartContext import
@@ -180,7 +181,7 @@ const CartPage: React.FC = () => {
 
             {/* You may also like */}
             <div className="basis-[43%] pr-20 mr-10">
-                <Suggest currentCategory={"Apparel"} currentProduct={"67292a21c56a15390bcec035"} columns={2} />
+                <SuggestBest columns={2} />
             </div>
         </div>
     );

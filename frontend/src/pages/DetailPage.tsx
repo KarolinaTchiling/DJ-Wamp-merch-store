@@ -65,7 +65,7 @@ const DetailPage: React.FC = () => {
             setSelectedQuantity(1); // Keep it as 1 but disable the controls
         }
     }, [product.quantity]);
-    
+
     return (
         <>
             {/* Breadcrumb */}
@@ -174,7 +174,7 @@ const DetailPage: React.FC = () => {
                 </div>
 
                 {/* You may also like */}
-                <div className="basis-[25%]">
+                <div className="basis-[25%] -mt-4">
                     <Suggest currentCategory={product.category} currentProduct={product.id} columns={1} />
                 </div>
             </div>

@@ -56,17 +56,9 @@ const CheckoutGuest: React.FC = () => {
     const { fname, lname, email, password, card, expiry, cvv, street, city, province, postal } = data;
     const formattedCard = `${card}-${expiry}-${cvv}`;
 
-  
-    // // Step 1: Validate Credit Card Format Locally
-    // const cardRegex = /^\d{16}-\d{4}-\d{3}$/; // 16 digits, 4 digits, 3 digits
-    // if (!cardRegex.test(formattedCard)) {
-    //   alert("Invalid credit card format. Ensure it's 16 digits, followed by expiry (4 digits), and CVV (3 digits).");
-    //   return;
-    // }
-  
     try {
 
-      // Step 2: Submit user creation form
+      // Step 1: Submit user creation form
       await axios.post("http://127.0.0.1:5000/signup", {
         fname,
         lname,
@@ -79,13 +71,13 @@ const CheckoutGuest: React.FC = () => {
         postal,
       });
   
-      // Step 3: Automatically log in
+      // Step 2: Automatically log in
       const loginResponse = await axios.post("http://127.0.0.1:5000/login", { email, password });
       const token = loginResponse.data.token;
       setToken(token);
       setUserType("user");
   
-      // Step 4: Submit credit card details
+      // Step 3: Submit credit card details
       await axios.patch(
         "http://127.0.0.1:5000/user/cc",
         { cc_info: formattedCard },
@@ -94,10 +86,10 @@ const CheckoutGuest: React.FC = () => {
   
       console.log("Credit Card Saved Successfully");
   
-      // Step 5: Merge cart
+      // Step 4: Merge cart
       await handleCartMergeOnLogin();
   
-      // Step 6: Place order
+      // Step 5: Place order
       await axios.post(
         "http://127.0.0.1:5000/sale/",
         {},
