@@ -51,7 +51,7 @@ const SuggestBest: React.FC<SuggestProps> = ({ columns = 4 }) => {
     fetchTopSellers();
   }, []); // Runs only on component mount
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p>""</p>;
   if (error) return <p>{error}</p>;
 
   return (
