@@ -128,7 +128,7 @@ const DetailPage: React.FC = () => {
                                         }
                                     }
                                 }}
-                                disabled={product.quantity === 0} // Disable if stock is 0
+                                disabled={selectedQuantity >= product.quantity - (cartItem?.quantity || 0)}  // Disable if stock is 0
                             />
 
                             <div className="relative">

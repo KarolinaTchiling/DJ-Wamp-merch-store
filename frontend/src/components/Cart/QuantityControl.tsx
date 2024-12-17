@@ -13,27 +13,26 @@ const QuantityControl: React.FC<QuantityControlProps> = ({ quantity, setQuantity
     };
 
     const decrement = () => {
-        if (!disabled && quantity > 1) setQuantity(quantity - 1); // Only decrement if not disabled and greater than 1
+        if (quantity > 1) setQuantity(quantity - 1); // Always decrement if quantity > 1
     };
 
     return (
         <div className="flex items-center space-x-4">
             {!hideLabel && <p>Quantity:</p>}
+            {/* Decrement Button - Never Disabled */}
             <button
                 onClick={decrement}
-                disabled={disabled}
-                className={`px-4 py-2 text-camel font-bold ${
-                    disabled ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+                className="px-4 py-2 text-camel font-bold"
             >
                 -
             </button>
             <span>{quantity}</span>
+            {/* Increment Button - Can Be Disabled */}
             <button
                 onClick={increment}
                 disabled={disabled}
-                className={`px-4 py-2 text-camel font-bold ${
-                    disabled ? 'opacity-50 cursor-not-allowed' : ''
+                className={`px-4 py-2 font-bold ${
+                    disabled ? 'text-red-500 cursor-not-allowed opacity-50' : 'text-camel'
                 }`}
             >
                 +
@@ -43,4 +42,5 @@ const QuantityControl: React.FC<QuantityControlProps> = ({ quantity, setQuantity
 };
 
 export default QuantityControl;
+
 

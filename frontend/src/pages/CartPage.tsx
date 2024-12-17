@@ -121,6 +121,7 @@ const CartPage: React.FC = () => {
                                                             }
                                                         }}
                                                         hideLabel={true}
+                                                        disabled={product && item.quantity >= product.quantity}
                                                     />
                                                     <Button
                                                         onClick={() => handleRemove(item.product_id)}
