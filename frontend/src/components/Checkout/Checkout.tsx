@@ -112,7 +112,7 @@ const Checkout: React.FC = () => {
       setIsEditCC(false);
       fetchAccountData();
     } catch {
-      alert("Failed to update payment information. Please try again.");
+      alert("Invalid Credit Card. Expected 'xxxxxxxxxxxxxxxx-mmyy-cvv'");
     }
   };
 
@@ -120,7 +120,7 @@ const Checkout: React.FC = () => {
   const editUserAddress = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await axios.patch(
+      const response = await axios.patch(
         "http://127.0.0.1:5000/user/address",
         {
           street: accountData.street,
@@ -130,11 +130,29 @@ const Checkout: React.FC = () => {
         },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      alert("Shipping Address Updated Successfully!");
+  
+      // Print and display success message
+      console.log("Server Response:", response.data);
+      alert(response.data.message || "Shipping Address Updated Successfully!");
+  
       setIsEditAddress(false);
       fetchAccountData();
-    } catch {
-      alert("Failed to update address. Please try again.");
+    } catch (error: any) {
+      // Handle error response and display error + rules
+      if (error.response) {
+        console.error("Error Response Data:", error.response.data);
+  
+        const errorMessage = error.response.data.error || "Failed to update address.";
+        const rules = error.response.data.rules
+          ? `\nRules:\n${JSON.stringify(error.response.data.rules, null, 2)}`
+          : "";
+  
+        alert(`${errorMessage}${rules}`);
+      } else {
+        // Network or unexpected errors
+        console.error("Error:", error.message);
+        alert("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
