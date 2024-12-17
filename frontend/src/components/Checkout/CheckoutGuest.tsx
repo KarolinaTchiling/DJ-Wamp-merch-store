@@ -7,6 +7,12 @@ import { useCartContext } from "../../cart/CartContext";
 import { useTokenContext } from "../../components/TokenContext";
 import { useOrderDialog } from "../Checkout/OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
+import {
+  fname_validation,
+  lname_validation,
+  email_validation,
+  new_pw_validation,
+} from "../../components/InputValidations.tsx"; // Import your existing validations
 
 interface AccountInfo {
   fname: string;
@@ -47,9 +53,7 @@ const CheckoutGuest: React.FC = () => {
   const navigate = useNavigate();
   const [isEditCC, setIsEditCC] = useState(false);
 
-  const handleRemove = (field: keyof AccountInfo) => {
-    setValue(field, ""); // Clear the specified field
-  };
+
 
   const editUserCC = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -67,6 +71,7 @@ const CheckoutGuest: React.FC = () => {
   async function onSubmit(data: AccountInfo) {
     const { fname, lname, email, password, card, expiry, cvv, street, city, province, postal } = data;
     const formattedCard = `${card}-${expiry}-${cvv}`;
+
   
     // Step 1: Validate Credit Card Format Locally
     const cardRegex = /^\d{16}-\d{4}-\d{3}$/; // 16 digits, 4 digits, 3 digits
@@ -77,7 +82,7 @@ const CheckoutGuest: React.FC = () => {
   
     try {
 
-      // Step 3: Submit user creation form
+      // Step 2: Submit user creation form
       await axios.post("http://127.0.0.1:5000/signup", {
         fname,
         lname,
@@ -90,13 +95,13 @@ const CheckoutGuest: React.FC = () => {
         postal,
       });
   
-      // Step 4: Automatically log in
+      // Step 3: Automatically log in
       const loginResponse = await axios.post("http://127.0.0.1:5000/login", { email, password });
       const token = loginResponse.data.token;
       setToken(token);
       setUserType("user");
   
-      // Step 5: Submit credit card details
+      // Step 4: Submit credit card details
       await axios.patch(
         "http://127.0.0.1:5000/user/cc",
         { cc_info: formattedCard },
@@ -105,10 +110,10 @@ const CheckoutGuest: React.FC = () => {
   
       console.log("Credit Card Saved Successfully");
   
-      // Step 6: Merge cart
+      // Step 5: Merge cart
       await handleCartMergeOnLogin();
   
-      // Step 7: Place order
+      // Step 6: Place order
       await axios.post(
         "http://127.0.0.1:5000/sale/",
         {},
@@ -147,10 +152,10 @@ const CheckoutGuest: React.FC = () => {
             <div className="grid gap-4">
               {/* User Fields */}
               <div className="grid grid-cols-2 gap-2">
-                <Input id="fname" name="fname" label="First Name" htmlFor="fname" validation={{ required: "First Name is required" } } />
-                <Input id="lname" name="lname" label="Last Name" htmlFor="lname" validation={{ required: "Last Name is required" }} />
-                <Input id="email" name="email" label="Email" htmlFor="email" type="email" validation={{ required: "Email is required" }} />
-                <Input id="password" name="password" label="Password" htmlFor="password" type="password" validation={{ required: "Password is required" }} />
+                <Input {...fname_validation({ handleChange: methods.setValue })} />
+                <Input {...lname_validation({ handleChange: methods.setValue })} />
+                <Input {...email_validation({ handleChange: methods.setValue })} />
+                <Input {...new_pw_validation({ handleChange: methods.setValue })} />
               </div>
 
               {/* Address Fields */}
