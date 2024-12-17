@@ -103,3 +103,19 @@ def delete_product(product_id):
         return jsonify({"message": "product deleted"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@catalog.route("/metadata", methods=["GET"])
+def get_categories_and_albums():
+    try:
+        # Query for all unique categories and albums without filtering 'is_deleted'
+        categories = Product.objects().distinct("category")
+        albums = Product.objects().distinct("album")
+
+        # Return the categories and albums as a list
+        return jsonify({
+            "categories": categories,
+            "albums": albums
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

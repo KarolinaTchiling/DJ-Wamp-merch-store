@@ -26,6 +26,7 @@ import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
 import { SearchProvider } from "./components/SearchContext";
+import { MetadataProvider } from "./components/MetadataContext";
 
 const App: React.FC = () => {
 
@@ -59,6 +60,7 @@ const App: React.FC = () => {
             </div>
         )};
     return (
+        <MetadataProvider>
         <SearchProvider>
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
@@ -132,6 +134,7 @@ const App: React.FC = () => {
             <Footer/>
         </div>
         </SearchProvider>
+        </MetadataProvider>
     );
 }
 
