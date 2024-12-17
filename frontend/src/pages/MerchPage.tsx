@@ -6,16 +6,17 @@ import SortDropdown from "../components/Catalog/SortDropdown";
 import Button from "../components/Button";
 import axios from "axios";
 import { Product } from "../types";
+import { useSearch } from "../components/SearchContext";
 
 
-interface MerchPageProps {
-  searchQuery: string; // Passed from the navbar
-}
 
-const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
+
+const MerchPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+
+  const { searchQuery } = useSearch();
 
   // Sorting state
   const [sortBy, setSortBy] = useState<string>("name");
