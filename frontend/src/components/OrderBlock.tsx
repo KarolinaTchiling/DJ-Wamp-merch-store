@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderedItem from "../components/OrderedItem.tsx";
+import OrderedItem from "./OrderedItem.tsx";
 import {CartItem} from "../types.ts";
 
 interface Prop{

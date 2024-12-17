@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar.tsx';
 import TestPage from './pages/TestPage';
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
@@ -25,12 +25,11 @@ import Orders from "./pages/Admin/Orders.tsx";
 import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
+import { SearchProvider } from "./components/SearchContext";
+import { MetadataProvider } from "./components/MetadataContext";
 
 const App: React.FC = () => {
-    const [searchQuery, setSearchQuery] = useState<string>(''); // Shared search state
-    const handleSearch = (query: string) => {
-        setSearchQuery(query); // Update search query from Navbar
-    };
+
     //session tracking
     const {token, userType} = useTokenContext();
     const AdminLayout = ()=>{
@@ -53,20 +52,23 @@ const App: React.FC = () => {
         )};
     const UserLayout = ()=>{
         console.log("user type", userType);
+        
         return (
             <div>
+                <Navbar />
                 <Outlet />
             </div>
         )};
     return (
+        <MetadataProvider>
+        <SearchProvider>
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
-                <Navbar onSearch={handleSearch}/>
                 <Routes>
                 <Route path='/' element={<UserLayout />}>
                     <Route index element={<Navigate to="/catalog/products" replace />} />
 
-                    <Route path="/catalog/products" element={<MerchPage searchQuery={searchQuery}/>} />
+                    <Route path="/catalog/products" element={<MerchPage />} />
                     <Route path="/catalog/products/:name" element={<DetailPage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
@@ -131,6 +133,8 @@ const App: React.FC = () => {
             </div>
             <Footer/>
         </div>
+        </SearchProvider>
+        </MetadataProvider>
     );
 }
 

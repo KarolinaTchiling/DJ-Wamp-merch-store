@@ -11,6 +11,7 @@ class Product(Document):
     description = StringField()
     image_url = StringField()
     quantity = IntField()
+    is_deleted = BooleanField(default=False, required=True)
 
     def json_formatted(self):
         print(f"serializing {self.__str__}")

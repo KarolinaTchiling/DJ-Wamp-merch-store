@@ -1,43 +1,45 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
-import ProfileDropdown from './ProfileDropdown';
-import CartDropdown from './CartDropdown';
+import ProfileDropdown from './ProfileDropdown.tsx';
+import CartDropdown from './Cart/CartDropdown.tsx';
 import Logo from "./Logo.tsx";
+import { useSearch } from "./SearchContext"; // Import the search context
 
 // Define a type for the navigation links
 interface NavLink {
-    name: string;
-    href: string;
+  name: string;
+  href: string;
 }
-  
+
 // Sample navigation links
 const navLinks: NavLink[] = [
   { name: 'Merch', href: '/catalog/products' },
   { name: 'Contact', href: '/contact' }
 ];
 
-interface Prop{
-  onSearch: (query: string) => void
-}
-
-const Navbar: React.FC<Prop> = (prop) => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+const Navbar: React.FC = () => {
+  const { searchQuery, handleSearch } = useSearch(); // Use the SearchContext
+  const [searchTerm, setSearchTerm] = useState<string>(searchQuery || ''); // Local state for input
   const location = useLocation();
 
+  // Enable search only on specific pages
   const isSearchEnabled = location.pathname === '/catalog/products';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
     console.log('Search term:', value);
-    prop.onSearch(value);
+    handleSearch(value); // Update the search context globally
   };
+
   return (
     <nav className="bg-cream p-10 pb-7 text-sm">
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
-        <li className="basis-[24%] flex justify-start"> <a href={"/catalog/products"}> <Logo size={25}/></a></li>
+        <li className="basis-[24%] flex justify-start"> 
+          <a href={"/catalog/products"}> <Logo size={25}/></a>
+        </li>
 
         {/* Page Links */}
         <li className="basis-[50%] pr-[90px]">
@@ -84,3 +86,4 @@ const Navbar: React.FC<Prop> = (prop) => {
 };
 
 export default Navbar;
+

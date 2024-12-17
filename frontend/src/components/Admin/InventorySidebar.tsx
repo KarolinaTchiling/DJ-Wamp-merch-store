@@ -1,5 +1,6 @@
 import React, { memo } from "react";
-import MinimumDistanceSlider from "../MinimumDistanceSlider";
+import MinimumDistanceSlider from "../Sidebars/MinimumDistanceSlider";
+import { useMetadata } from "../MetadataContext";
 
 interface SidebarProps {
   selectedCategory: string;
@@ -21,8 +22,13 @@ const Sidebar: React.FC<SidebarProps> = memo(
     onAlbumChange,
     onPriceChange,
   }) => {
-  const categories = ["All Products", "Apparel", "Music", "Accessories", "Pre-orders", "Concert"];
-  const albums = ["Stares from Above", "Heavens", "Angels", "Cloud Flare"];
+    const { metadata } = useMetadata(); // Fetch metadata from the React Context
+
+    if (!metadata) {
+      return <div className="pl-[50px] text-sm">Loading...</div>;
+    }
+
+    const { categories, albums } = metadata;
 
   return (
     <div className="mb-2 pr-6 font-bold text-coffee">

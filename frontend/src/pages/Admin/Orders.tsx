@@ -5,7 +5,11 @@ import Button from "../../components/Button.tsx";
 import {OrderTable} from "../../components/Admin/Table.tsx";
 import {forEach} from "lodash";
 import TableDropDown from "../../components/Admin/TableDropDown.tsx";
+import { useSPAContext } from "../../components/Admin/AdminSPAContext.tsx";
+
 const Orders: React.FC = () => {
+
+    const { currentPage } = useSPAContext(); 
 
     const defaultOrder: Order = {
         "id": "90", "approved": false, "date": "Wed,19 Nov, 2024",
@@ -155,6 +159,16 @@ const Orders: React.FC = () => {
         = useState(defaultOrderForm);
 
     useEffect(()=>{setOrderForm(defaultOrderForm)},[order]);
+
+    useEffect(() => {
+        if (currentPage === "orders") {
+            getOrders();
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        getOrders();
+    }, []);
 
     function editOrder(event: React.FormEvent) {
         // handle sending info to flask once the form is submitted

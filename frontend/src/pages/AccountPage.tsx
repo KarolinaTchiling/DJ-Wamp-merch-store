@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useForm, FormProvider} from "react-hook-form";
-import AccountSidebar from "../components/AccountSidebar.tsx";
+import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
 import axios from "axios";
 import {User} from "../types.ts";
 import Button from "../components/Button.tsx";
@@ -220,11 +220,13 @@ const AccountPage: React.FC = () => {
             setIsEditCC(false);
             alert("Account Edited!");
         }).catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
+            if (error.response && error.response.status === 400) {
+                // Handle bad request with a popup
+                alert(error.response.data.error);
+              } else {
+                console.error(error);
+                alert("An unexpected error occurred. Please try again.");
+              }
         })
     });
 

@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import MinimumDistanceSlider from "./MinimumDistanceSlider";
+import { useMetadata } from "../MetadataContext";
+
 
 interface SidebarProps {
   selectedCategory: string;
@@ -21,8 +23,13 @@ const Sidebar: React.FC<SidebarProps> = memo(
     onAlbumChange,
     onPriceChange,
   }) => {
-  const categories = ["All Products", "Apparel", "Music", "Accessories", "Pre-orders", "Concert"];
-  const albums = ["Stares from Above", "Heavens", "Angels", "Cloud Flare"];
+    const { metadata } = useMetadata(); // Fetch metadata from the React Context
+
+    if (!metadata) {
+      return <div className="pl-[50px] text-sm">Loading...</div>;
+    }
+
+    const { categories, albums } = metadata;
 
   return (
     <div className="mb-2 font-bold text-coffee">
@@ -79,22 +86,6 @@ const Sidebar: React.FC<SidebarProps> = memo(
             onPriceChange={onPriceChange}
       />
 
-        {/* {albums.map((album) => (
-          <label key={album} className="flex items-center pb-1 pl-1 space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              className="input-hidden"
-              checked={selectedAlbums[album] || false}
-              onChange={() => onAlbumChange(album)}
-            />
-            <span
-              className={`w-4 h-4 flex items-center justify-center border-2 ${
-                selectedAlbums[album] ? "bg-tea border-tea" : "bg-transparent border-tea"
-              }`}
-            ></span>
-            <span className="text-black font-normal">{album}</span>
-          </label>
-        ))} */}
       </div>
 
     </div>
@@ -102,4 +93,5 @@ const Sidebar: React.FC<SidebarProps> = memo(
 });
 
 export default Sidebar;
+
 

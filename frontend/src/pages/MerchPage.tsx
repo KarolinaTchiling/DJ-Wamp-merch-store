@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import Sidebar from "../components/Sidebar"; 
-import CatalogProduct from "../components/CatalogProduct";
-import SortDropdown from "../components/SortDropdown";
+import Sidebar from "../components/Sidebars/Sidebar"; 
+import CatalogProduct from "../components/Catalog/CatalogProduct";
+import SortDropdown from "../components/Catalog/SortDropdown";
 import Button from "../components/Button";
 import axios from "axios";
 import { Product } from "../types";
+import { useSearch } from "../components/SearchContext";
 
 
-interface MerchPageProps {
-  searchQuery: string; // Passed from the navbar
-}
 
-const MerchPage: React.FC<MerchPageProps> = ({ searchQuery }) => {
+
+const MerchPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+
+  const { searchQuery } = useSearch();
 
   // Sorting state
   const [sortBy, setSortBy] = useState<string>("name");

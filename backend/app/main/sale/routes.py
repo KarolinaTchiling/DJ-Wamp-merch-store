@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from collections import defaultdict
 from datetime import datetime, timedelta
 import datetime
 import jwt
@@ -158,4 +159,33 @@ def make_sale():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@sale.route("/top-sellers", methods=["GET"])
+def get_top_sellers():
+    try:
+        sales = Sale.objects(approved=True)
+        product_quantities = defaultdict(int)
+        for sale in sales:
+            for purchase in sale.purchases:  
+                product_id = str(purchase.product_id.id)
+                product_quantities[product_id] += purchase.quantity
+
+        active_product_ids = set(
+            str(product.id) for product in Product.objects(is_deleted=False).only("id")
+        )
+
+        top_sellers = [
+            {"product_id": product_id, "total_quantity": total_quantity}
+            for product_id, total_quantity in product_quantities.items()
+            if product_id in active_product_ids
+        ]
+
+        top_sellers = sorted(top_sellers, key=lambda x: x["total_quantity"], reverse=True)
+
+        return jsonify({"top_sellers": top_sellers}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
