@@ -1,5 +1,4 @@
-// import React from 'react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCartContext } from '../../cart/CartContext'; // Adjust the import path
 
 interface CartIconProps {
@@ -9,10 +8,6 @@ interface CartIconProps {
 
 const CartIcon: React.FC<CartIconProps> = ({ onClick, className }) => {
     const { cartCount } = useCartContext(); // Access cart count from context
-
-    // useEffect(() => {
-    //     console.log('Cart count:', cartCount); // Debugging statement
-    // }, [cartCount]);
 
     return (
         <div onClick={onClick} className={`relative cursor-pointer ${className}`}>

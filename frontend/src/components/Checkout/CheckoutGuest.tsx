@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
 import Button from "../../components/Button.tsx";
-import Input from "../../components/Input.tsx"; // Reusable Input Component
+import Input from "../../components/Input.tsx"; 
 import { useCartContext } from "../../cart/CartContext";
 import { useTokenContext } from "../../components/TokenContext";
 import { useOrderDialog } from "../Checkout/OrderDialog.tsx";
@@ -12,7 +12,7 @@ import {
   lname_validation,
   email_validation,
   new_pw_validation,
-} from "../../components/InputValidations.tsx"; // Import your existing validations
+} from "../../components/InputValidations.tsx"; 
 
 interface AccountInfo {
   fname: string;
@@ -27,7 +27,6 @@ interface AccountInfo {
   province: string;
   postal: string;
 }
-
 
 const CheckoutGuest: React.FC = () => {
   const methods = useForm<AccountInfo>({
@@ -46,39 +45,24 @@ const CheckoutGuest: React.FC = () => {
     },
   });
 
-  const { handleSubmit, setValue, getValues } = methods;
+  const { handleSubmit } = methods;
   const { handleCartMergeOnLogin } = useCartContext();
   const { setToken, setUserType } = useTokenContext();
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
-  const [isEditCC, setIsEditCC] = useState(false);
 
-
-
-  const editUserCC = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const fullCCInfo = `${getValues("card")}-${getValues("expiry")}-${getValues("cvv")}`;
-
-    try {
-      await axios.patch("http://127.0.0.1:5000/user/cc", { cc_info: fullCCInfo });
-      alert("Payment Information Updated!");
-      setIsEditCC(false);
-    } catch {
-      alert("Failed to update payment information. Please try again.");
-    }
-  };
 
   async function onSubmit(data: AccountInfo) {
     const { fname, lname, email, password, card, expiry, cvv, street, city, province, postal } = data;
     const formattedCard = `${card}-${expiry}-${cvv}`;
 
   
-    // Step 1: Validate Credit Card Format Locally
-    const cardRegex = /^\d{16}-\d{4}-\d{3}$/; // 16 digits, 4 digits, 3 digits
-    if (!cardRegex.test(formattedCard)) {
-      alert("Invalid credit card format. Ensure it's 16 digits, followed by expiry (4 digits), and CVV (3 digits).");
-      return;
-    }
+    // // Step 1: Validate Credit Card Format Locally
+    // const cardRegex = /^\d{16}-\d{4}-\d{3}$/; // 16 digits, 4 digits, 3 digits
+    // if (!cardRegex.test(formattedCard)) {
+    //   alert("Invalid credit card format. Ensure it's 16 digits, followed by expiry (4 digits), and CVV (3 digits).");
+    //   return;
+    // }
   
     try {
 
@@ -132,8 +116,6 @@ const CheckoutGuest: React.FC = () => {
   }
   
 
-  const fieldStyle = "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
-
   return (
     <div>
       <FormProvider {...methods}>
@@ -152,10 +134,10 @@ const CheckoutGuest: React.FC = () => {
             <div className="grid gap-4">
               {/* User Fields */}
               <div className="grid grid-cols-2 gap-2">
-                <Input {...fname_validation({ handleChange: methods.setValue })} />
-                <Input {...lname_validation({ handleChange: methods.setValue })} />
-                <Input {...email_validation({ handleChange: methods.setValue })} />
-                <Input {...new_pw_validation({ handleChange: methods.setValue })} />
+                <Input  {...fname_validation()} />
+                <Input  {...lname_validation()} />
+                <Input  {...email_validation()} />
+                <Input  {...new_pw_validation()} />
               </div>
 
               {/* Address Fields */}
@@ -212,12 +194,56 @@ const CheckoutGuest: React.FC = () => {
               {/* Payment Information */}
               <div className="grid gap-2">
                 <label className="text-xl col-span-2">Payment Information</label>
-                <Input id="card" name="card" label="Credit Card Number" htmlFor="card" />
+
+                {/* Credit Card Number Validation */}
+                <Input
+                  id="card"
+                  name="card"
+                  label="Credit Card Number"
+                  htmlFor="card"
+                  validation={{
+                    required: "Credit Card Number is required",
+                    pattern: {
+                      value: /^\d{16}$/, // Exactly 16 digits
+                      message: "Credit Card Number must be exactly 16 digits without spaces",
+                    },
+                  }}
+                />
+
                 <div className="grid grid-cols-2 gap-2">
-                  <Input id="expiry" name="expiry" label="Expiry (MMYY)" htmlFor="expiry" />
-                  <Input id="cvv" name="cvv" label="CVV" htmlFor="cvv" />
+                  {/* Expiry Validation */}
+                  <Input
+                    id="expiry"
+                    name="expiry"
+                    label="Expiry (MMYY)"
+                    htmlFor="expiry"
+                    validation={{
+                      required: "Expiry date is required",
+                      pattern: {
+                        value: /^\d{4}$/, // Exactly 4 digits for MMYY
+                        message: "Expiry must be 4 digits (MMYY)",
+                      },
+                    }}
+                  />
+
+                  {/* CVV Validation */}
+                  <Input
+                    id="cvv"
+                    name="cvv"
+                    label="CVV"
+                    htmlFor="cvv"
+                    validation={{
+                      required: "CVV is required",
+                      pattern: {
+                        value: /^\d{3}$/, // Exactly 3 digits
+                        message: "CVV must be exactly 3 digits",
+                      },
+                    }}
+                  />
                 </div>
               </div>
+
+
             </div>
           </div>
 
