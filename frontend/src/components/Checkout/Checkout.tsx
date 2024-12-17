@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "../Button.tsx";
-import {useOrderDialog} from './OrderDialog.tsx';
-import { useNavigate } from 'react-router-dom';
+import { useOrderDialog } from "./OrderDialog.tsx";
+import { useNavigate } from "react-router-dom";
 
 interface AccountInfo {
   cc_info: string;
@@ -24,146 +24,137 @@ const Checkout: React.FC = () => {
     province: "",
     postal_code: "",
   });
+
   const [maskedCC, setMaskedCC] = useState("************");
-  const [noCard, setNoCard] = useState(false);
+  const [noCard, setNoCard] = useState(true);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [isEditCC, setIsEditCC] = useState(false);
   const [isEditAddress, setIsEditAddress] = useState(false);
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
 
+  // Centralized function to fetch user data
+  const fetchAccountData = async () => {
+    try {
+      const userResponse = await axios.get("http://127.0.0.1:5000/user/");
+      const user = userResponse.data.user;
 
-  useEffect(() => {
-    // Fetch account data
-    axios({
-      method: "get",
-      baseURL: "http://127.0.0.1:5000",
-      url: "/user/",
-    })
-      .then((response) => {
-        const resp = response.data;
+      if (!user) {
+        setNoCard(true);
+        setIsFormValid(false);
+        return;
+      }
 
-        if (resp.user && resp.user.cc_info) {
-          setAcctData({
-            cc_info: resp.user.cc_info || "",
-            expiry: "",
-            cvv: "",
-            street: resp.user.street || "",
-            city: resp.user.city || "",
-            province: resp.user.province || "",
-            postal_code: resp.user.postal_code || "",
+      const preloadedData = {
+        cc_info: user.cc_info || "",
+        expiry: "",
+        cvv: "",
+        street: user.street || "",
+        city: user.city || "",
+        province: user.province || "",
+        postal_code: user.postal_code || "",
+      };
+      setAcctData(preloadedData);
+
+      // Validate credit card
+      if (user.cc_info) {
+        try {
+          const ccResponse = await axios.get("http://127.0.0.1:5000/user/cc", {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           });
+          const decodedCC = ccResponse.data.cc_info;
 
-          // Fetch decoded credit card number
-          axios({
-            method: "get",
-            baseURL: "http://127.0.0.1:5000",
-            url: "/user/cc",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          })
-            .then((ccResponse) => {
-              const decodedCC = ccResponse.data.cc_info;
-              if (decodedCC) {
-                const cardNumber = decodedCC.split("-")[0];
-                const lastFour = cardNumber.slice(-4);
-                setMaskedCC(`************${lastFour}`);
-                setNoCard(false);
-              } else {
-                setNoCard(true);
-              }
-            })
-            .catch((error) => {
-              console.error("Error fetching decoded credit card info:", error);
-              setNoCard(true);
-            });
-        } else {
+          if (decodedCC && decodedCC.trim().length > 0) {
+            const lastFour = decodedCC.split("-")[0].slice(-4);
+            setMaskedCC(`************${lastFour}`);
+            setNoCard(false);
+          } else {
+            setMaskedCC("************");
+            setNoCard(true);
+          }
+        } catch {
+          setMaskedCC("************");
           setNoCard(true);
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
+      } else {
         setNoCard(true);
-      });
+      }
+
+      // Address validation
+      const addressFieldsEmpty =
+        !preloadedData.street || !preloadedData.city || !preloadedData.province || !preloadedData.postal_code;
+
+      setIsFormValid(!(noCard && addressFieldsEmpty));
+    } catch (error) {
+      setNoCard(true);
+      setIsFormValid(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAccountData();
   }, []);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  // Handle input change
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setAcctData((prev) => ({ ...prev, [name]: value }));
-  }
+  };
 
-  function editUserCC(event: React.FormEvent) {
+  // Edit credit card info
+  const editUserCC = async (event: React.FormEvent) => {
     event.preventDefault();
     const fullCCInfo = `${accountData.cc_info}-${accountData.expiry}-${accountData.cvv}`;
-    axios({
-      method: "patch",
-      baseURL: "http://127.0.0.1:5000",
-      url: "/user/cc",
-      data: {
-        cc_info: fullCCInfo,
-      },
-    })
-      .then(() => {
-        const lastFour = accountData.cc_info.slice(-4);
-        setMaskedCC(`************${lastFour}`);
-        setNoCard(false);
-        setIsEditCC(false);
-        alert("Payment Information Updated!");
-      })
-      .catch((error) => console.error(error));
-  }
 
-  function editUserAddress(event: React.FormEvent) {
-    event.preventDefault();
-    const { street, city, province, postal_code } = accountData;
-
-    axios({
-      method: "patch",
-      baseURL: "http://127.0.0.1:5000",
-      url: "user/address",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: {
-        street,
-        city,
-        province,
-        postal_code,
-      },
-    })
-      .then(() => {
-        setIsEditAddress(false);
-        alert("Shipping Address Updated Successfully!");
-      })
-      .catch((error) => {
-        console.error("Error updating address:", error);
-        alert("Failed to update the shipping address. Please try again.");
-      });
-  }
-
-  async function placeOrder() {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/sale/",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      await showOrderDialog();
-      window.location.href = '/order-history';
-      navigate('/order-history');
-
-      // alert(response.data.message || "Order placed successfully!");
-    } catch (error: any) {
-      console.error("Error placing order:", error);
-      alert(
-        error.response?.data?.error || "Failed to place order. Please try again."
-      );
+      await axios.patch("http://127.0.0.1:5000/user/cc", { cc_info: fullCCInfo });
+      alert("Payment Information Updated!");
+      setIsEditCC(false);
+      fetchAccountData();
+    } catch {
+      alert("Failed to update payment information. Please try again.");
     }
-  }
+  };
+
+  // Edit address
+  const editUserAddress = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await axios.patch(
+        "http://127.0.0.1:5000/user/address",
+        {
+          street: accountData.street,
+          city: accountData.city,
+          province: accountData.province,
+          postal_code: accountData.postal_code,
+        },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+      alert("Shipping Address Updated Successfully!");
+      setIsEditAddress(false);
+      fetchAccountData();
+    } catch {
+      alert("Failed to update address. Please try again.");
+    }
+  };
+
+  // Place order logic
+  const placeOrder = async () => {
+    if (!isFormValid) {
+      alert("Please ensure your payment and address information are complete.");
+      return;
+    }
+
+    try {
+      await axios.post("http://127.0.0.1:5000/sale/", {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      await showOrderDialog();
+      navigate("/order-history");
+    } catch {
+      alert("Failed to place order. Please try again.");
+    }
+  };
 
   const fieldStyle = "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
   const labelDivStyle = "mb-4 w-full";
@@ -355,7 +346,12 @@ const Checkout: React.FC = () => {
       <div className="mt-2">
         <Button
           onClick={placeOrder}
-          className="w-full py-2 bg-tea text-coffee"
+          disabled={!isFormValid}
+          className={`w-full py-2 ${
+            isFormValid
+              ? "bg-tea text-coffee hover:bg-cream"
+              : "cursor-not-allowed bg-cream text-coffee hover:bg-cream hover:text-coffee"
+          }`}
         >
           Place Order
         </Button>
@@ -366,5 +362,3 @@ const Checkout: React.FC = () => {
 };
 
 export default Checkout;
-
-

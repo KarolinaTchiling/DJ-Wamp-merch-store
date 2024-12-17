@@ -5,7 +5,6 @@ import Button from '../components/Button.tsx';
 import { Link } from 'react-router-dom';
 import Checkout from '../components/Checkout/Checkout.tsx';
 import CheckoutGuest from '../components/Checkout/CheckoutGuest.tsx';
-import OrderDialog from '../components/Checkout/OrderDialog.tsx';
 import { useTokenContext } from "../components/TokenContext";
 
 
