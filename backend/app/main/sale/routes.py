@@ -145,6 +145,9 @@ def make_sale():
     payload = get_user_from_token(token)
     user = get_referenced_user(payload)
 
+    TAX_RATE = 0.13
+    SHIPPING_COST = 10
+
     try:
         # Validate stock for all items in the cart
         for item in user.cart_items:
@@ -162,7 +165,7 @@ def make_sale():
         sale = Sale(
             date=datetime.datetime.now(),
             user=user,
-            total_price=user.cart_total,
+            total_price = user.cart_total * (1 + TAX_RATE) + SHIPPING_COST,
             purchases=user.cart_items,
             approved=True,
         )

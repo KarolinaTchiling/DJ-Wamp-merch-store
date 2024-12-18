@@ -19,8 +19,6 @@ const OrderHistory: React.FC = () => {
             },
         }).then((response: axios.AxiosResponse) => {
             setOrders(response.data.sales);
-            console.log(`user email ${orders[0].user.email}`);
-            console.log(`user email ${response.data.sales}`);
         }).catch((error) => {
             if (error.response) {
                 console.log(error.response);
@@ -49,6 +47,7 @@ const OrderHistory: React.FC = () => {
                                 date={order.date.slice(0,16)}
                                 purchases={order.purchases}
                                 approvals={order.approved}
+                                order_total={order.total_price}
                             />
                         </div>
                     ))}

@@ -52,7 +52,7 @@ const CheckoutPage: React.FC = () => {
 
 
                     {/* Cart Items */}
-                    <div className="overflow-y-auto h-[calc(100vh-460px)] scrollbar-hidden">
+                    <div className="overflow-y-auto h-[calc(100vh-500px)] scrollbar-hidden">
                         {cartItems.length > 0 ? (
                             <ul>
                                 {cartItems.map((item) => (
@@ -104,13 +104,18 @@ const CheckoutPage: React.FC = () => {
                         </div>
 
                         <div className="flex justify-between pt-3">
-                            <p className="">Estimated Shipping</p>
+                            <p className="">Shipping</p>
                             <p className="">$10.00</p>
                         </div>
 
                         <div className="flex justify-between pt-3">
-                            <p className="">Estimated Taxes</p>
+                            <p className="">Taxes</p>
                             <p className="">${(cartTotal*0.15).toFixed(2)}</p>
+                        </div>
+
+                        <div className="flex justify-between pt-3 font-bold">
+                            <p className="">Total</p>
+                            <p className="">${(cartTotal*1.13 + 10).toFixed(2)}</p>
                         </div>
 
                     </div>
