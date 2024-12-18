@@ -30,6 +30,7 @@ const Sidebar: React.FC<SidebarProps> = memo(
     }
 
     const { categories, albums } = metadata;
+    const allCategories = ["All Products", ...categories];
 
   return (
     <div className="mb-2 font-bold text-coffee">
@@ -38,14 +39,16 @@ const Sidebar: React.FC<SidebarProps> = memo(
       {/* Categories Section */}
       <div className="w-[280px] pt-3 pl-[50px] text-sm">
         <h3 className="font-thin pb-2">Categories</h3>
-        {categories.map((category) => (
-          <div
-            key={category}
-            onClick={() => onCategoryChange(category)}
-            className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer ${
-              category === selectedCategory ? "font-semibold text-black" : "font-normal text-black"
-            }`}
-          >
+        {allCategories.map((category) => (
+            <div
+              key={category}
+              onClick={() => onCategoryChange(category === "All Products" ? "" : category)} 
+              className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer ${
+                category === selectedCategory || (category === "All Products" && selectedCategory === "")
+                  ? "font-semibold text-black"
+                  : "font-normal text-black"
+              }`}
+            >
             {category}
           </div>
         ))}
