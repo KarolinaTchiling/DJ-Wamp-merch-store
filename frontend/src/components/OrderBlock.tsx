@@ -6,7 +6,10 @@ interface Prop{
     date: string;
     id: string;
     purchases: CartItem[];
+    approvals: boolean
+
 }
+
 const OrderBlock: React.FC<Prop> = (prop) => {
     const products = prop.purchases;
 
@@ -28,7 +31,13 @@ const OrderBlock: React.FC<Prop> = (prop) => {
                 {/*<a href={""} className={"text-camel hover:font-extrabold"}>Print Receipt</a>*/}
             </div>
 
-            <div className={"flex flex-row gap-4 mb-6 text-right"}>
+            <div className="pb-3 text-lg text-black">
+                Order Status:{" "}
+                <span className={prop.approvals ? "text-coffee" : "text-pink"}>
+                    {prop.approvals ? "Approved" : "Not Approved"}
+                </span>
+            </div>
+            <div className={"flex flex-row gap-4 mb-2 text-right"}>
                 <div className={"flex flex-row gap-2"}>
                     <p className={"text-camel"}>Order</p>
                     <p className={""}>{prop.id}</p>
@@ -39,6 +48,8 @@ const OrderBlock: React.FC<Prop> = (prop) => {
                 </div>
                 {/*<p className={"text-camel"}>|</p>*/}
             </div>
+
+
 
             {/*Ordered items history*/}
             <div className="">
@@ -51,6 +62,7 @@ const OrderBlock: React.FC<Prop> = (prop) => {
                             qty={product.quantity}
                             total={round(product.total_price*product.quantity,2)}
                         />
+  
                     </div>
                 ))}
             </div>
