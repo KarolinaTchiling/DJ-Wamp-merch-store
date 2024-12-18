@@ -32,6 +32,7 @@ const OrderHistory: React.FC = () => {
     // keep proxies in sync
     useEffect(()=>{getOrders()},[]);
 
+
     return (
         <div className={"flex mt-4 mb-10 min-h-full"}>
             <AccountSidebar></AccountSidebar>
@@ -47,6 +48,7 @@ const OrderHistory: React.FC = () => {
                                 id={order.id}
                                 date={order.date.slice(0,16)}
                                 purchases={order.purchases}
+                                approvals={order.approved}
                             />
                         </div>
                     ))}
