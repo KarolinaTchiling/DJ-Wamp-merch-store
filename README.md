@@ -1,4 +1,5 @@
 # 4413 project
+View the project on GitHub at https://github.com/JUB-Yoush/4413-project.git
 
 ## Setup
 
@@ -84,6 +85,10 @@ pip install -r requirements.txt
 flask run
 ```
 
+## Admin Access
+
+For admin access, admin accounts can be created on the application from the Admin Sign Up page which is reachable from the Log In page > To Admin View > Sign Up. Alternatively, visit http://localhost:3000/admin/signup
+
 ## Frontend:
 
 This project uses:
@@ -108,3 +113,4 @@ This project uses:
 - **MongoDB**: BSON database.
 - **MongoDBAtlas**: Cloud hosted MongoDB servers
 - **AWS S3**: Cloud hosted database optimized for images.
+
