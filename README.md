@@ -1,5 +1,12 @@
 # 4413 project
+
 View the project on GitHub at https://github.com/JUB-Yoush/4413-project.git
+
+# IMPORTANT
+
+The required `env.py` file is only included in the ZIP file we submitted, you'll need that file in `/backend` to be able to run the project.
+
+The Zipped version already has this file in the right place, if you're cloning the github repo you'll need to place it yourself.
 
 ## Setup
 
@@ -113,4 +120,3 @@ This project uses:
 - **MongoDB**: BSON database.
 - **MongoDBAtlas**: Cloud hosted MongoDB servers
 - **AWS S3**: Cloud hosted database optimized for images.
-
