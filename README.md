@@ -26,13 +26,20 @@ git clone git@github.com/JUB-Yoush/4413-project.git
 3. cd into the project root and run the docker compose file.
 
 ```
-docker-compose up --build --no-cache
+sudo docker-compose up --build
+```
+
+4. To re-start after building, run:
+
+```
+docker start wamp-server
+docker start wamp-client
 ```
 
 #### Ports
 
 - Frontend runs on port `3000`
-- Backend runs on port `8000`
+- Backend runs on port `5000`
 
 ## Running on your machine:
 
@@ -96,20 +103,8 @@ This project uses:
 - **Flask**: Web Server framework for python
 - **Ruff**: Python Linter
 
-## Contributing
+## Database:
 
-Look to our Trello board to find tickets that need to be worked on.
-
-Branch off of `main`, with the name of your branch being the ticket number.
-
-Submit a pull request to contribute your ticket changes back into main, await approval from one other developer before merging.
-
-Ensure the following linters are ran before pushing work:
-
-```
-pip freeze > requirements.txt
-bun lint
-bun format
-ruff check
-ruff format
-```
+- **MongoDB**: BSON database.
+- **MongoDBAtlas**: Cloud hosted MongoDB servers
+- **AWS S3**: Cloud hosted database optimized for images.
