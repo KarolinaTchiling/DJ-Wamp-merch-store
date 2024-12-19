@@ -78,6 +78,10 @@ pip install -r requirements.txt
 flask run
 ```
 
+## Admin Access
+
+For admin access, admin accounts can be created on the application from the Admin Sign Up page which is reachable from the Log In page > To Admin View > Sign Up. Alternatively, visit http://localhost:3000/admin/signup
+
 ## Frontend:
 
 This project uses:
@@ -98,10 +102,6 @@ This project uses:
 - **Ruff**: Python Linter
 
 ## Contributing
-
-Look to our Trello board to find tickets that need to be worked on.
-
-Branch off of `main`, with the name of your branch being the ticket number.
 
 Submit a pull request to contribute your ticket changes back into main, await approval from one other developer before merging.
 
