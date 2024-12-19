@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ProfileDropdown from './ProfileDropdown.tsx';
 import CartDropdown from './Cart/CartDropdown.tsx';
 import Logo from "./Logo.tsx";
@@ -31,13 +32,13 @@ const Navbar: React.FC = () => {
     console.log('Search term:', value);
     handleSearch(value); // Update the search context globally
   };
-
+  const liStyle = "flex items-center justify-center w-full h-full py-1";
   return (
     <nav className="bg-cream p-10 pb-7 text-sm">
       <ul className="flex flex-row text-center items-center">
         
         {/* DJ WAMP Logo */}
-        <li className="basis-[24%] flex justify-start"> 
+        <li className="basis-[24%] flex justify-start">
           <a href={"/catalog/products"}> <Logo size={25}/></a>
         </li>
 
@@ -47,12 +48,14 @@ const Navbar: React.FC = () => {
               {navLinks.map((link, index) => (
                 <li
                     key={link.name}
-                    className={`hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel py-[5px] ${
+                    className={`hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel ${
                       index === navLinks.length - 1 ? 'border-r' : ''
                     }`}>
-                      <Link to={link.href} className="flex items-center justify-center w-full h-full">
+                      <NavLink to={link.href} className={({ isActive}) =>
+                                          isActive ? `${liStyle} bg-camel text-white`
+                                              : `${liStyle}`}>
                         {link.name}
-                      </Link>
+                      </NavLink>
                 </li>
               ))}
             </ul>

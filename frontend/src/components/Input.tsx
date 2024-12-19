@@ -8,7 +8,7 @@ type BaseInputAttributes = React.ComponentPropsWithoutRef<"input">;
 interface InputProps extends BaseInputAttributes {
     id: string,
     name: string,
-    value?: string,
+    value?: string | number,
     handleChange?(event: React.ChangeEvent<HTMLInputElement>): void,
 
     validation?: {}
@@ -34,7 +34,7 @@ const findInputError = (errors: FieldErrors<FieldValues>, name: string) => {
 const InputError: React.FC<{message: string}> = ({message}) => {
     return (
         <div className="flex items-center gap-1 px-2 font-semibold text-pink text-sm bg-red-100">
-            {message}
+            <p className={" text-balance"}>{message}</p>
         </div>
     )
 }
