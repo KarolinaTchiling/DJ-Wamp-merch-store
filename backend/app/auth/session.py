@@ -2,6 +2,7 @@ import jwt
 from ..models import Admin, User
 from flask import request, jsonify
 from dotenv import load_dotenv
+import os
 
 # Load environment variables from .env file
 load_dotenv()
