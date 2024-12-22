@@ -1,27 +1,30 @@
-from env import DB_URI
+from dotenv import load_dotenv
 from mongoengine import connect
 from mongomock import MongoClient
+import os
 
+# Load environment variables from .env file
+load_dotenv()
+DB_URI = os.getenv("DB_URI")
 
-# with mongoengine, the connection is a global singleton that is managed by the library,
-# we don't need to manage or return a variable
-
-
-def get_database(app):
-    print("connecting to database...")
+# Function to set up the database connection
+def get_database(app=None):
+    print("Connecting to the database...")
     try:
-        print(app, app.config["TESTING"])
         if app and app.config.get("TESTING"):
+            # Use in-memory MongoDB for testing
             connect(
                 "test_db", host="mongodb://localhost", mongo_client_class=MongoClient
             )
             print("Created in-memory test database")
         else:
+            # Connect to the production database
             connect("djwamp", host=DB_URI)
-            print("pinged deployment, connected to mongo!")
+            print("Pinged deployment, connected to MongoDB!")
     except Exception as e:
-        print(f"failed to connect to mongo: {e}")
+        print(f"Failed to connect to MongoDB: {e}")
 
-
+# For testing purposes only
 if __name__ == "__main__":
     get_database()
+

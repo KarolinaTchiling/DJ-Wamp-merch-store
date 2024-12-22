@@ -1,7 +1,12 @@
 import jwt
 from ..models import Admin, User
-from env import SECRET_KEY
 from flask import request, jsonify
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+
 # Function for generating token
 # Used for verification on subsequent requests
 
