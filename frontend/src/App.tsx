@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
-import TestPage from './pages/TestPage';
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
@@ -98,7 +97,6 @@ const App: React.FC = () => {
                         </>
 
                     }
-                    <Route path="/test" element={<TestPage />} />
                 </Route>
 
                 {/*for Admin pages*/}
