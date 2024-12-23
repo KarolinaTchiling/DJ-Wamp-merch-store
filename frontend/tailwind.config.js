@@ -1,16 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
         sans: ['Instrument Sans', 'sans-serif'],
       },
-
       colors: {
         camel: '#D4A373',
         coffee: '#7F6145',
-        tea:  '#CCD5AE',
+        tea: '#CCD5AE',
         cream: '#FAEDCD',
         pink: '#E26873',
         beige: '#FEFAE0',
@@ -25,7 +24,7 @@ module.exports = {
         '3xl': '1.953rem',
         '4xl': '2.441rem',
         '5xl': '3.052rem',
-      }
+      },
     },
   },
   plugins: [],
