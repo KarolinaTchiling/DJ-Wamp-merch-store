@@ -141,7 +141,7 @@ const Orders: React.FC = () => {
         setLoading(true);
         axios({
             method: "get",
-            baseURL: "http://localhost:5000",
+            baseURL: `${import.meta.env.VITE_BASE_URL}`,
             url: "/sale/history",
         }).then((response) => {
             setOrders(response.data.sales);
@@ -163,7 +163,7 @@ const Orders: React.FC = () => {
         if (order.id) {
             axios({
                 method: "patch",
-                baseURL: 'http://127.0.0.1:5000',
+                baseURL: `${import.meta.env.VITE_BASE_URL}`,
                 url: `/sale/${order.id}/toggle-approval`,
             })
             .then(() => {

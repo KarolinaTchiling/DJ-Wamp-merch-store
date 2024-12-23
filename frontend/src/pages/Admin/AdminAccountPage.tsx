@@ -16,7 +16,7 @@ const AccountPage: React.FC = () => {
         const defaultText = "Not yet set";
         axios({
             method: "get",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/user/",
             headers:{
                 Authorization: 'Bearer '+ token,

@@ -29,7 +29,7 @@ const Users: React.FC = () => {
     const [users, setUsers] = useState<User[]>([defaultUser]);
 
     const getUsers = () => {
-        axios.get("http://localhost:5000/user/users").then((res) => {
+        axios.get(`${import.meta.env.VITE_BASE_URL}/user/users`).then((res) => {
             setUsers(res.data.users);
         });
     };

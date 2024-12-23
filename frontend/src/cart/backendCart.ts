@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getCartBackend = async (token: string) => {
-    const response = await axios.get('http://127.0.0.1:5000/cart/', {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/cart/`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
@@ -9,7 +9,7 @@ export const getCartBackend = async (token: string) => {
 
 export const addToCartBackend = async (product_id: string, quantity: number, token: string) => {
     await axios.post(
-        'http://127.0.0.1:5000/cart/',
+        `${import.meta.env.VITE_BASE_URL}/cart/`,
         { product_id, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -17,20 +17,20 @@ export const addToCartBackend = async (product_id: string, quantity: number, tok
 
 export const updateCartBackend = async (product_id: string, quantity: number, token: string) => {
     await axios.patch(
-        `http://127.0.0.1:5000/cart/${product_id}`,
+        `${import.meta.env.VITE_BASE_URL}/cart/${product_id}`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
     );
 };
 
 export const removeFromCartBackend = async (productId: string, token: string) => {
-    await axios.delete(`http://127.0.0.1:5000/cart/${productId}`, {
+    await axios.delete(`${import.meta.env.VITE_BASE_URL}/cart/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 };
 
 export const clearCartBackend = async (token: string) => {
-    await axios.delete('http://127.0.0.1:5000/cart/', {
+    await axios.delete(`${import.meta.env.VITE_BASE_URL}/cart/`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 };

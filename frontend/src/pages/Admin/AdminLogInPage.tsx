@@ -24,7 +24,7 @@ const AdminLogInPage: React.FC = () => {
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/admin/login", //flask route that handles login auth
             data: {
                 email: loginForm.email,

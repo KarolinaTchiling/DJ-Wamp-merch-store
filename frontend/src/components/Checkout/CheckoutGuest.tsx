@@ -59,7 +59,7 @@ const CheckoutGuest: React.FC = () => {
     try {
 
       // Step 1: Submit user creation form
-      await axios.post("http://127.0.0.1:5000/signup", {
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/signup`, {
         fname,
         lname,
         email,
@@ -72,14 +72,14 @@ const CheckoutGuest: React.FC = () => {
       });
   
       // Step 2: Automatically log in
-      const loginResponse = await axios.post("http://127.0.0.1:5000/login", { email, password });
+      const loginResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/login`, { email, password });
       const token = loginResponse.data.token;
       setToken(token);
       setUserType("user");
   
       // Step 3: Submit credit card details
       await axios.patch(
-        "http://127.0.0.1:5000/user/cc",
+        `${import.meta.env.VITE_BASE_URL}/user/cc`,
         { cc_info: formattedCard },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -91,7 +91,7 @@ const CheckoutGuest: React.FC = () => {
   
       // Step 5: Place order
       await axios.post(
-        "http://127.0.0.1:5000/sale/",
+        `${import.meta.env.VITE_BASE_URL}/sale/`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

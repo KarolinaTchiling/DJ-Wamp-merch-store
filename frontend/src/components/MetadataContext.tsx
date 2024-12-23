@@ -20,7 +20,7 @@ export const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const fetchMetadata = async () => {
     try {
       const response = await axios.get<{ categories: string[]; albums: string[] }>(
-        "http://127.0.0.1:5000/catalog/metadata"
+        `${import.meta.env.VITE_BASE_URL}/catalog/metadata`
       );
       setMetadata(response.data);
     } catch (error) {

@@ -23,7 +23,7 @@ const AdminSignUpPage: React.FC = () => {
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/admin/signup", //flask route that handles signup auth
             data: {
                 email: signUpForm.email.trim(),

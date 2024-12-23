@@ -74,7 +74,7 @@ const AccountPage: React.FC = () => {
     function getData(){
         axios({
             method: "get",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/user/",
         }).then((response) =>{
             const resp = response.data;
@@ -119,7 +119,7 @@ const AccountPage: React.FC = () => {
         // Make the PATCH request
         axios({
             method: "patch",
-            baseURL: "http://127.0.0.1:5000",
+            baseURL: `${import.meta.env.VITE_BASE_URL}`,
             url: `/user/`,
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if required
@@ -152,7 +152,7 @@ const AccountPage: React.FC = () => {
     const editUserPW = methods.handleSubmit(() => {
         axios({
             method: "post",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/login", //flask route that handles login auth
             data: {
                 email: accountData.email.trim(),
@@ -179,7 +179,7 @@ const AccountPage: React.FC = () => {
             `)
             axios({
                 method: "patch",
-                baseURL: 'http://127.0.0.1:5000',
+                baseURL: `${import.meta.env.VITE_BASE_URL}`,
                 url: `/user/pw`,
                 data: {
                     password: accountData.password.trim(),
@@ -211,7 +211,7 @@ const AccountPage: React.FC = () => {
         // card data send in "xxxxxxxxxxxxxxxx-xxxx-xxx" (16 nums, exp(mmyy),cvv), one string
         axios({
             method: "patch",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: `/user/cc`,
             data: {
                 cc_info: `${accountData.cc_info}-${accountData.expiry}-${accountData.cvv}`,

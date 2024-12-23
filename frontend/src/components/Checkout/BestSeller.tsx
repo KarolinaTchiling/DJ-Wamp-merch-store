@@ -23,7 +23,7 @@ const SuggestBest: React.FC<SuggestProps> = ({ columns = 4 }) => {
       try {
         // Step 1: Fetch top sellers
         const response = await axios.get<{ top_sellers: TopSeller[] }>(
-          "http://127.0.0.1:5000/sale/top-sellers"
+          `${import.meta.env.VITE_BASE_URL}/sale/top-sellers`
         );
   
         // Step 2: Extract only the first 4 product IDs
@@ -33,7 +33,7 @@ const SuggestBest: React.FC<SuggestProps> = ({ columns = 4 }) => {
   
         // Step 3: Fetch product details only for the top 4 products
         const productRequests = topFourProductIds.map((id) =>
-          axios.get<Product>(`http://127.0.0.1:5000/catalog/products/${id}`)
+          axios.get<Product>(`${import.meta.env.VITE_BASE_URL}/catalog/products/${id}`)
         );
   
         const productResponses = await Promise.all(productRequests);

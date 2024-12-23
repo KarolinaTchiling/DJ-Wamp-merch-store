@@ -27,7 +27,7 @@ const EditProductPage: React.FC = () => {
         // only used if the person directly searches for the product url
         axios({
             method: "get",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: `/catalog/products/${encodeURIComponent(id)}`,
         }).then(async (response) => {
             const resp = response.data;
@@ -60,7 +60,7 @@ const EditProductPage: React.FC = () => {
         if(id) {
             axios({
                 method: "patch",
-                baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+                baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
                 url: `/catalog/products/${encodeURIComponent(id)}`,
                 data: {
                     name: prodForm.name,
@@ -95,7 +95,7 @@ const EditProductPage: React.FC = () => {
         if(id) {
             axios({
                 method: "delete",
-                baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+                baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
                 url: `/catalog/products/${encodeURIComponent(id)}`
             }).then(async () => {
                 setShowForm(false);

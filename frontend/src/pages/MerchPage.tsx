@@ -72,7 +72,7 @@ const MerchPage: React.FC = () => {
 
     try {
       const response = await axios.get<{ products: Product[] }>(
-        `http://127.0.0.1:5000/catalog/products${queryParams ? `?${queryParams}` : ""}`
+        `${import.meta.env.VITE_BASE_URL}/catalog/products${queryParams ? `?${queryParams}` : ""}`
       );
       setProducts(response.data.products);
     } catch (err: any) {

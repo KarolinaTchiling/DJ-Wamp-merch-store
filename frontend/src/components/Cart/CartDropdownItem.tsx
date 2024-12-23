@@ -20,7 +20,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
         const fetchFullProduct = async () => {
             try {
                 const response = await fetch(
-                    `http://127.0.0.1:5000/catalog/products?name=${encodeURIComponent(item.name)}`
+                    `${import.meta.env.VITE_BASE_URL}/catalog/products?name=${encodeURIComponent(item.name)}`
                 );
                 const data = await response.json();
                 setProduct(data.products[0]);
@@ -115,7 +115,6 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>

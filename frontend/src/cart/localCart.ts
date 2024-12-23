@@ -5,7 +5,7 @@ import axios from "axios";
 // Helper to fetch valid product IDs from the backend
 const fetchValidProductIds = async (): Promise<Set<string>> => {
     try {
-        const response = await axios.get(`http://127.0.0.1:5000/catalog/products`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/catalog/products`);
         const validProductIds = response.data.products.map((product: any) => product.id);
         return new Set(validProductIds);
     } catch (error: any) {

@@ -13,9 +13,9 @@ const Dashboard: React.FC = () => {
     function getGlance() {
         setLoading(true);
         Promise.allSettled([
-            axios.get("http://localhost:5000/sale/history"),
-            axios.get("http://localhost:5000/user/users"),
-            axios.get("http://localhost:5000/catalog/products"),
+            axios.get(`${import.meta.env.VITE_BASE_URL}/sale/history`),
+            axios.get(`${import.meta.env.VITE_BASE_URL}/user/users`),
+            axios.get(`${import.meta.env.VITE_BASE_URL}/catalog/products`),
         ])
             .then((results) => {
                 const sales = results[0].status === "fulfilled" ? results[0].value.data.sales : [];

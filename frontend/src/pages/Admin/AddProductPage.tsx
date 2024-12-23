@@ -16,13 +16,13 @@ const AddProductPage: React.FC = () => {
         = useState({name: "", category: "", brand: "", album: "", price: 0.00,
             description: "", image_url: "", quantity: 0});
     const methods = useForm();
-
+    
     function addProduct(event: React.FormEvent) {
         setError(false);
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
-            baseURL: 'http://127.0.0.1:5000', //can replace with personal port
+            baseURL: `${import.meta.env.VITE_BASE_URL}`, //can replace with personal port
             url: "/catalog/products", //flask route that handles addProduct auth
             data: {
                 name: prodForm.name,

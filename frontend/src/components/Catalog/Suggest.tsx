@@ -19,7 +19,7 @@ const Suggest: React.FC<SuggestProps> = ({ currentCategory, currentProduct, colu
       const fetchProducts = async () => {
           try {
               const response = await axios.get<{ products: Product[] }>(
-                  `http://127.0.0.1:5000/catalog/products?category=${currentCategory}`
+                  `${import.meta.env.VITE_BASE_URL}/catalog/products?category=${currentCategory}`
               );
 
               // Exclude the current product from the results

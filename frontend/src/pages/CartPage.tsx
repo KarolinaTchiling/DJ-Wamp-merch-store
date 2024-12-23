@@ -23,7 +23,7 @@ const CartPage: React.FC = () => {
                 const fetchedProducts = await Promise.all(
                     cartItems.map(async (item) => {
                         const response = await fetch(
-                            `http://127.0.0.1:5000/catalog/products/${encodeURIComponent(item.product_id)}`
+                            `${import.meta.env.VITE_BASE_URL}/catalog/products/${encodeURIComponent(item.product_id)}`
                         );
                         const data = await response.json();
                         return { product_id: item.product_id, stock: data.stock, ...data };

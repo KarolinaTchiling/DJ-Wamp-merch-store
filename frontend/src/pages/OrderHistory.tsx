@@ -11,7 +11,7 @@ const OrderHistory: React.FC = () => {
     function getOrders(){
         axios({
             method: "get",
-            baseURL: "http://localhost:5000",
+            baseURL: `${import.meta.env.VITE_BASE_URL}`,
             url: `/sale/orders`,
             params: {
                 sort_by: "date", // Specify the field to sort by

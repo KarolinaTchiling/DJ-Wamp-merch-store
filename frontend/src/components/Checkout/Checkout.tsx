@@ -36,7 +36,7 @@ const Checkout: React.FC = () => {
   // Centralized function to fetch user data
   const fetchAccountData = async () => {
     try {
-      const userResponse = await axios.get("http://127.0.0.1:5000/user/");
+      const userResponse = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/`);
       const user = userResponse.data.user;
 
       if (!user) {
@@ -59,7 +59,7 @@ const Checkout: React.FC = () => {
       // Validate credit card
       if (user.cc_info) {
         try {
-          const ccResponse = await axios.get("http://127.0.0.1:5000/user/cc", {
+          const ccResponse = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/cc`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           });
           const decodedCC = ccResponse.data.cc_info;
@@ -107,7 +107,7 @@ const Checkout: React.FC = () => {
     const fullCCInfo = `${accountData.cc_info}-${accountData.expiry}-${accountData.cvv}`;
 
     try {
-      await axios.patch("http://127.0.0.1:5000/user/cc", { cc_info: fullCCInfo });
+      await axios.patch(`${import.meta.env.VITE_BASE_URL}/user/cc`, { cc_info: fullCCInfo });
       alert("Payment Information Updated!");
       setIsEditCC(false);
       fetchAccountData();
@@ -121,7 +121,7 @@ const Checkout: React.FC = () => {
     event.preventDefault();
     try {
       const response = await axios.patch(
-        "http://127.0.0.1:5000/user/address",
+        `${import.meta.env.VITE_BASE_URL}/user/address`,
         {
           street: accountData.street,
           city: accountData.city,
@@ -164,7 +164,7 @@ const Checkout: React.FC = () => {
     }
 
     try {
-      await axios.post("http://127.0.0.1:5000/sale/", {}, {
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/sale/`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       await showOrderDialog();
