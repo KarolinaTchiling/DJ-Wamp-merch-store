@@ -92,7 +92,7 @@ const SignUpPage: React.FC = () => {
 
             <hr className={"border-camel mt-10 mb-10"}/>
             <div className="grid grid-cols-1 gap-4 place-items-center">
-                <p>Already have an account? <a href={"/login"} className={"font-normal underline text-camel hover:font-extrabold"}>
+                <p>Already have an account? <a href={"#/login"} className={"font-normal underline text-camel hover:font-extrabold"}>
                     Log In</a></p>
             </div>
         </form>

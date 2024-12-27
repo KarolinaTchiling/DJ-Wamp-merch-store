@@ -76,14 +76,10 @@ const AdminLogInPage: React.FC = () => {
 
             <hr className={"border-camel mt-10 mb-10"}/>
 
-            <Button onClick={()=>{window.location.href="/";}}>
+            <Button onClick={()=>{window.location.href="#/login";}}>
                 To User View</Button>
             <hr className={"border-camel mt-10 mb-10"}/>
-            <div className="grid grid-cols-1 gap-4 place-items-center">
-                <p>Don't have an account? <a href={"/admin/signup"}
-                                             className={"font-normal underline text-camel hover:font-extrabold"}>
-                    Sign Up</a></p>
-            </div>
+
         </form>
         </FormProvider>
         </div>

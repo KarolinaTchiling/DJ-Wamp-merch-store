@@ -93,8 +93,8 @@ const App: React.FC = () => {
                             <Route path="/order-history" element={<OrderHistory/>} />
 
                             {/*if they are signed in, let log in and sign up redirect to account page*/}
-                            <Route path="login" element={<Navigate to="/account-settings" replace />} />
-                            <Route path="signup" element={<Navigate to="/account-settings" replace />} />
+                            <Route path="login" element={<Navigate to="/" replace />} />
+                            <Route path="signup" element={<Navigate to="/" replace />} />
                         </>
 
                     }

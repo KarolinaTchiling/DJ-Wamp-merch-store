@@ -10,9 +10,9 @@ const AccountSidebar: React.FC = () => {
     }
     return (
         <aside className="text-camel w-[200px] h-auto pl-8 pr-8 border-r border-camel" aria-label="Sidebar">
-            <a href={"/account-settings"}><p className={"mb-2 hover:text-lg hover:font-extrabold active:bg-black active:bg-opacity-5"}>
+            <a href={"#/account-settings"}><p className={"mb-2 hover:text-lg hover:font-extrabold active:bg-black active:bg-opacity-5"}>
                 Account</p></a>
-            <a href={"/order-history"}><p className={"mb-2 hover:text-lg hover:font-extrabold active:bg-black active:bg-opacity-5"}>
+            <a href={"#/order-history"}><p className={"mb-2 hover:text-lg hover:font-extrabold active:bg-black active:bg-opacity-5"}>
                 Order History</p></a>
             <a href={""} onClick={logOut}>
                 <p className={"mb-2 hover:text-lg hover:font-extrabold active:bg-black active:bg-opacity-5"}>
