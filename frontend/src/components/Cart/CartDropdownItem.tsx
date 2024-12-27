@@ -4,6 +4,7 @@ import QuantityControl from './QuantityControl.tsx';
 import { Link } from 'react-router-dom';
 import Button from '../Button.tsx';
 import { CartItem } from "../../types.ts";
+import Loader from "../../components/Loader.tsx";
 
 interface CartDropdownItemProps {
     item: CartItem; 
@@ -62,10 +63,14 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
         }
     };
 
-
     if (!product) {
-        return <div>Loading...</div>; // Show a loading indicator until data is fetched
+    return (
+        <div className="flex items-center justify-center h-full">
+        <Loader />
+        </div>
+    );
     }
+
 
     // const location = useLocation();
     // console.log('Location State:', location.state); 
