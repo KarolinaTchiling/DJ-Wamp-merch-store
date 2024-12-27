@@ -31,8 +31,6 @@ const OrderBlock: React.FC<Prop> = (prop) => {
             {/*Header*/}
             <div className={"flex flex-row max-w-2xl gap-9 mb-4 text-right"}>
                 <p className={"font-extrabold"}>{prop.date}</p>
-                {/*<a href={""} className={"text-camel hover:font-extrabold flex-grow"}>Track Shipment</a>*/}
-                {/*<a href={""} className={"text-camel hover:font-extrabold"}>Print Receipt</a>*/}
             </div>
 
             <div className="pb-3 text-lg text-black">

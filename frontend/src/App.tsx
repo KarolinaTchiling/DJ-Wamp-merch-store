@@ -84,8 +84,8 @@ const App: React.FC = () => {
                             <Route path="/signup" element={<SignUpPage/>} />
 
                             {/*if they are not signed in, let account page and order history redirect to log in and sign up*/}
-                            <Route path="/account-settings" element={<Navigate to="/login" replace />} />
-                            <Route path="/order-history" element={<Navigate to="/login" replace />} />
+                            <Route path="/account-settings" element={<Navigate to="/" replace />} />
+                            <Route path="/order-history" element={<Navigate to="/" replace />} />
                         </>
                         :
                         <>

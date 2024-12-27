@@ -168,8 +168,7 @@ const Checkout: React.FC = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       await showOrderDialog();
-      window.location.href = '/order-history';
-      navigate("/order-history");
+      navigate('/order-history');
     } catch {
       alert("Failed to place order. Please try again.");
     }

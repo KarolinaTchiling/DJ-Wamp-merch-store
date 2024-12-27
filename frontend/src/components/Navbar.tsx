@@ -14,7 +14,7 @@ interface NavLink {
 
 // Sample navigation links
 const navLinks: NavLink[] = [
-  { name: 'Merch', href: '/' },
+  { name: 'Merch', href: '/catalog/products' },
   { name: 'Contact', href: '/contact' }
 ];
 
@@ -32,33 +32,35 @@ const Navbar: React.FC = () => {
     console.log('Search term:', value);
     handleSearch(value); // Update the search context globally
   };
-  const liStyle = "flex items-center justify-center w-full h-full py-1";
+
   return (
     <nav className="bg-cream p-10 pb-7 text-sm">
       <ul className="flex flex-row text-center items-center">
         
-        {/* DJ WAMP Logo */}
-        <li className="basis-[24%] flex justify-start">
-          <a href={'/'}> <Logo size={25}/></a>
-        </li>
+      {/* DJ WAMP Logo */}
+      <li className="basis-[24%] flex justify-start">
+        <NavLink to="/catalog/products">
+          <Logo size={25} />
+        </NavLink>
+      </li>
 
         {/* Page Links */}
         <li className="basis-[50%] pr-[90px]">
           <ul className="flex flex-row text-center w-full">
-              {navLinks.map((link, index) => (
-                <li
-                    key={link.name}
-                    className={`hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel ${
-                      index === navLinks.length - 1 ? 'border-r' : ''
-                    }`}>
-                      <NavLink to={link.href} className={({ isActive}) =>
-                                          isActive ? `${liStyle} bg-camel text-white`
-                                              : `${liStyle}`}>
-                        {link.name}
-                      </NavLink>
+            {navLinks.map((link, index) => (
+              <NavLink 
+                to={link.href}
+                key={link.name}
+                className={`py-1 hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel ${
+                  index === navLinks.length - 1 ? 'border-r' : ''
+                } flex items-center justify-center`}
+              >
+                <li className="w-full h-full">
+                  {link.name}
                 </li>
-              ))}
-            </ul>
+              </NavLink>
+            ))}
+          </ul>
         </li>
 
         {/* Shopping Cart */}

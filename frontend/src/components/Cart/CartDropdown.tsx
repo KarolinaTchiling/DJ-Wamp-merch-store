@@ -65,10 +65,10 @@ const CartDropdown: React.FC = () => {
                                     Your cart is empty :(
                                 </li>
                                 <li 
-                                    className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel"
+                                    className="hover:text-white hover:font-medium hover:bg-camel"
                                     onClick={closeDropdown} 
                                 >
-                                    <Link to="/" className="block w-full h-full">Continue Shopping</Link>
+                                    <Link to="/" className="px-3 py-1 block w-full h-full">Continue Shopping</Link>
                                 </li>
                             </>
                         ) : (
@@ -80,10 +80,10 @@ const CartDropdown: React.FC = () => {
                                     </li>
                                 ))}
                                 <li 
-                                    className="px-5 pr-8 py-2 hover:text-white border-camel hover:font-medium hover:bg-camel flex justify-between items-center"
+                                    className="hover:text-white border-camel hover:font-medium hover:bg-camel flex justify-between items-center"
                                     onClick={closeDropdown} 
                                 >
-                                    <Link to="/cart" className="flex justify-between items-center w-full">
+                                    <Link to="/cart" className="px-5 pr-8 py-2 flex justify-between items-center w-full h-full">
                                         <div className="font-bold">Cart Total: &nbsp;$ {cartTotal.toFixed(2)}</div>
                                         <div>Go to Cart &nbsp;&nbsp; → </div>
                                     </Link>
