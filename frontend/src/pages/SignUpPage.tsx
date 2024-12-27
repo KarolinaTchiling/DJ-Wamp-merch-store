@@ -12,6 +12,7 @@ import {useTokenContext} from "../components/TokenContext.tsx";
 
 const SignUpPage: React.FC = () => {
     const {setToken, setUserType} = useTokenContext();
+    const [loading, setLoading] = useState<boolean>(false); // Loading state
     
     // form state starts with fields as empty strings
     const [signUpForm, setSignUpForm]
@@ -29,6 +30,7 @@ const SignUpPage: React.FC = () => {
             });
     const methods = useForm();
     const signUp = methods.handleSubmit(() => {
+        setLoading(true);
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
@@ -66,6 +68,8 @@ const SignUpPage: React.FC = () => {
             if (error.response) {
                 console.error("Error occurred:", error.response);
             }
+        }).finally(() => {
+            setLoading(false); // Set loading to false after login is complete
         });
 
         setSignUpForm(({
@@ -91,7 +95,15 @@ const SignUpPage: React.FC = () => {
     }
 
     return (
-        <div className={"min-w-full flex justify-center"}>
+        <div className={"relative flex justify-center"}>
+
+        {/* Loading Overlay */}
+        {loading && (
+            <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10">
+                <div className="text-coffee text-xl">Creating Account and Logging in...</div>
+            </div>
+        )}
+
         <FormProvider {...methods}>
         <form noValidate onSubmit={e => e.preventDefault()}
             className="rounded px-8 pt-6 pb-8 mb-4 max-w-[430px] h-auto grid items-center justify-center">
