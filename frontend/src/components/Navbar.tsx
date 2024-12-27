@@ -14,7 +14,7 @@ interface NavLink {
 
 // Sample navigation links
 const navLinks: NavLink[] = [
-  { name: 'Merch', href: '/catalog/products' },
+  { name: 'Merch', href: '/' },
   { name: 'Contact', href: '/contact' }
 ];
 
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         
         {/* DJ WAMP Logo */}
         <li className="basis-[24%] flex justify-start">
-          <a href={"/catalog/products"}> <Logo size={25}/></a>
+          <a href={'/'}> <Logo size={25}/></a>
         </li>
 
         {/* Page Links */}

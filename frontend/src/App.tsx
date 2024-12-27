@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
+
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
@@ -65,8 +66,8 @@ const App: React.FC = () => {
             <div className={"min-h-screen"}>
                 <Routes>
                 <Route path='/' element={<UserLayout />}>
-                    <Route index element={<Navigate to="/catalog/products" replace />} />
-
+     
+                    <Route index element={<Navigate to="catalog/products" replace />} />
                     <Route path="/catalog/products" element={<MerchPage />} />
                     <Route path="/catalog/products/:name" element={<DetailPage />} />
                     <Route path="/cart" element={<CartPage />} />

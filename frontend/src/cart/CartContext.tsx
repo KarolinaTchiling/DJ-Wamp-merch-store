@@ -18,7 +18,7 @@ interface CartContextProps {
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
     const [cartCount, setCartCount] = useState<number>(0);
@@ -198,10 +198,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 };
 
-export const useCartContext = () => {
+const useCartContext = () => {
     const context = useContext(CartContext);
     if (!context) {
         throw new Error('useCartContext must be used within a CartProvider');
     }
     return context;
 };
+
+export { CartProvider, useCartContext };

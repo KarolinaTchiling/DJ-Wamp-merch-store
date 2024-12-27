@@ -4,16 +4,16 @@ import { TokenProvider } from './components/TokenContext.tsx';
 import { CartProvider } from './cart/CartContext.tsx';
 import App from './App.tsx';
 import './index.css';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <TokenProvider>
         <CartProvider>
             <App />
         </CartProvider>
       </TokenProvider>
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>,
 );
