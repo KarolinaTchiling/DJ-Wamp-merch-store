@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Logo from "../components/Logo.tsx";
 import Button from "../components/Button.tsx";
+import Tooltip from "../components/tooltip.tsx";
 import axios from 'axios';
 import { useTokenContext } from "../components/TokenContext.tsx";
 import { useCartContext } from "../cart/CartContext.tsx";
@@ -61,33 +62,45 @@ const LogInPage: React.FC = () => {
                 <div className="flex justify-center">
                     <Logo size={48} />
                 </div>
-                <div className="mb-4">
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                        id="email"
-                        name="email"
-                        value={loginForm.email}
-                        type="email"
-                        onChange={handleChange}
-                        placeholder=""
-                        autoComplete="on"
-                        className="bg-transparent w-full mt-1 py-1 px-2 border border-camel"
-                    />
+
+                <div className="mt-4 w-full flex justify-center items-center space-x-2">
+                    <div className="mb-4">
+                        <label htmlFor="email">Email Address</label>
+                        <input
+                            id="email"
+                            name="email"
+                            value={loginForm.email}
+                            type="email"
+                            onChange={handleChange}
+                            placeholder=""
+                            autoComplete="on"
+                            className="bg-transparent w-full mt-1 py-1 px-2 border border-camel"
+                        />
+                    </div>
+                    <div className="mt-3">
+                        <Tooltip title="Don't want to make an account? Use Login: jane.doe@gmail.com"/>  
+                    </div> 
                 </div>
-                <div className="mb-4 w-full">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        name="password"
-                        value={loginForm.password}
-                        type="password"
-                        onChange={handleChange}
-                        placeholder=""
-                        autoComplete="on"
-                        className="bg-transparent w-full mt-1 py-1 px-2 border border-camel"
-                    />
+
+                <div className="mb-4 w-full flex justify-center items-center space-x-2">
+                    <div className="mb-4 w-full">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            name="password"
+                            value={loginForm.password}
+                            type="password"
+                            onChange={handleChange}
+                            placeholder=""
+                            autoComplete="on"
+                            className="bg-transparent w-full mt-1 py-1 px-2 border border-camel"
+                        />
+                    </div>
+                    <div className="mt-3">
+                        <Tooltip title="Password123!"/>  
+                    </div> 
                 </div>
-                <div className="mb-4 w-full grid justify-center items-center">
+                <div className="mb-4 w-full flex justify-center items-center space-x-2">
                     <Button type="submit" disabled={loading}>
                         {loading ? "Logging In..." : "Log In"}
                     </Button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from "../../components/Logo.tsx";
 import Button from "../../components/Button.tsx";
-
+import Tooltip from "../../components/tooltip.tsx";
 import {useState} from 'react';
 import axios from 'axios';
 import {useTokenContext} from "../../components/TokenContext.tsx";
@@ -67,8 +67,20 @@ const AdminLogInPage: React.FC = () => {
             <div className="flex justify-center"><Logo size={48} ></Logo></div>
             <p className="flex mb-4 justify-center">Admin</p>
 
-            <Input value={loginForm.email} {...email_validation({handleChange})}/>
-            <Input value={loginForm.password} {...pw_validation({handleChange})}/>
+            <div className="mb-4 w-full flex justify-center items-center space-x-2">
+                <Input value={loginForm.email} {...email_validation({handleChange})}/>
+                <div className="mt-3">
+                    <Tooltip title="dj_wamp@gmail.com"/>  
+                </div> 
+            </div>
+
+            <div className="mb-4 w-full flex justify-center items-center space-x-2">
+                <Input value={loginForm.password} {...pw_validation({handleChange})}/>
+                <div className="mt-3">
+                    <Tooltip title="Password123!"/>  
+                </div> 
+            </div>
+
 
             <div className="mb-4 w-full grid justify-center items-center">
                 <Button type={"submit"} onClick={logIn}>Log In</Button>
