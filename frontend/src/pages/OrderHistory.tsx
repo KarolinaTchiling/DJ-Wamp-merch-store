@@ -43,7 +43,7 @@ const OrderHistory: React.FC = () => {
                     {orders.length === 0 ? (
                         <div className="text-center">
                             <p className="text-coffee text-lg">Nothing to see here...</p>
-                            <a href={"/"} className={"text-camel hover:font-black hover:text-lg"}>Go Shopping</a>
+                            <a href={"/#/catalog/products"} className={"text-camel hover:font-black hover:text-lg"}>Go Shopping</a>
                          </div>   
                         
                     ) : (
