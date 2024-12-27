@@ -5,6 +5,7 @@ import Tooltip from "../components/tooltip.tsx";
 import axios from 'axios';
 import { useTokenContext } from "../components/TokenContext.tsx";
 import { useCartContext } from "../cart/CartContext.tsx";
+import Loader from "../components/Loader.tsx";
 
 const LogInPage: React.FC = () => {
     const { setToken, setUserType } = useTokenContext();
@@ -50,8 +51,9 @@ const LogInPage: React.FC = () => {
         <div className="relative">
             {/* Loading Overlay */}
             {loading && (
-                <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10">
-                    <div className="text-coffee text-xl">Logging in...</div>
+                <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10 flex-col">
+                    <div className="text-coffee text-xl mb-6">Logging In</div>
+                    <Loader />
                 </div>
             )}
 

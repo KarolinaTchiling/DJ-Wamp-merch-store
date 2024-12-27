@@ -9,6 +9,7 @@ import {
 import {FormProvider, useForm} from "react-hook-form";
 import {fname_validation, lname_validation} from "../components/InputValidations.tsx";
 import {useTokenContext} from "../components/TokenContext.tsx";
+import Loader from "../components/Loader.tsx";
 
 const SignUpPage: React.FC = () => {
     const {setToken, setUserType} = useTokenContext();
@@ -99,9 +100,10 @@ const SignUpPage: React.FC = () => {
 
         {/* Loading Overlay */}
         {loading && (
-            <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10">
-                <div className="text-coffee text-xl">Creating Account and Logging in...</div>
-            </div>
+                <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10 flex-col">
+                    <div className="text-coffee text-xl mb-6">Creating an Account and Logging In</div>
+                    <Loader />
+                </div>
         )}
 
         <FormProvider {...methods}>

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import CatalogProduct from "./CatalogProduct";
 import { Product } from '../../types'; 
 import axios from "axios";
+import Loader from "../../components/Loader.tsx";
 
 interface SuggestProps {
     currentCategory: string;
@@ -39,7 +40,13 @@ const Suggest: React.FC<SuggestProps> = ({ currentCategory, currentProduct, colu
       fetchProducts();
   }, [currentCategory, currentProduct]); // Dependency on `currentProduct`
 
-  if (loading) return <p>.</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loader />
+      </div>
+    );
+  }
   if (error) return <p>{error}</p>;
 
     return (

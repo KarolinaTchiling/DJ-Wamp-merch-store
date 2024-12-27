@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from "../../components/Logo.tsx";
 import Button from "../../components/Button.tsx";
 import Tooltip from "../../components/tooltip.tsx";
+import Loader from "../../components/Loader.tsx";
 import {useState} from 'react';
 import axios from 'axios';
 import {useTokenContext} from "../../components/TokenContext.tsx";
@@ -14,6 +15,7 @@ import {
 
 const AdminLogInPage: React.FC = () => {
     const {setToken, setUserType} = useTokenContext();
+    const [loading, setLoading] = useState<boolean>(false); // Loading state
 
     // login form state starts with email and password as empty strings
     const [loginForm, setLoginForm]
@@ -21,6 +23,7 @@ const AdminLogInPage: React.FC = () => {
 
     const methods = useForm();
     const logIn = methods.handleSubmit(() => {
+        setLoading(true);
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
@@ -41,7 +44,9 @@ const AdminLogInPage: React.FC = () => {
                 console.log(error.response.status);
                 console.log(error.response.headers);
             }
-        })
+        }).finally(() => {
+            setLoading(false); // Set loading to false after login is complete
+        });
 
         setLoginForm(({
             email: "",
@@ -61,6 +66,13 @@ const AdminLogInPage: React.FC = () => {
 
     return (
         <div className={"min-w-full flex-grow"}>
+            {/* Loading Overlay */}
+            {loading && (
+                <div className="absolute inset-0 bg-beige bg-opacity-100 flex items-center justify-center z-10 flex-col">
+                    <div className="text-coffee text-xl mb-6">Logging In</div>
+                    <Loader />
+                </div>
+            )}
         <FormProvider {...methods}>
         <form noValidate onSubmit={e => e.preventDefault()}
               className="px-8 pt-6 pb-8 mb-4 w-auto h-auto grid items-center justify-center" >
