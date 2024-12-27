@@ -1,6 +1,7 @@
 import React from 'react';
 import InstagramIcon from '../assets/Instagram.svg'
 import LinkedIncon from '../assets/LinkedIn.svg'
+import { NavLink } from 'react-router-dom';
 
 const Footer: React.FC = () =>{
     return(
@@ -25,7 +26,10 @@ const Footer: React.FC = () =>{
             </div>
             <div className={"flex-1 flex flex-col gap-1"}>
                 <p className={"hover:text-camel hover:font-bold"}>FAQs</p>
-                <p className={"hover:text-camel hover:font-bold"}><a href={"/contact"}>Contact us</a></p>
+                <NavLink to="/contact" className="hover:text-camel hover:font-bold">
+                    Contact us
+                </NavLink>
+
             </div>
             <div className={"flex-1 flex flex-col gap-1"}>
                 <p className={"hover:text-camel hover:font-bold"}>Terms of Service</p>

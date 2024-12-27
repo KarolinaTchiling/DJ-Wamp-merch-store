@@ -8,9 +8,11 @@ import {
 } from "../components/InputValidations.tsx";
 import {FormProvider, useForm} from "react-hook-form";
 import {fname_validation, lname_validation} from "../components/InputValidations.tsx";
+import {useTokenContext} from "../components/TokenContext.tsx";
 
 const SignUpPage: React.FC = () => {
-
+    const {setToken, setUserType} = useTokenContext();
+    
     // form state starts with fields as empty strings
     const [signUpForm, setSignUpForm]
         = useState(
@@ -43,16 +45,28 @@ const SignUpPage: React.FC = () => {
                 province: signUpForm.province.trim(),
                 postal: signUpForm.postal.trim()
             }
-        }).then(async () => {
-            console.log("sign up run" + signUpForm.email +". Now log in.");
-            window.location.href = "/login"; //redirect them to merch page
+        }).then(() => {
+            console.log("Sign up successful. Logging in now...");
+            // Automatically log in the user
+            return axios({
+                method: "post",
+                baseURL: `${import.meta.env.VITE_BASE_URL}`,
+                url: "/login",
+                data: {
+                    email: signUpForm.email.trim(),
+                    password: signUpForm.password.trim(),
+                }
+            });
+        }).then(async (response) => {
+            console.log("Log in successful: " + signUpForm.email);
+            setToken(response.data.token);
+            setUserType("user");
+            window.location.href = "/"; // Redirect them to the merch page
         }).catch((error) => {
             if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+                console.error("Error occurred:", error.response);
             }
-        })
+        });
 
         setSignUpForm(({
             fname: "",
