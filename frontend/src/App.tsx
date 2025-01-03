@@ -26,7 +26,6 @@ import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
 import { SearchProvider } from "./contexts/SearchContext.tsx";
-import { MetadataProvider } from "./contexts/MetadataContext.tsx";
 
 const App: React.FC = () => {
 
@@ -71,22 +70,21 @@ const App: React.FC = () => {
                     <Route path="/catalog/products/:name" element={<DetailPage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
-
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="*" element={<RouteNotFound url={"/"} label={"Back to Home"}/>} />
 
                     {/* only show login route if the user is not signed in
                     if logged in, let them see their account*/}
-                    {!token && token !== ""?
+                    {!token ? (
                         <>
                             <Route path="/login" element={<LogInPage />} />
                             <Route path="/signup" element={<SignUpPage/>} />
 
                             {/*if they are not signed in, let account page and order history redirect to log in and sign up*/}
-                            <Route path="/account-settings" element={<Navigate to="/" replace />} />
-                            <Route path="/order-history" element={<Navigate to="/" replace />} />
+                            <Route path="/account-settings" element={<Navigate to="/login" replace />} />
+                            <Route path="/order-history" element={<Navigate to="/login" replace />} />
                         </>
-                        :
+                     ) : (
                         <>
                             <Route path="/account-settings" element={<AccountPage/>} />
                             <Route path="/order-history" element={<OrderHistory/>} />
@@ -96,7 +94,7 @@ const App: React.FC = () => {
                             <Route path="signup" element={<Navigate to="/" replace />} />
                         </>
 
-                    }
+                    )}
                 </Route>
 
                 {/*for Admin pages*/}

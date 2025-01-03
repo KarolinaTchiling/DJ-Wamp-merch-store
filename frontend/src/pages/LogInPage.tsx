@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Logo from "../components/Logo.tsx";
 import Button from "../components/Button.tsx";
-import Tooltip from "../components/tooltip.tsx";
+import Tooltip from "../components/Tooltip.tsx";
 import axios from 'axios';
 import { useTokenContext } from "../contexts/TokenContext.tsx";
 import { useCartContext } from "../contexts/cart/CartContext.tsx";
 import Loader from "../components/Loader.tsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LogInPage: React.FC = () => {
     const { setToken, setUserType } = useTokenContext();
@@ -13,6 +14,11 @@ const LogInPage: React.FC = () => {
 
     const [loginForm, setLoginForm] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState<boolean>(false); // Loading state
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const returnToCheckout = (location.state as { returnToCheckout?: boolean })?.returnToCheckout;
 
     function logIn(event: React.FormEvent) {
         event.preventDefault(); // Prevent form submission default behavior
@@ -30,7 +36,14 @@ const LogInPage: React.FC = () => {
             console.log("Log in successful for " + loginForm.email);
             setToken(response.data.token);
             setUserType("user");
+
             await handleCartMergeOnLogin();
+
+            if (returnToCheckout) {
+                navigate("/checkout");
+            }
+
+
         }).catch((error) => {
             if (error.response) {
                 console.error("Error:", error.response);

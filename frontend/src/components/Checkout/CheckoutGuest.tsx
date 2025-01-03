@@ -107,6 +107,10 @@ const CheckoutGuest: React.FC = () => {
       alert(error.response?.data?.error || "An error occurred during checkout.");
     }
   }
+
+  const handleLoginClick = () => {
+    navigate("/login", { state: { returnToCheckout: true } });
+};
   
 
   return (
@@ -119,9 +123,7 @@ const CheckoutGuest: React.FC = () => {
           <div className="overflow-y-auto h-[calc(100vh-380px)] scrollbar-hidden">
             <div className="flex flex-row justify-between pb-10">
               <p className="text-xl">Already have an Account?</p>
-              <Button className="m-0 px-10" onClick={() => navigate("/login")}>
-                Sign In
-              </Button>
+              <Button className="m-0 px-10" onClick={handleLoginClick}>Sign In</Button>
             </div>
 
             <div className="grid gap-4">
