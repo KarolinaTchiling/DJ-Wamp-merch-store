@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CatalogProduct from "../Catalog/CatalogProduct"; // Component for displaying products
 import { Product } from "../../types"; 
+import Loader from "../Misc/Loader.tsx";
 
 
 interface TopSeller {
@@ -51,7 +52,13 @@ const SuggestBest: React.FC<SuggestProps> = ({ columns = 4 }) => {
     fetchTopSellers();
   }, []); // Runs only on component mount
 
-  if (loading) return <p></p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loader />
+      </div>
+    );
+  }
   if (error) return <p>{error}</p>;
 
   return (

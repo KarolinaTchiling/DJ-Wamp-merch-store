@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Button from '../../components/Button.tsx';
+import Button from '../../components/Misc/Button.tsx';
 import 'react-medium-image-zoom/dist/styles.css';
 import axios from "axios";
-import { useMetadata } from "../../components/MetadataContext";
-import {flex_text_only_validation, number_only_validation} from "../../components/InputValidations.tsx";
-import Input from "../../components/Input.tsx";
+import { useMetadata } from "../../contexts/MetadataContext.tsx";
+import {flex_text_only_validation, number_only_validation} from "../../components/Misc/InputValidations.tsx";
+import Input from "../../components/Misc/Input.tsx";
 import {FormProvider, useForm} from "react-hook-form";
 
 const AddProductPage: React.FC = () => {

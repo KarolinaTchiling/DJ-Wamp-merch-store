@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AdminAccountDetails from "../../components/Admin/AdminAccountDetails.tsx";
 import axios from "axios";
-import {useTokenContext} from "../../components/TokenContext.tsx";
+import {useTokenContext} from "../../contexts/TokenContext.tsx";
 
 const AccountPage: React.FC = () => {
     const { token } = useTokenContext(); // Access setToken from TokenContext

@@ -1,10 +1,10 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
-import Button from "../../components/Button.tsx";
-import Input from "../../components/Input.tsx"; 
-import { useCartContext } from "../../cart/CartContext";
-import { useTokenContext } from "../../components/TokenContext";
+import Button from "../../components/Misc/Button.tsx";
+import Input from "../Misc/Input.tsx"; 
+import { useCartContext } from "../../contexts/cart/CartContext.tsx";
+import { useTokenContext } from "../../contexts/TokenContext.tsx";
 import { useOrderDialog } from "../Checkout/OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import {
   lname_validation,
   email_validation,
   new_pw_validation,
-} from "../../components/InputValidations.tsx"; 
+} from "../Misc/InputValidations.tsx"; 
 
 interface AccountInfo {
   fname: string;
@@ -46,7 +46,7 @@ const CheckoutGuest: React.FC = () => {
   });
 
   const { handleSubmit } = methods;
-  const { handleCartMergeOnLogin } = useCartContext();
+  const { handleCartMergeOnLogin, refreshCart } = useCartContext();
   const { setToken, setUserType } = useTokenContext();
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
@@ -100,12 +100,17 @@ const CheckoutGuest: React.FC = () => {
   
       // Final Steps
       await showOrderDialog();
+      await refreshCart();
       navigate("/order-history");
     } catch (error: any) {
       console.error("Checkout failed:", error);
       alert(error.response?.data?.error || "An error occurred during checkout.");
     }
   }
+
+  const handleLoginClick = () => {
+    navigate("/login", { state: { returnToCheckout: true } });
+};
   
 
   return (
@@ -118,9 +123,7 @@ const CheckoutGuest: React.FC = () => {
           <div className="overflow-y-auto h-[calc(100vh-380px)] scrollbar-hidden">
             <div className="flex flex-row justify-between pb-10">
               <p className="text-xl">Already have an Account?</p>
-              <Button className="m-0 px-10" onClick={() => navigate("/login")}>
-                Sign In
-              </Button>
+              <Button className="m-0 px-10" onClick={handleLoginClick}>Sign In</Button>
             </div>
 
             <div className="grid gap-4">

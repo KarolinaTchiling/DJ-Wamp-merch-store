@@ -3,14 +3,14 @@ import {useForm, FormProvider} from "react-hook-form";
 import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
 import axios from "axios";
 import {User} from "../types.ts";
-import Button from "../components/Button.tsx";
-import {useTokenContext} from "../components/TokenContext.tsx";
-import Input from "../components/Input.tsx";
+import Button from "../components/Misc/Button.tsx";
+import {useTokenContext} from "../contexts/TokenContext.tsx";
+import Input from "../components/Misc/Input.tsx";
 import {
     email_validation,
     new_pw_validation, postal_code_validation,
     province_validation, pw_validation, street_validation, text_only_validation
-} from "../components/InputValidations.tsx";
+} from "../components/Misc/InputValidations.tsx";
 
 const AccountPage: React.FC = () => {
     interface AccountInfo{

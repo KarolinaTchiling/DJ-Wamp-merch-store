@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Button from '../Button.tsx';
+import Button from '../Misc/Button.tsx';
 
 interface OrderSuccessProps {
     onAcknowledge: () => void; // Callback when the user acknowledges the success message

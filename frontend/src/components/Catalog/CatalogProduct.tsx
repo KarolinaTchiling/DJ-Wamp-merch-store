@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../Button.tsx';
+import Button from '../Misc/Button.tsx';
 import { Product } from '../../types.ts'; 
 
 interface CatalogProductProps {

@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
-import OrderBlock from "../components/OrderBlock.tsx";
+import OrderBlock from "../components/User/OrderBlock.tsx";
 import {Order} from "../types.ts";
 import axios from "axios";
-
+import { NavLink } from 'react-router-dom';
+import Loader from "../components/Misc/Loader.tsx";
 
 const OrderHistory: React.FC = () => {
-    const [orders, setOrders] = useState<Order[]>(
-        []);
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [loading, setLoading] = useState<boolean>(true); // Track loading state
+    
     function getOrders(){
         axios({
             method: "get",
@@ -25,6 +27,8 @@ const OrderHistory: React.FC = () => {
                 console.log(error.response.status);
                 console.log(error.response.headers);
             }
+        }).finally(() => {
+            setLoading(false); // Stop loading after fetch completes
         });
     }
     // keep proxies in sync
@@ -40,10 +44,14 @@ const OrderHistory: React.FC = () => {
 
                 {/*Ordered items history*/}
                 <div className="min-h-full">
-                    {orders.length === 0 ? (
-                        <div className="text-center">
+                    {loading ? (
+                        <div>
+                            <Loader/>
+                        </div>
+                    ) : orders.length === 0 ? (
+                        <div className="">
                             <p className="text-coffee text-lg">Nothing to see here...</p>
-                            <a href={"/#/catalog/products"} className={"text-camel hover:font-black hover:text-lg"}>Go Shopping</a>
+                            <NavLink to='/catalog/products' className="text-camel hover:font-black hover:text-lg">Go Shopping </NavLink>
                          </div>   
                         
                     ) : (

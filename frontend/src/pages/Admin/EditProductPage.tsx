@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useLocation} from 'react-router-dom';
 import { Product } from '../../types';
-import Button from '../../components/Button.tsx';
+import Button from '../../components/Misc/Button.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import axios from "axios";
-import { useMetadata } from "../../components/MetadataContext"; 
+import { useMetadata } from "../../contexts/MetadataContext.tsx"; 
 
 
 const EditProductPage: React.FC = () => {
@@ -21,7 +21,7 @@ const EditProductPage: React.FC = () => {
         brand: "Product Brand", album: "Product Album", price: 0.00,
         description: "Product Description", image_url: "Image URL", quantity: 1});
 
-    const { refreshMetadata } = useMetadata();
+    const { refreshMetadata, refreshValidProductIds } = useMetadata();
 
     function getProduct(id: string) {
         // only used if the person directly searches for the product url
@@ -101,6 +101,9 @@ const EditProductPage: React.FC = () => {
                 setShowForm(false);
                 setShowConfirmation(false);
                 alert("Product Deleted!");
+
+                refreshValidProductIds();
+
                 setTimeout(()=>{window.location.href = "/admin/inventory";},500);
             }).catch((error) => {
                 if (error.response) {

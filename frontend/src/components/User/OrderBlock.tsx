@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderedItem from "./OrderedItem.tsx";
-import {CartItem} from "../types.ts";
+import {CartItem} from "../../types.ts";
 
 interface Prop{
     date: string;

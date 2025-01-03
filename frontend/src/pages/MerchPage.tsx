@@ -3,10 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import Sidebar from "../components/Sidebars/Sidebar"; 
 import CatalogProduct from "../components/Catalog/CatalogProduct";
 import SortDropdown from "../components/Catalog/SortDropdown";
-import Button from "../components/Button";
+import Button from "../components/Misc/Button";
 import axios from "axios";
 import { Product } from "../types";
-import { useSearch } from "../components/SearchContext";
+import { useSearch } from "../contexts/SearchContext";
 
 
 

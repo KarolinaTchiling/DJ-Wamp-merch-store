@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserTable } from "../../components/Admin/Table.tsx";
 import axios from "axios";
-import Button from "../../components/Button.tsx";
+import Button from "../../components/Misc/Button.tsx";
 import { User } from "../../types.ts";
 
 export interface Column<T> {

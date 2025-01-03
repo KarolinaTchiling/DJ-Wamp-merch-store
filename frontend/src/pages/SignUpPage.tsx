@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
-import Logo from "../components/Logo.tsx";
-import Button from "../components/Button.tsx";
+import Logo from "../components/Misc/Logo.tsx";
+import Button from "../components/Misc/Button.tsx";
 import axios from "axios";
-import Input from "../components/Input.tsx";
+import Input from "../components/Misc/Input.tsx";
 import {
     email_validation, new_pw_validation,
-} from "../components/InputValidations.tsx";
+} from "../components/Misc/InputValidations.tsx";
 import {FormProvider, useForm} from "react-hook-form";
-import {fname_validation, lname_validation} from "../components/InputValidations.tsx";
-import {useTokenContext} from "../components/TokenContext.tsx";
+import {fname_validation, lname_validation} from "../components/Misc/InputValidations.tsx";
+import {useTokenContext} from "../contexts/TokenContext.tsx";
+import Loader from "../components/Misc/Loader.tsx";
 
 const SignUpPage: React.FC = () => {
     const {setToken, setUserType} = useTokenContext();
+    const [loading, setLoading] = useState<boolean>(false); // Loading state
     
     // form state starts with fields as empty strings
     const [signUpForm, setSignUpForm]
@@ -29,6 +31,7 @@ const SignUpPage: React.FC = () => {
             });
     const methods = useForm();
     const signUp = methods.handleSubmit(() => {
+        setLoading(true);
         // handle sending info to flask once the form is submitted
         axios({
             method: "post",
@@ -66,6 +69,8 @@ const SignUpPage: React.FC = () => {
             if (error.response) {
                 console.error("Error occurred:", error.response);
             }
+        }).finally(() => {
+            setLoading(false); // Set loading to false after login is complete
         });
 
         setSignUpForm(({
@@ -91,7 +96,16 @@ const SignUpPage: React.FC = () => {
     }
 
     return (
-        <div className={"min-w-full flex justify-center"}>
+        <div className={"relative flex justify-center"}>
+
+        {/* Loading Overlay */}
+        {loading && (
+                <div className="absolute inset-0 bg-cream bg-opacity-100 flex items-center justify-center z-10 flex-col">
+                    <div className="text-coffee text-xl mb-6">Creating an Account and Logging In</div>
+                    <Loader />
+                </div>
+        )}
+
         <FormProvider {...methods}>
         <form noValidate onSubmit={e => e.preventDefault()}
             className="rounded px-8 pt-6 pb-8 mb-4 max-w-[430px] h-auto grid items-center justify-center">

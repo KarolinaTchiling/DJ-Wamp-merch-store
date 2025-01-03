@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import {NavLink} from "react-router-dom";
-import {useTokenContext} from "../TokenContext.tsx";
+import {useTokenContext} from "../../contexts/TokenContext.tsx";
 
 interface NavLink {
     name: string;

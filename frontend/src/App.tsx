@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar.tsx';
+import Navbar from './components/User/Navbar.tsx';
 
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
@@ -9,24 +9,23 @@ import OrderHistory from "./pages/OrderHistory.tsx";
 import DetailPage from "./pages/DetailPage.tsx";
 import MerchPage from "./pages/MerchPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
-import Footer from "./components/Footer.tsx";
+import Footer from "./components/Misc/Footer.tsx";
 import CartPage from "./pages/CartPage.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
 import RouteNotFound from "./pages/RouteNotFound.tsx";
 import AdminSidebar from "./components/Admin/Admin-Sidebar.tsx";
 
-import {useTokenContext} from "./components/TokenContext.tsx";
+import {useTokenContext} from "./contexts/TokenContext.tsx";
 import AdminLogInPage from "./pages/Admin/AdminLogInPage.tsx";
 import AdminSignUpPage from "./pages/Admin/AdminSignUpPage.tsx";
 import AddProductPage from "./pages/Admin/AddProductPage.tsx";
-import Logo from "./components/Logo.tsx";
+import Logo from "./components/Misc/Logo.tsx";
 import Users from "./pages/Admin/Users.tsx";
 import Orders from "./pages/Admin/Orders.tsx";
 import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
-import { SearchProvider } from "./components/SearchContext";
-import { MetadataProvider } from "./components/MetadataContext";
+import { SearchProvider } from "./contexts/SearchContext.tsx";
 
 const App: React.FC = () => {
 
@@ -60,7 +59,6 @@ const App: React.FC = () => {
             </div>
         )};
     return (
-        <MetadataProvider>
         <SearchProvider>
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
@@ -72,22 +70,21 @@ const App: React.FC = () => {
                     <Route path="/catalog/products/:name" element={<DetailPage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
-
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="*" element={<RouteNotFound url={"/"} label={"Back to Home"}/>} />
 
                     {/* only show login route if the user is not signed in
                     if logged in, let them see their account*/}
-                    {!token && token !== ""?
+                    {!token ? (
                         <>
                             <Route path="/login" element={<LogInPage />} />
                             <Route path="/signup" element={<SignUpPage/>} />
 
                             {/*if they are not signed in, let account page and order history redirect to log in and sign up*/}
-                            <Route path="/account-settings" element={<Navigate to="/" replace />} />
-                            <Route path="/order-history" element={<Navigate to="/" replace />} />
+                            <Route path="/account-settings" element={<Navigate to="/login" replace />} />
+                            <Route path="/order-history" element={<Navigate to="/login" replace />} />
                         </>
-                        :
+                     ) : (
                         <>
                             <Route path="/account-settings" element={<AccountPage/>} />
                             <Route path="/order-history" element={<OrderHistory/>} />
@@ -97,7 +94,7 @@ const App: React.FC = () => {
                             <Route path="signup" element={<Navigate to="/" replace />} />
                         </>
 
-                    }
+                    )}
                 </Route>
 
                 {/*for Admin pages*/}
@@ -133,7 +130,6 @@ const App: React.FC = () => {
             <Footer/>
         </div>
         </SearchProvider>
-        </MetadataProvider>
     );
 }
 

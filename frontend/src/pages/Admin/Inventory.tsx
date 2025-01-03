@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import Button from "../../components/Button.tsx";
+import Button from "../../components/Misc/Button.tsx";
 import {Product} from "../../types.ts";
 import {useSearchParams} from "react-router-dom";
 import axios from "axios";

@@ -1,9 +1,8 @@
-// import Suggest from '../components/Catalog/Suggest.tsx';
 import SuggestBest from '../components/Checkout/BestSeller.tsx';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCartContext } from '../cart/CartContext'; // Updated CartContext import
-import Button from '../components/Button.tsx';
+import { useCartContext } from '../contexts/cart/CartContext.tsx'; 
+import Button from '../components/Misc/Button.tsx';
 import QuantityControl from '../components/Cart/QuantityControl.tsx';
 
 

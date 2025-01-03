@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "../Button.tsx";
+import Button from "../Misc/Button.tsx";
 import { useOrderDialog } from "./OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
+import { useCartContext } from '../../contexts/cart/CartContext.tsx';
 
 interface AccountInfo {
   cc_info: string;
@@ -32,6 +33,7 @@ const Checkout: React.FC = () => {
   const [isEditAddress, setIsEditAddress] = useState(false);
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
+  const { refreshCart } = useCartContext();
 
   // Centralized function to fetch user data
   const fetchAccountData = async () => {
@@ -168,6 +170,7 @@ const Checkout: React.FC = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       await showOrderDialog();
+      await refreshCart();
       navigate('/order-history');
     } catch {
       alert("Failed to place order. Please try again.");
@@ -367,7 +370,7 @@ const Checkout: React.FC = () => {
           disabled={!isFormValid}
           className={`w-full py-2 ${
             isFormValid
-              ? "bg-tea text-coffee hover:bg-cream"
+              ? "bg-tea text-coffee hover:bg-camel hover:text-white"
               : "cursor-not-allowed bg-cream text-coffee hover:bg-cream hover:text-coffee"
           }`}
         >

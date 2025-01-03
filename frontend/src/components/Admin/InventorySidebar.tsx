@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import MinimumDistanceSlider from "../Sidebars/MinimumDistanceSlider";
-import { useMetadata } from "../MetadataContext";
+import { useMetadata } from "../../contexts/MetadataContext";
 
 interface SidebarProps {
   selectedCategory: string;
