@@ -46,7 +46,7 @@ const CheckoutGuest: React.FC = () => {
   });
 
   const { handleSubmit } = methods;
-  const { handleCartMergeOnLogin } = useCartContext();
+  const { handleCartMergeOnLogin, refreshCart } = useCartContext();
   const { setToken, setUserType } = useTokenContext();
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
@@ -100,6 +100,7 @@ const CheckoutGuest: React.FC = () => {
   
       // Final Steps
       await showOrderDialog();
+      await refreshCart();
       navigate("/order-history");
     } catch (error: any) {
       console.error("Checkout failed:", error);

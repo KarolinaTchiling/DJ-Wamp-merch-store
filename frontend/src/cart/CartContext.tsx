@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend, clearCartBackend} from './backendCart';
 import { getCart, addToCart, updateCart, removeFromCart} from './localCart';
 import { CartItem, Cart, Product } from '../types';
+import { useMetadata } from "../components/MetadataContext";
 import usePromptUserChoice from '../components/Cart/PromptUserChoice';
-import {useTokenContext} from "../components/TokenContext.tsx";
 
 interface CartContextProps {
     cartItems: CartItem[];
@@ -18,19 +18,21 @@ interface CartContextProps {
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
     const [cartCount, setCartCount] = useState<number>(0);
 
+    const { validProductIds } = useMetadata();
+
     const promptUserChoice = usePromptUserChoice();
-    const {userType} = useTokenContext();
 
     // Fetch cart data from backend or local storage
     const refreshCart = async () => {
         try {
             const token = localStorage.getItem('token');
-            if (token && userType==="user") {
+            if (token) {
                 const response: Cart = await getCartBackend(token);
                 const items = response.items || [];
                 const total = response.cart_total || 0;
@@ -40,12 +42,12 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                 setCartTotal(total);
                 setCartCount(count);
             } else {
-                const localCart: Cart = await getCart();
-                const items = localCart.items || [];
-                const total = localCart.cart_total || 0;
-                const count = localCart.items.reduce((sum, item) => sum + item.quantity, 0);
+                const localCart: Cart = getCart();
+                const filteredItems = localCart.items.filter((item: CartItem) => validProductIds.has(item.product_id));
+                const total = filteredItems.reduce((sum, item) => sum + item.total_price, 0);
+                const count = filteredItems.reduce((sum, item) => sum + item.quantity, 0);
 
-                setCartItems(items);
+                setCartItems(filteredItems);
                 setCartTotal(total);
                 setCartCount(count);
             }
@@ -58,7 +60,7 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     const handleAddToCart = async (product: Product, quantity: number) => {
         try {
             const token = localStorage.getItem('token');
-            if (token && userType==="user") {
+            if (token) {
                 await addToCartBackend(product.id, quantity, token);
                 console.log("Adding " , quantity, " product_id", product.id, "to backend cart.");
             } else {
@@ -75,7 +77,7 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     const handleUpdateCart = async (productId: string, quantity: number) => {
         try {
             const token = localStorage.getItem('token');
-            if (token && userType==="user") {
+            if (token) {
                 await updateCartBackend(productId, quantity, token);
                 console.log("Updating product_id:", productId, "to quantity:", quantity, "in backend cart");
             } else {
@@ -92,7 +94,7 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     const handleRemoveFromCart = async (productId: string) => {
         try {
             const token = localStorage.getItem('token');
-            if (token && userType==="user") {
+            if (token) {
                 await removeFromCartBackend(productId, token);
                 console.log("Removing product_id", productId, "from backend cart.");
             } else {
@@ -106,7 +108,7 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     };
 
     const handleCartMergeOnLogin = async () => {
-        const localCart = await getCart();
+        const localCart = getCart();
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -178,7 +180,7 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
     useEffect(() => {
         refreshCart();
-    }, []);
+    }, [validProductIds]);
 
     return (
         <CartContext.Provider
@@ -198,12 +200,10 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     );
 };
 
-const useCartContext = () => {
+export const useCartContext = () => {
     const context = useContext(CartContext);
     if (!context) {
         throw new Error('useCartContext must be used within a CartProvider');
     }
     return context;
 };
-
-export { CartProvider, useCartContext };

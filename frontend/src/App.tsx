@@ -60,7 +60,6 @@ const App: React.FC = () => {
             </div>
         )};
     return (
-        <MetadataProvider>
         <SearchProvider>
         <div className="bg-cream min-h-screen">
             <div className={"min-h-screen"}>
@@ -133,7 +132,6 @@ const App: React.FC = () => {
             <Footer/>
         </div>
         </SearchProvider>
-        </MetadataProvider>
     );
 }
 

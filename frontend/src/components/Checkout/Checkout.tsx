@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "../Button.tsx";
 import { useOrderDialog } from "./OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
+import { useCartContext } from '../../cart/CartContext';
 
 interface AccountInfo {
   cc_info: string;
@@ -32,6 +33,7 @@ const Checkout: React.FC = () => {
   const [isEditAddress, setIsEditAddress] = useState(false);
   const showOrderDialog = useOrderDialog();
   const navigate = useNavigate();
+  const { refreshCart } = useCartContext();
 
   // Centralized function to fetch user data
   const fetchAccountData = async () => {
@@ -168,6 +170,7 @@ const Checkout: React.FC = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       await showOrderDialog();
+      await refreshCart();
       navigate('/order-history');
     } catch {
       alert("Failed to place order. Please try again.");
