@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CatalogProduct from "../Catalog/CatalogProduct"; // Component for displaying products
 import { Product } from "../../types"; 
-import Loader from "../../components/Loader.tsx";
+import Loader from "../Misc/Loader.tsx";
 
 
 interface TopSeller {

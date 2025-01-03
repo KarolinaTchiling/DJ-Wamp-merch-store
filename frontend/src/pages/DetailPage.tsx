@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { Product } from '../types';
-import Button from '../components/Button.tsx';
+import Button from '../components/Misc/Button.tsx';
 import Suggest from '../components/Catalog/Suggest.tsx';
 import QuantityControl from '../components/Cart/QuantityControl.tsx';
 import Zoom from 'react-medium-image-zoom';

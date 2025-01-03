@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Logo from "../components/Logo.tsx";
-import Button from "../components/Button.tsx";
-import Tooltip from "../components/Tooltip.tsx";
+import Logo from "../components/Misc/Logo.tsx";
+import Button from "../components/Misc/Button.tsx";
+import Tooltip from "../components/Misc/Tooltip.tsx";
 import axios from 'axios';
 import { useTokenContext } from "../contexts/TokenContext.tsx";
 import { useCartContext } from "../contexts/cart/CartContext.tsx";
-import Loader from "../components/Loader.tsx";
+import Loader from "../components/Misc/Loader.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const LogInPage: React.FC = () => {

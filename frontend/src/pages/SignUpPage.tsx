@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import Logo from "../components/Logo.tsx";
-import Button from "../components/Button.tsx";
+import Logo from "../components/Misc/Logo.tsx";
+import Button from "../components/Misc/Button.tsx";
 import axios from "axios";
-import Input from "../components/Input.tsx";
+import Input from "../components/Misc/Input.tsx";
 import {
     email_validation, new_pw_validation,
-} from "../components/InputValidations.tsx";
+} from "../components/Misc/InputValidations.tsx";
 import {FormProvider, useForm} from "react-hook-form";
-import {fname_validation, lname_validation} from "../components/InputValidations.tsx";
+import {fname_validation, lname_validation} from "../components/Misc/InputValidations.tsx";
 import {useTokenContext} from "../contexts/TokenContext.tsx";
-import Loader from "../components/Loader.tsx";
+import Loader from "../components/Misc/Loader.tsx";
 
 const SignUpPage: React.FC = () => {
     const {setToken, setUserType} = useTokenContext();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "../Button.tsx";
+import Button from "../Misc/Button.tsx";
 import { useOrderDialog } from "./OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from '../../contexts/cart/CartContext.tsx';

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import CatalogProduct from "./CatalogProduct";
 import { Product } from '../../types'; 
 import axios from "axios";
-import Loader from "../../components/Loader.tsx";
+import Loader from "../Misc/Loader.tsx";
 
 interface SuggestProps {
     currentCategory: string;

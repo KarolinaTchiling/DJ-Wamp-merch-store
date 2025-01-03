@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar.tsx';
+import Navbar from './components/User/Navbar.tsx';
 
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
@@ -9,7 +9,7 @@ import OrderHistory from "./pages/OrderHistory.tsx";
 import DetailPage from "./pages/DetailPage.tsx";
 import MerchPage from "./pages/MerchPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
-import Footer from "./components/Footer.tsx";
+import Footer from "./components/Misc/Footer.tsx";
 import CartPage from "./pages/CartPage.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
 import RouteNotFound from "./pages/RouteNotFound.tsx";
@@ -19,7 +19,7 @@ import {useTokenContext} from "./contexts/TokenContext.tsx";
 import AdminLogInPage from "./pages/Admin/AdminLogInPage.tsx";
 import AdminSignUpPage from "./pages/Admin/AdminSignUpPage.tsx";
 import AddProductPage from "./pages/Admin/AddProductPage.tsx";
-import Logo from "./components/Logo.tsx";
+import Logo from "./components/Misc/Logo.tsx";
 import Users from "./pages/Admin/Users.tsx";
 import Orders from "./pages/Admin/Orders.tsx";
 import Inventory from "./pages/Admin/Inventory.tsx";

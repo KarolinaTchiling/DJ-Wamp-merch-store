@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
-import Button from "../../components/Button.tsx";
-import Input from "../../components/Input.tsx"; 
+import Button from "../../components/Misc/Button.tsx";
+import Input from "../Misc/Input.tsx"; 
 import { useCartContext } from "../../contexts/cart/CartContext.tsx";
 import { useTokenContext } from "../../contexts/TokenContext.tsx";
 import { useOrderDialog } from "../Checkout/OrderDialog.tsx";
@@ -12,7 +12,7 @@ import {
   lname_validation,
   email_validation,
   new_pw_validation,
-} from "../../components/InputValidations.tsx"; 
+} from "../Misc/InputValidations.tsx"; 
 
 interface AccountInfo {
   fname: string;

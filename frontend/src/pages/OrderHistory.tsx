@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
-import OrderBlock from "../components/OrderBlock.tsx";
+import OrderBlock from "../components/User/OrderBlock.tsx";
 import {Order} from "../types.ts";
 import axios from "axios";
 import { NavLink } from 'react-router-dom';
-import Loader from "../components/Loader.tsx";
+import Loader from "../components/Misc/Loader.tsx";
 
 const OrderHistory: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);

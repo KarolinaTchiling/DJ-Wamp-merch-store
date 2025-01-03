@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Order, OrderProxy} from "../../types.ts";
 import axios from "axios";
-import Button from "../../components/Button.tsx";
+import Button from "../../components/Misc/Button.tsx";
 import {OrderTable} from "../../components/Admin/Table.tsx";
 import {forEach} from "lodash";
 import TableDropDown from "../../components/Admin/TableDropDown.tsx";

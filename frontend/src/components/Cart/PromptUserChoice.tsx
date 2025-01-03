@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Cart } from '../../types.ts';
 import CartSummary from './CartSummary.tsx';
-import Button from '../Button.tsx';
+import Button from '../Misc/Button.tsx';
 
 interface PromptUserChoiceProps {
     localCart: Cart; // Local cart data

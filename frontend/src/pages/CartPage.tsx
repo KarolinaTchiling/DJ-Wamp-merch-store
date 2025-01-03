@@ -2,7 +2,7 @@ import SuggestBest from '../components/Checkout/BestSeller.tsx';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../contexts/cart/CartContext.tsx'; 
-import Button from '../components/Button.tsx';
+import Button from '../components/Misc/Button.tsx';
 import QuantityControl from '../components/Cart/QuantityControl.tsx';
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import InstagramIcon from '../assets/Instagram.svg'
-import LinkedIncon from '../assets/LinkedIn.svg'
+import InstagramIcon from '../../assets/Instagram.svg'
+import LinkedIncon from '../../assets/LinkedIn.svg'
 import { NavLink } from 'react-router-dom';
 
 const Footer: React.FC = () =>{

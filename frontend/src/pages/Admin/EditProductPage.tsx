@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useLocation} from 'react-router-dom';
 import { Product } from '../../types';
-import Button from '../../components/Button.tsx';
+import Button from '../../components/Misc/Button.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import axios from "axios";

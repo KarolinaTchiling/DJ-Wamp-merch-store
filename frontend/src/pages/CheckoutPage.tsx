@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../contexts/cart/CartContext.tsx'; // Updated CartContext import
-import Button from '../components/Button.tsx';
+import Button from '../components/Misc/Button.tsx';
 import { Link } from 'react-router-dom';
 import Checkout from '../components/Checkout/Checkout.tsx';
 import CheckoutGuest from '../components/Checkout/CheckoutGuest.tsx';
