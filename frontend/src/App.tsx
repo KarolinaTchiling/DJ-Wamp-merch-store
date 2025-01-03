@@ -15,7 +15,7 @@ import CheckoutPage from "./pages/CheckoutPage.tsx";
 import RouteNotFound from "./pages/RouteNotFound.tsx";
 import AdminSidebar from "./components/Admin/Admin-Sidebar.tsx";
 
-import {useTokenContext} from "./components/TokenContext.tsx";
+import {useTokenContext} from "./contexts/TokenContext.tsx";
 import AdminLogInPage from "./pages/Admin/AdminLogInPage.tsx";
 import AdminSignUpPage from "./pages/Admin/AdminSignUpPage.tsx";
 import AddProductPage from "./pages/Admin/AddProductPage.tsx";
@@ -25,8 +25,8 @@ import Orders from "./pages/Admin/Orders.tsx";
 import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
-import { SearchProvider } from "./components/SearchContext";
-import { MetadataProvider } from "./components/MetadataContext";
+import { SearchProvider } from "./contexts/SearchContext.tsx";
+import { MetadataProvider } from "./contexts/MetadataContext.tsx";
 
 const App: React.FC = () => {
 

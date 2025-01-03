@@ -1,5 +1,5 @@
 import React from 'react';
-import {useTokenContext} from "../TokenContext.tsx";
+import {useTokenContext} from "../../contexts/TokenContext.tsx";
 import { NavLink } from 'react-router-dom';
 
 const AccountSidebar: React.FC = () => {

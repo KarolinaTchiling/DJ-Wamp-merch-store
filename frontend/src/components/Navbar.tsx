@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import ProfileDropdown from './ProfileDropdown.tsx';
 import CartDropdown from './Cart/CartDropdown.tsx';
 import Logo from "./Logo.tsx";
-import { useSearch } from "./SearchContext"; // Import the search context
+import { useSearch } from "../contexts/SearchContext.tsx"; // Import the search context
 
 // Define a type for the navigation links
 interface NavLink {

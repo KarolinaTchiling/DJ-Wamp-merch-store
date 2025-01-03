@@ -3,8 +3,8 @@ import Logo from "../components/Logo.tsx";
 import Button from "../components/Button.tsx";
 import Tooltip from "../components/tooltip.tsx";
 import axios from 'axios';
-import { useTokenContext } from "../components/TokenContext.tsx";
-import { useCartContext } from "../cart/CartContext.tsx";
+import { useTokenContext } from "../contexts/TokenContext.tsx";
+import { useCartContext } from "../contexts/cart/CartContext.tsx";
 import Loader from "../components/Loader.tsx";
 
 const LogInPage: React.FC = () => {

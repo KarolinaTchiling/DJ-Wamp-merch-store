@@ -3,7 +3,7 @@ import axios from "axios";
 import Button from "../Button.tsx";
 import { useOrderDialog } from "./OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
-import { useCartContext } from '../../cart/CartContext';
+import { useCartContext } from '../../contexts/cart/CartContext.tsx';
 
 interface AccountInfo {
   cc_info: string;
@@ -370,7 +370,7 @@ const Checkout: React.FC = () => {
           disabled={!isFormValid}
           className={`w-full py-2 ${
             isFormValid
-              ? "bg-tea text-coffee hover:bg-cream"
+              ? "bg-tea text-coffee hover:bg-camel hover:text-white"
               : "cursor-not-allowed bg-cream text-coffee hover:bg-cream hover:text-coffee"
           }`}
         >

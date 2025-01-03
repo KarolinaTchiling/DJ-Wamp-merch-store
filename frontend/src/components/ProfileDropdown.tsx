@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import person from '../assets/person.svg';
-import { useTokenContext } from './TokenContext.tsx'; // Adjust the path as needed
+import { useTokenContext } from '../contexts/TokenContext.tsx'; // Adjust the path as needed
 
 const ProfileDropdown: React.FC = () => {
     const {token, removeToken} =useTokenContext();

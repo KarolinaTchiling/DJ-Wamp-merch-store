@@ -4,7 +4,7 @@ import AccountSidebar from "../components/Sidebars/AccountSidebar.tsx";
 import axios from "axios";
 import {User} from "../types.ts";
 import Button from "../components/Button.tsx";
-import {useTokenContext} from "../components/TokenContext.tsx";
+import {useTokenContext} from "../contexts/TokenContext.tsx";
 import Input from "../components/Input.tsx";
 import {
     email_validation,

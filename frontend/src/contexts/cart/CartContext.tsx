@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getCartBackend, addToCartBackend, updateCartBackend, removeFromCartBackend, clearCartBackend} from './backendCart';
 import { getCart, addToCart, updateCart, removeFromCart} from './localCart';
-import { CartItem, Cart, Product } from '../types';
-import { useMetadata } from "../components/MetadataContext";
-import usePromptUserChoice from '../components/Cart/PromptUserChoice';
+import { CartItem, Cart, Product } from '../../types';
+import { useMetadata } from "../MetadataContext";
+import usePromptUserChoice from '../../components/Cart/PromptUserChoice';
 
 interface CartContextProps {
     cartItems: CartItem[];

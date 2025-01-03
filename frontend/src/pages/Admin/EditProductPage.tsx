@@ -5,7 +5,7 @@ import Button from '../../components/Button.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import axios from "axios";
-import { useMetadata } from "../../components/MetadataContext"; 
+import { useMetadata } from "../../contexts/MetadataContext.tsx"; 
 
 
 const EditProductPage: React.FC = () => {

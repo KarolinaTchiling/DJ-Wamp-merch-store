@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCartContext } from '../../cart/CartContext.tsx';
+import { useCartContext } from '../../contexts/cart/CartContext.tsx';
 import QuantityControl from './QuantityControl.tsx';
 import { Link } from 'react-router-dom';
 import Button from '../Button.tsx';

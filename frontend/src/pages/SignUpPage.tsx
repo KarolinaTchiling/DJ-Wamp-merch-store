@@ -8,7 +8,7 @@ import {
 } from "../components/InputValidations.tsx";
 import {FormProvider, useForm} from "react-hook-form";
 import {fname_validation, lname_validation} from "../components/InputValidations.tsx";
-import {useTokenContext} from "../components/TokenContext.tsx";
+import {useTokenContext} from "../contexts/TokenContext.tsx";
 import Loader from "../components/Loader.tsx";
 
 const SignUpPage: React.FC = () => {

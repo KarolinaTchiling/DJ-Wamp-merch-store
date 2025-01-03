@@ -6,7 +6,7 @@ import SortDropdown from "../components/Catalog/SortDropdown";
 import Button from "../components/Button";
 import axios from "axios";
 import { Product } from "../types";
-import { useSearch } from "../components/SearchContext";
+import { useSearch } from "../contexts/SearchContext";
 
 
 

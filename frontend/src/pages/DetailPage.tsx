@@ -6,7 +6,7 @@ import Suggest from '../components/Catalog/Suggest.tsx';
 import QuantityControl from '../components/Cart/QuantityControl.tsx';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import { useCartContext } from '../cart/CartContext';
+import { useCartContext } from '../contexts/cart/CartContext.tsx';
 
 const DetailPage: React.FC = () => {
     const location = useLocation();

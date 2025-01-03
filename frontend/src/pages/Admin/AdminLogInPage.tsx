@@ -5,7 +5,7 @@ import Tooltip from "../../components/tooltip.tsx";
 import Loader from "../../components/Loader.tsx";
 import {useState} from 'react';
 import axios from 'axios';
-import {useTokenContext} from "../../components/TokenContext.tsx";
+import {useTokenContext} from "../../contexts/TokenContext.tsx";
 import {useForm, FormProvider} from "react-hook-form";
 
 import Input from "../../components/Input.tsx";

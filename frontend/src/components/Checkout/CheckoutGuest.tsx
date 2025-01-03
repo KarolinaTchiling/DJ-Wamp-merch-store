@@ -3,8 +3,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
 import Button from "../../components/Button.tsx";
 import Input from "../../components/Input.tsx"; 
-import { useCartContext } from "../../cart/CartContext";
-import { useTokenContext } from "../../components/TokenContext";
+import { useCartContext } from "../../contexts/cart/CartContext.tsx";
+import { useTokenContext } from "../../contexts/TokenContext.tsx";
 import { useOrderDialog } from "../Checkout/OrderDialog.tsx";
 import { useNavigate } from "react-router-dom";
 import {
