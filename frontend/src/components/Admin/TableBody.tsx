@@ -41,9 +41,15 @@ const TableBody = <T extends User | OrderProxy>({
                 data.map((row) => (
                     <tr
                         key={row.id} // Assuming both User and OrderProxy have an `id` property
-                        className="even:bg-cream cursor-pointer hover:bg-camel"
+                        className="odd:bg-cream cursor-pointer hover:bg-camel"
                         onClick={() => {
-                            if (setOrderProxy) setOrderProxy(row as OrderProxy);
+                            if ("fname" in row && setUser) {
+                                // Handle User case
+                                setUser(row as User);
+                            } else if (setOrderProxy) {
+                                // Handle OrderProxy case
+                                setOrderProxy(row as OrderProxy);
+                            }
                             window.scrollTo(0, 0);
                             setVis(true);
                         }}

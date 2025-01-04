@@ -165,14 +165,6 @@ def edit_user():
     except Exception as e:
         return jsonify({"error updating user data": str(e)}), 500
 
-import re
-from flask import jsonify, request
-
-import re
-from flask import jsonify, request
-
-import re
-from flask import jsonify, request
 
 @user.route("/address", methods=["PATCH"])
 # @user_required
