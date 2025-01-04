@@ -8,7 +8,7 @@ const Logo: React.FC<Size> = (siz: Size) => {
     return (
         <div className="grid grid-cols-1 justify-center">
             {/* DJ WAMP Logo */}
-            <p className="basis-[20%] flex justify-start"
+            <p className="basis-[20%] flex justify-start hover:tracking-widest transition-all duration-300 ease-in-out"
                 style={{
                     color: "#000",
                     fontFamily: "'Lexend Zetta', sans-serif",
