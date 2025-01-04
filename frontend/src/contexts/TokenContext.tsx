@@ -29,7 +29,7 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setUserType("user");
         localStorage.removeItem('token');
         localStorage.removeItem('userType');
-        alert("You have been signed out");
+        // alert("You have been signed out");
         setTimeout(() => {
             window.location.href = "/"; // Redirect to home or login page
         }, 100);
