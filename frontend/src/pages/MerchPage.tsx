@@ -11,6 +11,7 @@ import { useSearch } from "../contexts/SearchContext";
 const MerchPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]); // Retain the current products
   const [loading, setLoading] = useState<boolean>(true);
+  const [sidebarLoading, setSidebarLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const { searchQuery } = useSearch();
@@ -126,6 +127,7 @@ const MerchPage: React.FC = () => {
   };
 
   const clearFilters = () => {
+    setSidebarLoading(true);
     setSelectedAlbums({});
     setPriceRange([0, Infinity]); // Reset price range
     const newSearchParams = new URLSearchParams(searchParams);
@@ -134,12 +136,17 @@ const MerchPage: React.FC = () => {
     newSearchParams.delete("min_price");
     newSearchParams.delete("max_price");
     setSearchParams(newSearchParams);
+
+    setTimeout(() => {
+      setSidebarLoading(false); // Hide loading after a short delay
+    }, 200); // Adjust delay as needed
+
   };
 
   return (
     <div className="flex mt-4">
       {/* Sidebar for filtering */}
-      <div className="border-r border-r-camel mb-10">
+      <div className="border-r border-r-camel mb-10 w-[290px]">
         <Sidebar
             selectedCategory={currentCategory}
             selectedAlbums={selectedAlbums}
@@ -148,6 +155,7 @@ const MerchPage: React.FC = () => {
             onCategoryChange={handleCategoryChange}
             onAlbumChange={handleAlbumChange}
             onPriceChange={handlePriceChange}
+            sliderLoading={sidebarLoading}
           />
         <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px] transition-colors duration-300">
           Clear Filters
