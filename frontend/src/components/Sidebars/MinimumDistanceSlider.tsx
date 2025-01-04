@@ -18,7 +18,7 @@ export default function MinimumDistanceSlider({
 
   // Handle changes while dragging the slider
   const handleChange = (
-    _event: Event,
+    event: Event,
     newValue: number | number[],
     activeThumb: number
   ) => {
@@ -45,7 +45,7 @@ export default function MinimumDistanceSlider({
 
   // Handle committed changes (when the user stops interacting with the slider)
   const handleChangeCommitted = (
-    _event: React.SyntheticEvent | Event,
+    event: React.SyntheticEvent | Event,
     newValue: number | number[]
   ) => {
     if (!Array.isArray(newValue)) return;

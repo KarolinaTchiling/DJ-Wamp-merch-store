@@ -11,6 +11,7 @@ interface SidebarProps {
   onCategoryChange: (category: string) => void;
   onAlbumChange: (updatedAlbums: Record<string, boolean>) => void;
   onPriceChange: (priceRange: number[]) => void; 
+  sliderLoading: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = memo(
@@ -22,11 +23,12 @@ const Sidebar: React.FC<SidebarProps> = memo(
     onCategoryChange,
     onAlbumChange,
     onPriceChange,
+    sliderLoading,
   }) => {
     const { metadata } = useMetadata(); // Fetch metadata from the React Context
 
     if (!metadata) {
-      return <div className="pl-[50px] text-sm">Loading...</div>;
+      return <div className="pl-[50px] text-sm"></div>;
     }
 
     const { categories, albums } = metadata;
@@ -84,12 +86,20 @@ const Sidebar: React.FC<SidebarProps> = memo(
       <div className="w-[280px] pt-5 pl-[50px] text-sm">
         <h3 className="font-thin pb-2">Filter by Price</h3>
 
-        <MinimumDistanceSlider
+        {sliderLoading ? (
+          <div className="animate-pulse space-y-2">
+            <div className="text-black font-thin"> Set Price Range</div>
+            <div className="h-3 bg-tea rounded mr-2"></div>
+            <div className="h-7 bg-cream"></div>
+          </div>
+        ) : (
+          <MinimumDistanceSlider
             priceRange={[minPrice, maxPrice]}
             onPriceChange={onPriceChange}
-      />
-
+          />
+        )}
       </div>
+
 
     </div>
   );

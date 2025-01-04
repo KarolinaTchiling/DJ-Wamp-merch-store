@@ -65,7 +65,7 @@ const CartDropdown: React.FC = () => {
                                     Your cart is empty :(
                                 </li>
                                 <li 
-                                    className="hover:text-white hover:font-medium hover:bg-camel"
+                                    className="hover:text-white hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={closeDropdown} 
                                 >
                                     <Link to="/" className="px-3 py-1 block w-full h-full">Continue Shopping</Link>
