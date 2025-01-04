@@ -142,7 +142,7 @@ const DetailPage: React.FC = () => {
                                     className={`${
                                         product.quantity - (cartItem?.quantity || 0) === 0
                                             ? 'opacity-50 cursor-not-allowed hover:bg-cream hover:text-black'
-                                            : ''
+                                            : 'transition-colors duration-300'
                                     }`}
                                 >
                                     Add to Cart

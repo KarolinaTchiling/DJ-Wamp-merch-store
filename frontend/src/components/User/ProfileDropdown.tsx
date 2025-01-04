@@ -59,19 +59,19 @@ const ProfileDropdown: React.FC = () => {
                             // Logged-in dropdown
                             <>
                                 <li
-                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={closeDropdown} 
                                 >
                                     <Link to="/account-settings" className="block w-full h-full px-3 py-1">Account Settings</Link>
                                 </li>
                                 <li
-                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={closeDropdown} 
                                 >
                                     <Link to="/order-history" className="block w-full h-full px-3 py-1">Order History</Link>
                                 </li>
                                 <button
-                                    className="block w-full h-full px-3 py-1 hover:text-white hover:font-medium hover:bg-camel"
+                                    className="block w-full h-full px-3 py-1 hover:text-white hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={() => {
                                         logOut();
                                         closeDropdown();
@@ -84,13 +84,13 @@ const ProfileDropdown: React.FC = () => {
                             // Logged-out dropdown
                             <>
                                 <li
-                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel"
+                                    className="hover:text-white border-b border-camel hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={closeDropdown} 
                                 >
                                     <Link to="/signup" className="block w-full h-full px-3 py-1">Create an Account</Link>
                                 </li>
                                 <li
-                                    className="hover:text-white hover:font-medium hover:bg-camel"
+                                    className="hover:text-white hover:font-medium hover:bg-camel transition-colors duration-300"
                                     onClick={closeDropdown} 
                                 >
                                     <Link to="/login" className="block w-full h-full px-3 py-1" >Sign In</Link>

@@ -8,11 +8,8 @@ import axios from "axios";
 import { Product } from "../types";
 import { useSearch } from "../contexts/SearchContext";
 
-
-
-
 const MerchPage: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]); // Retain the current products
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
@@ -39,7 +36,8 @@ const MerchPage: React.FC = () => {
       return acc;
     }, {} as Record<string, boolean>);
   });
-  // price range
+
+  // Price range filter
   const priceFilter = searchParams.get("priceRange");
   const [priceRange, setPriceRange] = useState<number[]>(() => {
     if (priceFilter) {
@@ -50,7 +48,7 @@ const MerchPage: React.FC = () => {
     }
     return [0, Infinity]; // Default range, with no upper limit
   });
-  
+
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -81,7 +79,6 @@ const MerchPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-    console.log("Query params:", queryParams);
   }, [searchQuery, sortBy, order, categoryFilter, albumFilter, priceRange]);
 
   useEffect(() => {
@@ -92,8 +89,6 @@ const MerchPage: React.FC = () => {
     setSortBy(sortBy);
     setOrder(order);
     setSelectedOption(label);
-
-    // Update URL query params for sorting
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("sort_by", sortBy);
     newSearchParams.set("order", order);
@@ -107,12 +102,11 @@ const MerchPage: React.FC = () => {
     } else {
       newSearchParams.set("category", category);
     }
-    setSearchParams(newSearchParams); // Sync with URL
+    setSearchParams(newSearchParams);
   };
 
   const handleAlbumChange = (updatedAlbums: Record<string, boolean>) => {
     setSelectedAlbums(updatedAlbums);
-
     const selectedAlbumKeys = Object.keys(updatedAlbums).filter((key) => updatedAlbums[key]);
     const newSearchParams = new URLSearchParams(searchParams); 
     if (selectedAlbumKeys.length > 0) {
@@ -124,18 +118,13 @@ const MerchPage: React.FC = () => {
   };
 
   const handlePriceChange = (values: number[]) => {
-    // console.log("Slider values:", values);
     setPriceRange(values); 
-
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.set("min_price", String(values[0]));
     newSearchParams.set("max_price", String(values[1]));
-
-    // console.log("Updated query params:", newSearchParams.toString());
-    setSearchParams(newSearchParams); // Sync with URL
+    setSearchParams(newSearchParams);
   };
 
-  
   const clearFilters = () => {
     setSelectedAlbums({});
     setPriceRange([0, Infinity]); // Reset price range
@@ -146,17 +135,6 @@ const MerchPage: React.FC = () => {
     newSearchParams.delete("max_price");
     setSearchParams(newSearchParams);
   };
-
-  if (loading) return <p></p>;
-  if (error)
-    return (
-      <div className="text-center">
-        <p>{error}</p>
-        <Button onClick={fetchProducts} className="mt-4">
-          Retry
-        </Button>
-      </div>
-    );
 
   return (
     <div className="flex mt-4">
@@ -171,13 +149,13 @@ const MerchPage: React.FC = () => {
             onAlbumChange={handleAlbumChange}
             onPriceChange={handlePriceChange}
           />
-        <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
+        <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px] transition-colors duration-300">
           Clear Filters
         </Button>
       </div>
 
       {/* Main section */}
-      <div className="flex-grow ml-[45px] mr-[200px]">
+      <div className="flex-grow ml-[45px] mr-[150px]">
         <div className="text-xl"  style={{fontFamily: "'Lexend Zetta', sans-serif"}}>MERCH STORE - {currentCategory} </div>
 
         <div className="flex justify-between items-center pt-6 pb-2">
@@ -193,15 +171,20 @@ const MerchPage: React.FC = () => {
                 gridTemplateColumns: "repeat(auto-fit, minmax(230px, 0.3fr))",
               }}
               >
-              {products.map((product) => (
-                <CatalogProduct key={product.id} product={product}/>
-              ))}
+              {loading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="h-[200px] w-full bg-tea animate-pulse"></div>
+                  ))
+                : products.map((product) => (
+                    <CatalogProduct key={product.id} product={product}/>
+                  ))}
             </div>
           </div>
       </div>
     </div>
   );
 };
+
 
 export default MerchPage;
 

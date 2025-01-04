@@ -8,7 +8,7 @@ import './index.css';
 import { HashRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <HashRouter>
       <TokenProvider>
       <MetadataProvider>
@@ -18,5 +18,5 @@ createRoot(document.getElementById('root')!).render(
         </MetadataProvider>
       </TokenProvider>
     </HashRouter>
-  </StrictMode>,
+  //</StrictMode>,
 );

@@ -82,7 +82,7 @@ const AdminLogInPage: React.FC = () => {
             <div className="mb-4 w-full flex justify-center items-center space-x-2">
                 <Input value={loginForm.email} {...email_validation({handleChange})}/>
                 <div className="mt-3">
-                    <Tooltip title="dj_wamp@gmail.com"/>  
+                    <Tooltip title="Explore the admin panel. Log in: dj_wamp@gmail.com"/>  
                 </div> 
             </div>
 
@@ -95,12 +95,12 @@ const AdminLogInPage: React.FC = () => {
 
 
             <div className="mb-4 w-full grid justify-center items-center">
-                <Button type={"submit"} onClick={logIn}>Log In</Button>
+                <Button className="transition-colors duration-300" type={"submit"} onClick={logIn}>Log In</Button>
             </div>
 
             <hr className={"border-camel mt-10 mb-10"}/>
 
-            <Button onClick={()=>{window.location.href="#/login";}}>
+            <Button className="transition-colors duration-300" onClick={()=>{window.location.href="#/login";}}>
                 To User View</Button>
             <hr className={"border-camel mt-10 mb-10"}/>
 

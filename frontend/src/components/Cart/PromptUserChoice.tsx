@@ -35,19 +35,19 @@ const PromptUserChoice: React.FC<PromptUserChoiceProps> = ({ localCart, backendC
                 <div className="flex gap-4 justify-center">
                     <Button
                         onClick={() => onChoice('local')}
-                        className="mt-0"
+                        className="mt-0 transition-colors duration-300"
                     >
                         Use New Cart 
                     </Button>
                     <Button
                         onClick={() => onChoice('backend')}
-                        className="mt-0"
+                        className="mt-0 transition-colors duration-300"
                     >
                         Use Saved Cart
                     </Button>
                     <Button
                         onClick={() => onChoice('combine')}
-                        className="mt-0"
+                        className="mt-0 transition-colors duration-300"
                     >
                         Combine Carts
                     </Button>

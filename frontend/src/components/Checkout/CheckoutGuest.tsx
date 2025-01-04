@@ -123,7 +123,7 @@ const CheckoutGuest: React.FC = () => {
           <div className="overflow-y-auto h-[calc(100vh-380px)] scrollbar-hidden">
             <div className="flex flex-row justify-between pb-10">
               <p className="text-xl">Already have an Account?</p>
-              <Button className="m-0 px-10" onClick={handleLoginClick}>Sign In</Button>
+              <Button className="m-0 px-10 transition-colors duration-300" onClick={handleLoginClick}>Sign In</Button>
             </div>
 
             <div className="grid gap-4">
@@ -210,7 +210,7 @@ const CheckoutGuest: React.FC = () => {
                   <Input
                     id="expiry"
                     name="expiry"
-                    label="Expiry (MMYY)"
+                    label="Expiry"
                     htmlFor="expiry"
                     validation={{
                       required: "Expiry date is required",
@@ -244,7 +244,7 @@ const CheckoutGuest: React.FC = () => {
 
           {/* Button Section */}
           <div className="mt-6">
-            <Button type="submit" className="w-full py-2 bg-tea text-coffee">
+            <Button type="submit" className="w-full py-2 bg-tea text-coffee transition-colors duration-300">
               Place Order
             </Button>
           </div>

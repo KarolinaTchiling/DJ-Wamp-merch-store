@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
               <NavLink 
                 to={link.href}
                 key={link.name}
-                className={`py-1 hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel ${
+                className={`py-1 hover:text-white hover:font-medium hover:bg-camel flex-grow border-y border-l border-camel transition-colors duration-300 ${
                   index === navLinks.length - 1 ? 'border-r' : ''
                 } flex items-center justify-center`}
               >

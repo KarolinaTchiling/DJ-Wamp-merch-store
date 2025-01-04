@@ -88,7 +88,7 @@ const CheckoutPage: React.FC = () => {
                         ) : (
                             <div className="flex flex-col items-center justify-center w-full h-full">
                                 <p>Your cart is empty.</p>
-                                <Button onClick={handleReturnToShopping} className="mt-5">Continue Shopping</Button>
+                                <Button onClick={handleReturnToShopping} className="mt-5 transition-colors duration-300">Continue Shopping</Button>
                             </div>
                         )}
 

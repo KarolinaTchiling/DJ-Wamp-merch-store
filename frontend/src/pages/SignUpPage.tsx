@@ -115,7 +115,7 @@ const SignUpPage: React.FC = () => {
             <Input value={signUpForm.email} {...email_validation({handleChange})}/>
             <Input value={signUpForm.password} {...new_pw_validation({handleChange})}/>
             <div className="mb-4 w-full grid justify-center items-center">
-                <Button type={"submit"} onClick={signUp}>Sign Up</Button>
+                <Button className="transition-colors duration-300" type={"submit"} onClick={signUp}>Sign Up</Button>
             </div>
 
             <hr className={"border-camel mt-10 mb-10"}/>

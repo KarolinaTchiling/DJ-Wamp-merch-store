@@ -232,11 +232,11 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex space-x-4 mt-4">
-                  <Button type="submit">Save Payment Info</Button>
+                  <Button className="transition-colors duration-300" type="submit">Save Payment Info</Button>
                   <Button
                     type="button"
                     onClick={() => setIsEditCC(false)}
-                    className="bg-pink text-white"
+                    className="bg-pink text-white hover:bg-pale hover:text-black transition-colors duration-300"
                   >
                     Cancel
                   </Button>
@@ -250,6 +250,7 @@ const Checkout: React.FC = () => {
                 </div>
                 <div>
                   <Button
+                    className="transition-colors duration-300"
                     onClick={() => {
                       setIsEditCC(true);
                       setAcctData((prev) => ({
@@ -327,7 +328,7 @@ const Checkout: React.FC = () => {
                   <Button
                     type="button"
                     onClick={() => setIsEditAddress(false)}
-                    className="bg-pink text-white"
+                    className="bg-pink text-white hover:bg-pale hover:text-black transition-colors duration-300"
                   >
                     Cancel
                   </Button>
@@ -352,7 +353,7 @@ const Checkout: React.FC = () => {
                   <p>{accountData.postal_code}</p>
                 </div>
                 <Button
-                  className="-mt-3 w-[120px]"
+                  className="-mt-3 w-[120px] transition-colors duration-300"
                   onClick={() => setIsEditAddress(true)}
                 >
                   Edit Address
@@ -370,7 +371,7 @@ const Checkout: React.FC = () => {
           disabled={!isFormValid}
           className={`w-full py-2 ${
             isFormValid
-              ? "bg-tea text-coffee hover:bg-camel hover:text-white"
+              ? "bg-tea text-coffee hover:bg-camel hover:text-white transition-colors duration-300"
               : "cursor-not-allowed bg-cream text-coffee hover:bg-cream hover:text-coffee"
           }`}
         >

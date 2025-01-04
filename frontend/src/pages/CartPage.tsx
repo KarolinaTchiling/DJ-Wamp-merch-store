@@ -124,7 +124,7 @@ const CartPage: React.FC = () => {
                                                     />
                                                     <Button
                                                         onClick={() => handleRemove(item.product_id)}
-                                                        className="mt-0 px-5 py-0.8"
+                                                        className="mt-0 px-5 py-0.8 transition-colors duration-300"
                                                     >
                                                         Remove
                                                     </Button>
@@ -141,7 +141,7 @@ const CartPage: React.FC = () => {
                         ) : (
                             <div className="flex flex-col items-center justify-center w-full h-full">
                                 <p>Your cart is empty.</p>
-                                <Button onClick={handleReturnToShopping} className="mt-5">
+                                <Button onClick={handleReturnToShopping} className="mt-5 transition-colors duration-300">
                                     Continue Shopping
                                 </Button>
                             </div>
@@ -169,10 +169,10 @@ const CartPage: React.FC = () => {
 
                         <div className="flex justify-end">
                             <p className="pr-3">
-                                <Button onClick={handleReturnToShopping}>Return to Shopping</Button>
+                                <Button className="transition-colors duration-300" onClick={handleReturnToShopping}>Return to Shopping</Button>
                             </p>
                             <p className="">
-                                <Button onClick={handleCheckout}>Checkout</Button>
+                                <Button className="transition-colors duration-300" onClick={handleCheckout}>Checkout</Button>
                             </p>
                         </div>
                     </div>
@@ -180,7 +180,8 @@ const CartPage: React.FC = () => {
             </div>
 
             {/* You may also like */}
-            <div className="basis-[43%] pr-20 mr-10">
+            {/* <div className="basis-[43%] pr-20 mr-10"> */}
+            <div className="basis-[43%] pr-20 mx-auto">
                 <SuggestBest columns={2} />
             </div>
         </div>

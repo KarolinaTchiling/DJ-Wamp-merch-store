@@ -12,7 +12,7 @@ const OrderDialog: React.FC<OrderSuccessProps> = ({ onAcknowledge }) => {
             <div className="bg-cream w-[500px] p-6 shadow-lg border border-camel text-center">
                 <h2 className="text-2xl font-semibold mb-4">Order Success!</h2>
                 <p className="text-lg">Thank you for your purchase. Your order has been placed successfully!</p>
-                <Button className="px-10"
+                <Button className="px-10 transition-colors duration-300"
                     onClick={onAcknowledge}
                 >
                     OK

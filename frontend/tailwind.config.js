@@ -12,6 +12,7 @@ export default {
         tea: '#CCD5AE',
         cream: '#FAEDCD',
         pink: '#E26873',
+        pale: '#f9e0e3',
         beige: '#FEFAE0',
         browntea: '#E9EDC9',
       },

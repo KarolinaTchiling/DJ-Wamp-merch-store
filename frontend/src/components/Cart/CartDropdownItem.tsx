@@ -116,7 +116,7 @@ const CartDropdownItem: React.FC<CartDropdownItemProps> = ({ item, closeDropdown
                         <div className="mr-6 flex items-center justify-between flex-row">
                             <div>Price: ${item.price.toFixed(2)}</div>
                             <div>
-                                <Button onClick={() => handleRemove(item.product_id)} className="mt-0 px-1 py-0.5 ">Remove</Button>
+                                <Button onClick={() => handleRemove(item.product_id)} className="mt-0 px-1 py-0.5 transition-colors duration-300">Remove</Button>
                             </div>
                         </div>
                     </div>
