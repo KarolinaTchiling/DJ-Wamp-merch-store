@@ -58,7 +58,7 @@ const WelcomeDialog: React.FC<WelcomeProp> = ({ onAcknowledge }) => {
                     </div>
                 ) : (
                     <Button
-                        className="px-10 mt-4 flex items-center justify-self-center"
+                        className="px-10 mt-4 flex items-center justify-self-center transition-colors duration-300"
                         onClick={onAcknowledge}
                     >
                         OK

@@ -260,7 +260,7 @@ const AccountPage: React.FC = () => {
                         <div className={"z-10 flex absolute t-0 l-0 p-10 w-9/12 h-full items-center justify-center bg-beige"}>
                             <dialog open className={"bg-beige border border-camel px-10 py-4 w-9/12 h-5/6 overflow-y-auto"}>
                             <div className={"grid grid-cols-1 mb-6"}>
-                                <Button onClick={()=>{setIsEditOther(false)}}
+                                <Button className="transition-colors duration-300" onClick={()=>{setIsEditOther(false)}}
                                         buttonVariant={"warn"}>
                                     Close Without Saving</Button>
                             </div>
@@ -286,7 +286,7 @@ const AccountPage: React.FC = () => {
                                         <Input value={accountData.province} {...province_validation({handleChange})}/>
                                         <Input value={accountData.postal_code} {...postal_code_validation({handleChange})}/>
                                     </div>
-                                    <Button onClick={editUserOther}>Save Edit</Button>
+                                    <Button className="transition-colors duration-300" onClick={editUserOther}>Save Edit</Button>
                                 </div>
                             </form>
                             </FormProvider>
@@ -300,7 +300,7 @@ const AccountPage: React.FC = () => {
                         <div className={"z-10 flex absolute t-0 l-0 p-10 w-9/12 h-full items-center justify-center bg-beige"}>
                             <dialog open className={"bg-beige border border-camel px-10 py-4 w-9/12 h-5/6 overflow-y-auto"}>
                             <div className={"grid grid-cols-1 mb-6"}>
-                                <Button onClick={()=>{setIsEditPW(false)}}
+                                <Button className="transition-colors duration-300" onClick={()=>{setIsEditPW(false)}}
                                         buttonVariant={"warn"}>
                                     Close Without Saving</Button>
                             </div>
@@ -312,11 +312,7 @@ const AccountPage: React.FC = () => {
                                     {/*Account Section*/}
                                     <p className={"text-3xl mb-6"}>Editing Your Password</p>
                                     <div className={"grid grid-cols-2 gap-4"}>
-                                        {/*id: 'password',*/}
-                                        {/*name: 'password',*/}
-                                        {/*type: 'password',*/}
-                                        {/*htmlFor: "password",*/}
-                                        {/*label: 'Password',*/}
+                        
                                         <Input value={accountData.old_password} {...pw_validation({handleChange})}
                                                id={"old_password"} name={"old_password"}
                                                label={"Old Password"} htmlFor={"old_password"}
@@ -330,30 +326,9 @@ const AccountPage: React.FC = () => {
                                                label={"Confirm Your Password"} htmlFor={"confirm_password"}
                                         />
 
-                                        {/*<div className={labelDivStyle}>*/}
-                                        {/*    <label htmlFor={"old_password"}>Old Password</label>*/}
-                                        {/*    <input*/}
-                                        {/*        id={"old_password"} name={"old_password"} value={accountData.old_password} type={"password"}*/}
-                                        {/*        onChange={handleChange} placeholder={""} autoComplete={"off"}*/}
-                                        {/*        className={fieldStyle}/>*/}
-                                        {/*</div>*/}
-                                        {/*<div className={labelDivStyle}>*/}
-                                        {/*    <label htmlFor={"password"}>New Password</label>*/}
-                                        {/*    <input*/}
-                                        {/*        id={"password"} name={"password"} value={accountData.password} type={"password"}*/}
-                                        {/*        onChange={handleChange} placeholder={""} autoComplete={"on"}*/}
-                                        {/*        className={fieldStyle}/>*/}
-                                        {/*</div>*/}
-                                        {/*<div className={labelDivStyle}>*/}
-                                        {/*    <label htmlFor={"confirm_password"}>Confirm Your Password</label>*/}
-                                        {/*    <input*/}
-                                        {/*        id={"confirm_password"} name={"confirm_password"}*/}
-                                        {/*        value={accountData.confirm_password} type={"password"}*/}
-                                        {/*        onChange={handleChange} placeholder={""} autoComplete={"off"}*/}
-                                        {/*        className={fieldStyle}/>*/}
-                                        {/*</div>*/}
+        
                                     </div>
-                                    <Button onClick={editUserPW}>Save Edit</Button>
+                                    <Button className="transition-colors duration-300" onClick={editUserPW}>Save Edit</Button>
                                 </div>
                             </form>
                             </FormProvider>
@@ -368,7 +343,7 @@ const AccountPage: React.FC = () => {
                             <dialog open className={"bg-beige border border-camel px-10 py-4 w-9/12 h-5/6 overflow-y-auto"}>
 
                                 <div className={"grid grid-cols-1 mb-6"}>
-                                    <Button onClick={()=>{setIsEditCC(false)}}
+                                    <Button className="transition-colors duration-300" onClick={()=>{setIsEditCC(false)}}
                                             buttonVariant={"warn"}>
                                         Close Without Saving</Button>
                                 </div>
@@ -404,7 +379,7 @@ const AccountPage: React.FC = () => {
                                                     className={fieldStyle}/>
                                             </div>
                                         </div>
-                                        <Button onClick={editUserCC}>Save Edit</Button>
+                                        <Button className="transition-colors duration-300" onClick={editUserCC}>Save Edit</Button>
                                     </div>
                                 </form>
                             </dialog>
@@ -433,8 +408,8 @@ const AccountPage: React.FC = () => {
                             <p className={pStyle}>************</p>
                         </div>
                         <div className={labelDivStyle + " flex gap-2"}>
-                            <Button onClick={showDD}>Edit Email Address</Button>
-                            <Button onClick={()=>{setIsEditPW(true)}}>Edit Password</Button>
+                            <Button className="transition-colors duration-300" onClick={showDD}>Edit Email Address</Button>
+                            <Button className="transition-colors duration-300" onClick={()=>{setIsEditPW(true)}}>Edit Password</Button>
                         </div>
                     </div>
 
@@ -450,7 +425,7 @@ const AccountPage: React.FC = () => {
                             </>
                             :<></>}
                         <div className={labelDivStyle}>
-                            <Button onClick={()=>{setIsEditCC(true)}}>{user.cc_info!==""? "Update Card":"Add A Card"}</Button>
+                            <Button className="transition-colors duration-300" onClick={()=>{setIsEditCC(true)}}>{user.cc_info!==""? "Update Card":"Add A Card"}</Button>
                         </div>
                     </div>
 
@@ -474,7 +449,7 @@ const AccountPage: React.FC = () => {
                             <p className={pStyle}>{accountData.postal_code}</p>
                         </div>
                         <div className={labelDivStyle}>
-                            <Button onClick={showDD}>Edit Address</Button>
+                            <Button className="transition-colors duration-300" onClick={showDD}>Edit Address</Button>
                         </div>
                     </div>
                 </div>

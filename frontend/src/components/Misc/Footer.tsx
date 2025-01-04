@@ -25,16 +25,16 @@ const Footer: React.FC = () =>{
                 </div>
             </div>
             <div className={"flex-1 flex flex-col gap-1"}>
-                <p className={"hover:text-camel hover:font-bold"}>FAQs</p>
-                <NavLink to="/contact" className="hover:text-camel hover:font-bold">
+                <p className={"hover:text-camel hover:font-bold transition-colors duration-300"}>FAQs</p>
+                <NavLink to="/contact" className="hover:text-camel hover:font-bold transition-colors duration-300">
                     Contact us
                 </NavLink>
 
             </div>
             <div className={"flex-1 flex flex-col gap-1"}>
-                <p className={"hover:text-camel hover:font-bold"}>Terms of Service</p>
-                <p className={"hover:text-camel hover:font-bold"}>Privacy Policy</p>
-                <p className={"hover:text-camel hover:font-bold"}>Shipping and Refund Policy</p>
+                <p className={"hover:text-camel hover:font-bold transition-colors duration-300"}>Terms of Service</p>
+                <p className={"hover:text-camel hover:font-bold transition-colors duration-300"}>Privacy Policy</p>
+                <p className={"hover:text-camel hover:font-bold transition-colors duration-300"}>Shipping and Refund Policy</p>
             </div>
         </footer>
     );

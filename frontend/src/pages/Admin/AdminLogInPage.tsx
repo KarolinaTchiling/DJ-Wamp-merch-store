@@ -95,12 +95,12 @@ const AdminLogInPage: React.FC = () => {
 
 
             <div className="mb-4 w-full grid justify-center items-center">
-                <Button type={"submit"} onClick={logIn}>Log In</Button>
+                <Button className="transition-colors duration-300" type={"submit"} onClick={logIn}>Log In</Button>
             </div>
 
             <hr className={"border-camel mt-10 mb-10"}/>
 
-            <Button onClick={()=>{window.location.href="#/login";}}>
+            <Button className="transition-colors duration-300" onClick={()=>{window.location.href="#/login";}}>
                 To User View</Button>
             <hr className={"border-camel mt-10 mb-10"}/>
 

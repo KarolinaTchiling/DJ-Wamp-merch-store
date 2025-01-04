@@ -41,7 +41,7 @@ const SortDropdown: React.FC<SortDropdownProps> = memo(({ onSortChange, selected
           <span className="whitespace-nowrap">Sort by:</span> 
             <button
                 onClick={toggleDropdown}
-                className="bg-cream text-black px-2 py-2 hover:bg-camel hover:text-white focus:outline-none transition-colors w-full text-left flex justify-between items-center"
+                className="bg-cream text-black px-2 py-2 hover:bg-camel hover:text-white focus:outline-none transition-colors w-full text-left flex justify-between items-center transition-colors duration-300"
                 style={{ minWidth: "180px" }}
             >
                 <span>{selectedOption}</span>
@@ -56,7 +56,7 @@ const SortDropdown: React.FC<SortDropdownProps> = memo(({ onSortChange, selected
                         {options.map((option, index) => (
                             <li
                                 key={index}
-                                className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel cursor-pointer"
+                                className="px-3 py-1 hover:text-white hover:font-medium hover:bg-camel cursor-pointer transition-colors duration-300"
                                 onClick={() => handleOptionSelect(option)}
                             >
                                 {option.label}

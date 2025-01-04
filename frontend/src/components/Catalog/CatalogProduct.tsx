@@ -42,7 +42,7 @@ interface CatalogProductProps {
         
             <Button 
                 onClick={detailClick}
-                className ="w-full mt-3"
+                className ="w-full mt-3 transition-colors duration-300"
             >{btnLabel || "View Product"}</Button>
         </div>
     );

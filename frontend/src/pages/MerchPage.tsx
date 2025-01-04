@@ -149,7 +149,7 @@ const MerchPage: React.FC = () => {
             onAlbumChange={handleAlbumChange}
             onPriceChange={handlePriceChange}
           />
-        <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
+        <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px] transition-colors duration-300">
           Clear Filters
         </Button>
       </div>
