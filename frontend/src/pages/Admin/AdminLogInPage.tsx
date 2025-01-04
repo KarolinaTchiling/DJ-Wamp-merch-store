@@ -82,7 +82,7 @@ const AdminLogInPage: React.FC = () => {
             <div className="mb-4 w-full flex justify-center items-center space-x-2">
                 <Input value={loginForm.email} {...email_validation({handleChange})}/>
                 <div className="mt-3">
-                    <Tooltip title="dj_wamp@gmail.com"/>  
+                    <Tooltip title="Explore the admin panel. Log in: dj_wamp@gmail.com"/>  
                 </div> 
             </div>
 

@@ -80,7 +80,7 @@ const App: React.FC = () => {
         )};
     return (
         <SearchProvider>
-        <div className="bg-cream min-h-screen">
+        <div className="bg-cream min-h-screen min-w-[1200px]">
             <div className={"min-h-screen"}>
                 <Routes>
                 <Route path='/' element={<UserLayout />}>

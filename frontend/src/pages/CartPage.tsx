@@ -180,7 +180,8 @@ const CartPage: React.FC = () => {
             </div>
 
             {/* You may also like */}
-            <div className="basis-[43%] pr-20 mr-10">
+            {/* <div className="basis-[43%] pr-20 mr-10"> */}
+            <div className="basis-[43%] pr-20 mx-auto">
                 <SuggestBest columns={2} />
             </div>
         </div>

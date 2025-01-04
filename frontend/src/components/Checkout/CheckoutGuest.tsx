@@ -210,7 +210,7 @@ const CheckoutGuest: React.FC = () => {
                   <Input
                     id="expiry"
                     name="expiry"
-                    label="Expiry (MMYY)"
+                    label="Expiry"
                     htmlFor="expiry"
                     validation={{
                       required: "Expiry date is required",
