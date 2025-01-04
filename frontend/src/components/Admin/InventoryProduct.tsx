@@ -41,7 +41,7 @@ interface InventoryProductProps {
         
             <Button 
                 onClick={detailClick}
-                className ="w-full mt-3"
+                className ="w-full mt-3 transition-colors duration-300"
             >{btnLabel}</Button>
         </div>
     );

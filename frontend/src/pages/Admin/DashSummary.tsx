@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Order, Product, User } from "../../types.ts";
 import Inventory from "./Inventory.tsx";
+import Loader from "../../components/Misc/Loader.tsx";
 
 const Dashboard: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -43,19 +44,28 @@ const Dashboard: React.FC = () => {
     return (
         <div className="flex flex-col w-full">
             <h1 className="text-2xl font-bold mb-4">Quick Summary</h1>
-            {loading? <p>Loading</p>: <></>}
-            <ul className="flex flex-row gap-8 w-full items-center justify-center border border-camel">
-                {glance.map((link) => (
-                    <li key={link.name} className="text-center">
-                        <Link to={link.href} className="text-sm flex flex-col p-2 hover:text-white hover:font-medium hover:bg-camel hover:border border-camel">
-                            <p className="text-lg">{link.count}</p>
-                            <p>{link.name}</p>
-                        </Link>
+            <ul className="flex flex-row gap-8 w-full items-center justify-center border border-camel h-[80px]">
+                {loading ? (
+                    <li className="text-center">
+                        <Loader />
                     </li>
-                ))}
+                ) : (
+                    glance.map((link) => (
+                        <li key={link.name} className="text-center">
+                            <Link
+                                to={link.href}
+                                className="text-sm flex flex-col p-2 hover:text-white hover:font-medium hover:bg-camel hover:border border-camel transition-colors duration-300"
+                            >
+                                <p className="text-lg">{link.count}</p>
+                                <p>{link.name}</p>
+                            </Link>
+                        </li>
+                    ))
+                )}
             </ul>
-            <Inventory/>
+            <Inventory />
         </div>
+
     );
 };
 

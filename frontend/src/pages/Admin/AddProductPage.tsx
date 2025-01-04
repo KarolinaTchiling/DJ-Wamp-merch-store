@@ -3,7 +3,7 @@ import Button from '../../components/Misc/Button.tsx';
 import 'react-medium-image-zoom/dist/styles.css';
 import axios from "axios";
 import { useMetadata } from "../../contexts/MetadataContext.tsx";
-import {flex_text_only_validation, number_only_validation} from "../../components/Misc/InputValidations.tsx";
+import {flex_text_only_validation, no_validation, number_only_validation} from "../../components/Misc/InputValidations.tsx";
 import Input from "../../components/Misc/Input.tsx";
 import {FormProvider, useForm} from "react-hook-form";
 
@@ -40,7 +40,7 @@ const AddProductPage: React.FC = () => {
             alert("Product Added!");
             setError(false);
             refreshMetadata();
-            window.location.href = `/admin/inventory`;
+            window.location.href = `#/admin/dashboard`;
         }).catch((error) => {
             setError(true);
             if (error.response) {
@@ -73,7 +73,7 @@ const AddProductPage: React.FC = () => {
         methods.trigger(name);
     }
     function cancel(event: React.FormEvent){
-        window.location.href='/admin/inventory';
+        window.location.href='#/admin/dashboard';
         setProdForm(({
             name: "",
             category: "",
@@ -115,11 +115,11 @@ const AddProductPage: React.FC = () => {
                     />
                     <Input id={"description"} name={"description"} value={prodForm.description} type={"text"}
                            htmlFor={"description"} label={"Description"}
-                           {...flex_text_only_validation({handleChange })}
+                           {...no_validation({handleChange })}
                     />
                     <Input id={"image_url"} name={"image_url"} value={prodForm.image_url} type={"url"}
                            htmlFor={"image_url"} label={"Image URL"}
-                           {...flex_text_only_validation({handleChange })}
+                           {...no_validation({handleChange })}
                     />
                     <Input id={"quantity"} name={"quantity"} value={prodForm.quantity} type={"number"}
                            htmlFor={"quantity"} label={"Quantity"}
@@ -133,11 +133,11 @@ const AddProductPage: React.FC = () => {
                     </div>
                     : <></>}
                 <div className="mb-4 w-full grid justify-center items-center">
-                    <Button type={"submit"} onClick={addProduct}>
+                    <Button className="transition-colors duration-300" type={"submit"} onClick={addProduct}>
                         Add Product</Button>
                 </div>
                 <div className="mb-4 w-full grid justify-center items-center">
-                    <Button type={"reset"} onClick={cancel}>
+                    <Button className="transition-colors duration-300" type={"reset"} onClick={cancel}>
                         Cancel</Button>
                 </div>
 

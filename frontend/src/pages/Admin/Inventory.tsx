@@ -6,6 +6,7 @@ import axios from "axios";
 import SortDropdown from "../../components/Catalog/SortDropdown.tsx";
 import InventoryProduct from "../../components/Admin/InventoryProduct.tsx";
 import InventorySidebar from "../../components/Admin/InventorySidebar.tsx";
+import Loader from "../../components/Misc/Loader.tsx";
 
 const Inventory: React.FC = () => {
     const searchQuery = '';
@@ -142,7 +143,7 @@ const Inventory: React.FC = () => {
         setSearchParams(newSearchParams);
     };
 
-    if (loading) return <p>Loading..</p>;
+    if (loading) return <p className="mt-10 ml-10"> <Loader /> </p>;
     if (error)
         return (
             <div className="text-center">
@@ -155,11 +156,12 @@ const Inventory: React.FC = () => {
 
     return (
         <div>
-            <Button onClick={()=>{window.location.href="/admin/inventory/addProduct"}}>Add a Product</Button>
+            <Button className="transition-colors duration-300" 
+            onClick={()=>{window.location.href="#/admin/inventory/addProduct"}}>Add a Product</Button>
 
             <div className="flex mt-4">
                 {/* Sidebar for filtering */}
-                <div className="border-r border-r-camel mb-10">
+                <div className="border-r border-r-camel mb-10 w-[230px]">
                     <InventorySidebar
                         selectedCategory={currentCategory}
                         selectedAlbums={selectedAlbums}
@@ -169,7 +171,7 @@ const Inventory: React.FC = () => {
                         onAlbumChange={handleAlbumChange}
                         onPriceChange={handlePriceChange}
                     />
-                    <Button onClick={clearFilters} className="text-sm mt-2 ml-[55px]">
+                    <Button onClick={clearFilters} className="text-sm mt-2 ml-[10px] transition-colors duration-300">
                         Clear Filters
                     </Button>
                 </div>
@@ -192,7 +194,7 @@ const Inventory: React.FC = () => {
                             }}
                         >
                             {products.map((product) => (
-                                <InventoryProduct key={product.id} product={product} btnLabel={"View Product"}/>
+                                <InventoryProduct key={product.id} product={product} btnLabel={"Edit Product"} />
                             ))}
                         </div>
                     </div>

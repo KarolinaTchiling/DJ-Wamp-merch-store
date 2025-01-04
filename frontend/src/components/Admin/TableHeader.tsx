@@ -2,6 +2,7 @@
 interface Column<T> {
     header: string;
     accessor: keyof T;
+    className?: string; 
 }
 
 interface TableHeaderProps<T> {
@@ -17,7 +18,7 @@ const TableHeader = <T,>({
         <thead>
             <tr>
                 {columns.map((column) => (
-                    <th key={String(column.accessor)}>{column.header}</th>
+                    <th className="w-[150px]" key={String(column.accessor)}>{column.header}</th>
                 ))}
             </tr>
         </thead>

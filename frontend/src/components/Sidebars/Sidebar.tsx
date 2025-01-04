@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = memo(
                 selectedAlbums[album] ? "bg-tea border-tea" : "bg-transparent border-tea"
               }`}
             ></span>
-            <span className="text-black font-normal">{album}</span>
+            <span className="text-black font-normal hover:text-tea transition-colors duration-300">{album}</span>
           </label>
         ))}
       </div>

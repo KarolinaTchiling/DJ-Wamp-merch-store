@@ -52,6 +52,7 @@ const Orders: React.FC = () => {
     //keep orderProxy and order in sync
     useEffect(()=>{setOrder(findOrder(orderProxy))},[orderProxy]);
 
+
     const [filter, setFilter]
         = useState({column: "id", value: defaultOrder.id});
 
@@ -174,12 +175,17 @@ const Orders: React.FC = () => {
                 setOrders(updatedOrders); // Update the orders state
 
                 // Update the current order state
-                setOrder((prev) => ({ ...prev, approved: !prev.approved }));
+                const updatedOrder = { ...order, approved: !order.approved };
+                setOrder(updatedOrder);
+
+                // Sync orderProxy with updatedOrder
+                const updatedOrderProxy = { ...orderProxy, approved: getYorN(!order.approved) };
+                setOrderProxy(updatedOrderProxy);
 
                 // Regenerate order proxies for the table
                 collateProxiesAndOrders();
 
-                alert(`Order ${order.approved ? "Declined" : "Approved"}!`);
+                // alert(`Order ${order.approved ? "Declined" : "Approved"}!`);
             })
             .catch((error) => {
                 console.error("Error:", error.response || error.message);
@@ -198,8 +204,8 @@ const Orders: React.FC = () => {
         { id: 2, header: 'Date', accessor: 'date' },
         { id: 3, header: 'User Email', accessor: 'user' },
         { id: 4, header: 'Purchases', accessor: 'purchases' },
-        { id: 5, header: 'Approved', accessor: 'approved' },
-        { id: 6, header: 'Total', accessor: 'total_price' }
+        { id: 5, header: 'Approved', accessor: 'approved', className: 'text-center'},
+        { id: 6, header: 'Total', accessor: 'total_price', className: 'text-center'},
     ];
 
     // const fieldStyle = "text-camel bg-transparent w-full mt-1 py-1 px-2 border border-camel";
@@ -252,21 +258,23 @@ const Orders: React.FC = () => {
             <TableDropDown showDD={showDD} options={options} collateProxiesAndOrders={collateProxiesAndOrders}
                            handleOptionSelect={handleOptionSelect}/>
             {showDialog ?
-                <div className={"z-10 flex absolute t-0 l-0 p-10 w-9/12 h-5/6 items-center justify-center bg-cream"}>
-                    <dialog open className={"bg-beige border border-camel px-10 py-4 w-9/12 h-5/6 overflow-y-auto"}>
+                <div className={"fixed inset-0 flex items-center justify-center bg-coffee bg-opacity-20 z-10 border border-camel"}>
+                    <dialog open className={"bg-beige border border-camel px-10 py-4 w-1/2 h-1/2 overflow-y-auto"}>
 
                     <div className={"grid grid-cols-2 mb-6"}>
-                    {orderProxy.approved ? (
-                        <Button onClick={editOrder} buttonVariant={"sec"}>
-                            Decline Order
+                        <Button
+                            className="transition-colors duration-300"
+                            onClick={editOrder}
+                        >
+                            {orderProxy.approved === "Yes" ? "Decline Order" : "Approve Order"}
                         </Button>
-                    ) : (
-                        <Button onClick={editOrder}>
-                            Approve Order
+                        <Button
+                            className="transition-colors duration-300"
+                            onClick={() => setShowDialog(false)}
+                        >
+                            Close
                         </Button>
-                    )}
-                    <Button onClick={() => setShowDialog(false)}>Close</Button>
-                </div>
+                    </div>
 
                         {/*// only show user account details, no edit*/}
                         <div className="grid items-center min-w-full">
@@ -289,7 +297,7 @@ const Orders: React.FC = () => {
                                 <div className={labelDivStyle}>
                                     <label htmlFor={"approved"}>Approval State</label>
                                     <p className={pStyle}>
-                                        {orderProxy.approved ? "Approved" : "Not Approved"}
+                                        {orderProxy.approved === "Yes" ? "Approved" : "Not Approved"}
                                     </p>
                                 </div>
                             </div>
@@ -299,10 +307,9 @@ const Orders: React.FC = () => {
                 :
                 <></>
             }
-            <h1 className="text-2xl font-bold mb-4">Orders</h1>
-            <Button onClick={getOrders}>Update table</Button>
-            {loading? <p>Loading</p>: <></>}
-            <OrderTable columns={ocolumns} data={orderProxies}
+            <h1 className="text-2xl font-bold">Orders</h1>
+            <Button className="transition-colors duration-300 mb-2" onClick={getOrders}>Update table</Button>
+            <OrderTable columns={ocolumns} data={orderProxies} loading={loading}
                         setVis={setShowDialog} setOrderProxy={setOrderProxy}
                         setFilter={setFilter} toggleShowDD={toggleShowDD}
             />
