@@ -1,13 +1,19 @@
 import React from 'react';
 import InstagramIcon from '../../assets/Instagram.svg'
 import LinkedIncon from '../../assets/LinkedIn.svg'
+import GitIcon from "../../../public/github-mark.svg";
 import { NavLink } from 'react-router-dom';
 
 const Footer: React.FC = () =>{
     return(
         <footer className={"bg-beige p-10 flex flex-row gap-4 justify-center border-t border-t-camel"}>
             <div className={"flex-1"}>
-                <p>© DJ WAMP 2024</p>
+                <div className="flex flex-row items-center mt-4">
+                    <a href="https://github.com/KarolinaTchiling/DJ-Wamp-merch-store" target="_blank" rel="noopener noreferrer">
+                        <img src={GitIcon} alt="GitHub" className="w-8 h-8 mx-auto mr-2" />
+                    </a>
+                    <p>Checkout the repo</p>
+                </div>
             </div>
             <div className={"flex-1 flex flex-col gap-1"}>
                 <p>Connect with us</p>
