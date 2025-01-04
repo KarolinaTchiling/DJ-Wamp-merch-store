@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Navbar from './components/User/Navbar.tsx';
-
 import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
@@ -14,7 +13,6 @@ import CartPage from "./pages/CartPage.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
 import RouteNotFound from "./pages/RouteNotFound.tsx";
 import AdminSidebar from "./components/Admin/Admin-Sidebar.tsx";
-
 import {useTokenContext} from "./contexts/TokenContext.tsx";
 import AdminLogInPage from "./pages/Admin/AdminLogInPage.tsx";
 import AdminSignUpPage from "./pages/Admin/AdminSignUpPage.tsx";
@@ -26,8 +24,30 @@ import Inventory from "./pages/Admin/Inventory.tsx";
 import EditProductPage from "./pages/Admin/EditProductPage.tsx";
 import DashSummary from "./pages/Admin/DashSummary.tsx";
 import { SearchProvider } from "./contexts/SearchContext.tsx";
+import { useWelcomeDialog } from './components/Misc/WelcomeDialog';
 
 const App: React.FC = () => {
+    // controls the welcome dialog box
+    const [showWelcome, setShowWelcome] = useState(false);
+    const showWelcomeDialog = useWelcomeDialog();
+    useEffect(() => {
+        const hasShownWelcome = localStorage.getItem('hasShownWelcome');
+        if (!hasShownWelcome) {
+            setShowWelcome(true);
+            localStorage.setItem('hasShownWelcome', 'true');
+        }
+    }, []);
+    useEffect(() => {
+        if (showWelcome) {
+            const displayWelcome = async () => {
+                await showWelcomeDialog();
+                console.log('User acknowledged the welcome message.');
+                setShowWelcome(false); // Ensure it doesn't show again within the session
+            };
+
+            displayWelcome();
+        }
+    }, [showWelcome, showWelcomeDialog]);
 
     //session tracking
     const {token, userType} = useTokenContext();
