@@ -8,7 +8,7 @@ This project was developed as part of the "Building E-Commerce Systems" course. 
 - Users can login, browse, checkout, edit account information and edit their cart
 - Admins can add, edit, and delete products and edits users/sales
 
-# 🎉 [Live Demo](dj-wamp-merch-store.vercel.app) 🎉
+# 🎉 [Live Demo](https://dj-wamp-merch-store.vercel.app) 🎉
 
 
 ## Tech-Stack
