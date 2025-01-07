@@ -4,8 +4,8 @@ This project was developed as part of the "Building E-Commerce Systems" course. 
 
 #### Features
 - Intuitive catalog view with search and filtering
-- Visitors can browse and add/edit cart and create an account 
-- Users can login, browse, checkout, edit account information, edit cart
+- Visitors can browse, add/edit cart and create an account 
+- Users can login, browse, checkout, edit account information and edit their cart
 - Admins can add, edit, and delete products and edits users/sales
 
 # 🎉 [Live Demo](dj-wamp-merch-store.vercel.app) 🎉
