@@ -180,7 +180,7 @@ const MerchPage: React.FC = () => {
               }}
               >
               {loading
-                ? Array.from({ length: 6 }).map((_, i) => (
+                ? Array.from({ length: 20 }).map((_, i) => (
                     <div key={i} className="h-[200px] w-full bg-tea animate-pulse"></div>
                   ))
                 : products.map((product) => (
