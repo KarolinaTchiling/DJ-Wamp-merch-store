@@ -134,7 +134,7 @@ def toggle_sale_approval(sale_id):
         # Adjust product quantities based on the new approval status
         for purchase in sale.purchases:
             # Retrieve the product associated with the purchase
-            product = Product.objects.get(id=purchase["product_id"])
+            product = Product.objects.get(id=ObjectId(purchase["product_id"]))
             
             # Check if the product is deleted
             if product.is_deleted:
