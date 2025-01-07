@@ -1,9 +1,11 @@
 import React from "react";
 import { OrderProxy, User } from "../../types.ts";
+import Loader from "../../components/Misc/Loader.tsx"; 
 
 interface Column<T> {
     header: string;
     accessor: keyof T;
+    className?: string
 }
 
 interface TableBodyProps<T> {
@@ -22,33 +24,44 @@ const TableBody = <T extends User | OrderProxy>({
     setUser,
     setOrderProxy,
     classname,
-}: TableBodyProps<T>) => {
-    const defaultStyle = `py-2 px-4 border-b border-camel text-gray-800 hover:text-white
+    loading,
+}: TableBodyProps<T> & { loading: boolean }) => {
+    const defaultStyle = `py-2 px-2 border-b border-camel text-gray-800 hover:text-white
       whitespace-pre break-words`;
 
-    return (
+      return (
         <tbody>
-            {data.map((row) => (
-                <tr
-                    key={row.id} // Assuming both User and OrderProxy have an `id` property
-                    className="even:bg-cream cursor-pointer hover:bg-camel"
-                    onClick={() => {
-                        if ("userSpecificProperty" in row && setUser) {
-                            setUser(row as unknown as User); // Safely cast to User if the property exists
-                        } else if ("orderSpecificProperty" in row && setOrderProxy) {
-                            setOrderProxy(row as OrderProxy); // Safely cast to OrderProxy if the property exists
-                        }
-                        window.scrollTo(0, 0);
-                        setVis(true);
-                    }}
-                >
-                    {columns.map((column) => (
-                        <td key={String(column.accessor)} className={classname || defaultStyle}>
-                            {row[column.accessor] as React.ReactNode}
-                        </td>
-                    ))}
+            {loading ? (
+                <tr>
+                    <td colSpan={columns.length} className="px-[480px] py-[100px]">
+                        <Loader /> 
+                    </td>
                 </tr>
-            ))}
+            ) : (
+                data.map((row) => (
+                    <tr
+                        key={row.id} // Assuming both User and OrderProxy have an `id` property
+                        className="odd:bg-cream cursor-pointer hover:bg-camel"
+                        onClick={() => {
+                            if ("fname" in row && setUser) {
+                                // Handle User case
+                                setUser(row as User);
+                            } else if (setOrderProxy) {
+                                // Handle OrderProxy case
+                                setOrderProxy(row as OrderProxy);
+                            }
+                            window.scrollTo(0, 0);
+                            setVis(true);
+                        }}
+                    >
+                        {columns.map((column) => (
+                            <td key={String(column.accessor)}className={`${defaultStyle} ${column.className || ''}`}>
+                                {row[column.accessor] as React.ReactNode}
+                            </td>
+                        ))}
+                    </tr>
+                ))
+            )}
         </tbody>
     );
 };

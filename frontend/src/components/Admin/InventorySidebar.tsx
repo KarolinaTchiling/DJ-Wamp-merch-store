@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = memo(
             <div
               key={category}
               onClick={() => onCategoryChange(category === "All Products" ? "" : category)} 
-              className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer ${
+              className={`block pb-1 pl-1 font-normal hover:text-tea cursor-pointer transition-colors duration-300 ${
                 category === selectedCategory || (category === "All Products" && selectedCategory === "")
                   ? "font-semibold text-black"
                   : "font-normal text-black"
@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = memo(
                 selectedAlbums[album] ? "bg-tea border-tea" : "bg-transparent border-tea"
               }`}
             ></span>
-            <span className="text-black font-normal">{album}</span>
+            <span className="text-black font-normal hover:text-tea transition-colors duration-300">{album}</span>
           </label>
         ))}
       </div>

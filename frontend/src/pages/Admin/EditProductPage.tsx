@@ -104,7 +104,7 @@ const EditProductPage: React.FC = () => {
 
                 refreshValidProductIds();
 
-                setTimeout(()=>{window.location.href = "/admin/inventory";},500);
+                setTimeout(()=>{window.location.href = "#/admin/dashboard";},500);
             }).catch((error) => {
                 if (error.response) {
                     console.log(error.response);
@@ -120,7 +120,8 @@ const EditProductPage: React.FC = () => {
         // handle updating the prodForm state whenever a field changes
         const {value, name} = event.target
         setProdForm(prevNote => ({
-                ...prevNote, [name]: value
+                ...prevNote, 
+                [name]: name === "price" ? parseFloat(value) || 0 : value,
             })
         )
     }
@@ -154,9 +155,9 @@ const EditProductPage: React.FC = () => {
                 :
                     <>
                     <h1 className="text-3xl grow">Viewing {prodForm.name}</h1>
-                    <Button className={"mt-0"} onClick={()=>{window.location.href="/admin/inventory"}}>
+                    <Button className={"mt-0 transition-colors duration-300"} onClick={()=>{window.location.href="#/admin/dashboard"}}>
                         Back</Button>
-                    <Button className={"mt-0"} onClick={()=>{setShowForm(true)}}>
+                    <Button className={"mt-0 transition-colors duration-300"} onClick={()=>{setShowForm(true)}}>
                         Edit</Button>
                     </>
                 }
@@ -175,8 +176,8 @@ const EditProductPage: React.FC = () => {
 
                         </div>
                         <div className={"flex flex-row gap-4 justify-center"}>
-                            <Button buttonVariant={"warn"} onClick={deleteProduct}>Yes</Button>
-                            <Button onClick={()=>{setShowConfirmation(false)}}>No</Button>
+                            <Button className="transition-colors duration-300" buttonVariant={"warn"} onClick={deleteProduct}>Yes</Button>
+                            <Button className="transition-colors duration-300" onClick={()=>{setShowConfirmation(false)}}>No</Button>
                         </div>
                     </dialog>
                     </div>
@@ -254,7 +255,7 @@ const EditProductPage: React.FC = () => {
                                     <input
                                         id={"price"} name={"price"} value={prodForm.price} type={"number"}
                                         onChange={handleChange} placeholder={""} autoComplete={"on"}
-                                        className={fieldStyle}/>
+                                        className={fieldStyle}/> 
                                 </div>
                                 <div className="mb-4 w-full">
                                     <label
@@ -275,7 +276,7 @@ const EditProductPage: React.FC = () => {
                                         className={fieldStyle}/>
                                 </div>
                                 <div className="mb-4 w-full grid justify-center items-center">
-                                    <Button type={"submit"} buttonVariant={"clicked"} onClick={editProduct}>
+                                    <Button className="transition-colors duration-300" type={"submit"} buttonVariant={"clicked"} onClick={editProduct}>
                                         Save</Button>
                                     {/* Popup Notification with Fade-Out */}
                                     <div
@@ -284,9 +285,9 @@ const EditProductPage: React.FC = () => {
                                         }`}
                                     > ✨Wamptastic✨
                                     </div>
-                                    <Button type={"reset"} onClick={()=>{setShowForm(false)}}>
+                                    <Button className="transition-colors duration-300"  type={"reset"} onClick={()=>{setShowForm(false)}}>
                                         Cancel</Button>
-                                    <Button buttonVariant={"warn"} onClick={()=>{setShowConfirmation(true); window.scrollTo(0,0);}}>
+                                    <Button className="transition-colors duration-300" buttonVariant={"warn"} onClick={()=>{setShowConfirmation(true); window.scrollTo(0,0);}}>
                                         Delete Product</Button>
                                 </div>
                         </div>

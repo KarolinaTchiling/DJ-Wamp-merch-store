@@ -48,7 +48,7 @@ const WelcomeDialog: React.FC<WelcomeProp> = ({ onAcknowledge }) => {
                     <a href="https://github.com/KarolinaTchiling/DJ-Wamp-merch-store" target="_blank" rel="noopener noreferrer">
                         <img src={GitIcon} alt="GitHub" className="w-8 h-8 mx-auto mr-2" />
                     </a>
-                    <p>See the repo</p>
+                    <p>Checkout the repo</p>
                 </div>
                 <p className="text-lg my-4">{message}</p>
                 

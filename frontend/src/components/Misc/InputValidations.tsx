@@ -199,6 +199,19 @@ export const flex_text_only_validation = (prop: HandleChangeStructure)=> {
         }
     );
 }
+
+export const no_validation = (prop: HandleChangeStructure) => {
+    return {
+        validation: {
+            onChange: prop.handleChange,
+            maxLength: {
+                value: 1000,
+                message: 'Max 1000 characters',
+            },
+        },
+    };
+};
+
 export const number_only_validation = (prop: HandleChangeStructure)=> {
     return(
         {
