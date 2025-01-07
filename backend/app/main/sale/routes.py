@@ -125,15 +125,53 @@ def get_sale(sale_id):
 @admin_required
 def toggle_sale_approval(sale_id):
     try:
+        # Retrieve the sale object
         sale = Sale.objects.get(id=sale_id)
-        sale.approved = not sale.approved
+
+        # Toggle the approval status
+        new_approval_status = not sale.approved
+
+        # Adjust product quantities based on the new approval status
+        for purchase in sale.purchases:
+            # Retrieve the product associated with the purchase
+            product = Product.objects.get(id=purchase["product_id"])
+            
+            # Check if the product is deleted
+            if product.is_deleted:
+                return jsonify({"error": f"Product '{product.name}' is no longer available."}), 400
+
+            if new_approval_status:  # Approving the sale
+                # Ensure there is enough quantity to fulfill the sale
+                if product.quantity < purchase["quantity"]:
+                    return jsonify({"error": f"Not enough stock for product '{product.name}'."}), 400
+                product.quantity -= purchase["quantity"]
+            else:  # Unapproving the sale
+                product.quantity += purchase["quantity"]
+
+            # Save the updated product quantity
+            product.save()
+
+        # Update the sale's approval status
+        sale.approved = new_approval_status
         sale.save()
+
+        # Return a success response with the updated sale
         return jsonify({
             "message": "Approval status updated successfully",
-            "sale": sale.json_formatted()
+            "sale": {
+                "_id": str(sale.id),
+                "date": sale.date.isoformat(),
+                "user": str(sale.user),
+                "total_price": sale.total_price,
+                "purchases": sale.purchases,
+                "approved": sale.approved,
+            }
         }), 200
+
     except Sale.DoesNotExist:
         return jsonify({"error": "Sale not found"}), 404
+    except Product.DoesNotExist:
+        return jsonify({"error": "Product not found for one or more purchases"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
