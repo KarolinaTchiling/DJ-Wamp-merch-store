@@ -1,66 +1,57 @@
-# 4413 project
+# DJ Wamp's Merch Store
 
-View the project on GitHub at https://github.com/JUB-Yoush/4413-project.git
+This project was developed as part of the "Building E-Commerce Systems" course. DJ WAMP's Merch Store is a full-stack e-commerce platform built using Flask for the backend and React with TypeScript for the frontend. The store showcases merchandise, features a dynamic catalog filtering system, and integrates MongoDB Atlas for database management. Designed to highlight key concepts in e-commerce systems, the project demonstrates skills in frontend-backend integration, API development, and user-centric design.
 
-# IMPORTANT
+#### Features
+- Intuitive catalog view with search and filtering
+- Visitors can browse and add/edit cart and create an account 
+- Users can login, browse, checkout, edit account information, edit cart
+- Admins can add, edit, and delete products and edits users/sales
 
-The required `env.py` file is only included in the ZIP file we submitted, you'll need that file in `/backend` to be able to run the project.
+# 🎉 [Live Demo](dj-wamp-merch-store.vercel.app) 🎉
 
-The Zipped version already has this file in the right place, if you're cloning the github repo you'll need to place it yourself.
 
-## Setup
-
-Before any method: Clone the repo.
-
-```
-git clone git@github.com/JUB-Yoush/4413-project.git
-```
-
-### Quickstart (running within the container)
-
-4413 Project is Containerized with **Docker**, so running it is easy:
-
-1. Install:
-
-- [Docker](https://docs.docker.com/engine/install/)
-- [Docker Compose](https://docs.docker.com/compose/install/).
-
-2. Clone the repo.
-
-```
-git clone git@github.com/JUB-Yoush/4413-project.git
-```
-
-3. cd into the project root and run the docker compose file.
-
-```
-sudo docker-compose up --build
-```
-
-4. To re-start after building, run:
-
-```
-docker start wamp-server
-docker start wamp-client
-```
-
-#### Ports
-
-- Frontend runs on port `3000`
-- Backend runs on port `5000`
-
-## Running on your machine:
-
+## Tech-Stack
 ### Frontend
+- **Bun**: Javascript runtime environment
+- **React**: UI
+- **TypeScript**: Javascript with static typing
+- **TailwindCSS**: CSS preprocessor
+- **Vite**: Javascript package bundler
+- **Eslint & Prettier**: Javascript linter
 
-1. Install
+### Backend
+- **Python**: Programming Language
+- **Flask**: Web Server framework for python
+- **Ruff**: Python Linter
 
-- [bun](https://bun.sh/)
+### Database
+- **MongoDB**: BSON database.
+- **MongoDBAtlas**: Cloud hosted MongoDB servers
+- **AWS S3**: Cloud hosted database optimized for images.
 
-2. Then install dependencies
+### Deployment
+- **Render**: Hosts the backend
+- **Vercel**: Hosts the frontend
+
+
+## To Run on Local Machine:
+
+#### NOTE
+If installing on your machine you will not have access to the database or codebase secrets. The following is only an example of how this e-store can be ran locally.
 
 ```
-cd project-4413-project/frontend
+git clone https://github.com/KarolinaTchiling/DJ-Wamp-merch-store
+```
+
+#### Frontend
+
+1. Install [bun](https://bun.sh/)
+
+2. Install dependencies
+
+```
+cd DJ-Wamp-merch-store/frontend
 
 bun install
 ```
@@ -71,52 +62,27 @@ bun install
 bun run dev
 ```
 
-### Backend:
+#### Backend:
 
-2. Install
+1. Install
 
-- [python3.12](https://www.python.org/downloads/release/python-3120/)
-- [venv](https://realpython.com/python-virtual-environments-a-primer/)
+    - [python3.12](https://www.python.org/downloads/release/python-3120/)
+    - [venv](https://realpython.com/python-virtual-environments-a-primer/)
 
-3. create a python virtual environment named "venv", and install packages based on `requirements.txt`
+
+2. create a python virtual environment named "venv", and install packages based on `requirements.txt`
 
 ```
+cd DJ-Wamp-merch-store/backend
 python3.12 -m venv "venv"
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run flask server.
-
+3. Run flask server
 ```
 flask run
 ```
 
-## Admin Access
 
-For admin access, admin accounts can be created on the application from the Admin Sign Up page which is reachable from the Log In page > To Admin View > Sign Up. Alternatively, visit http://localhost:3000/admin/signup
 
-## Frontend:
-
-This project uses:
-
-- **Bun**: Javascript runtime environment
-- **React**: UI
-- **TypeScript**: Javascript with static typing
-- **TailwindCSS**: CSS preprocessor
-- **Vite**: Javascript package bundler
-- **Eslint & Prettier**: Javascript linter
-
-## Backend:
-
-This project uses:
-
-- **Python**: Programming Language
-- **Flask**: Web Server framework for python
-- **Ruff**: Python Linter
-
-## Database:
-
-- **MongoDB**: BSON database.
-- **MongoDBAtlas**: Cloud hosted MongoDB servers
-- **AWS S3**: Cloud hosted database optimized for images.
