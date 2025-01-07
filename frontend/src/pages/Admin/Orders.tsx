@@ -261,7 +261,20 @@ const Orders: React.FC = () => {
                 <div className={"fixed inset-0 flex items-center justify-center bg-coffee bg-opacity-20 z-10 border border-camel"}>
                     <dialog open className={"bg-beige border border-camel px-10 py-4 w-1/2 h-1/2 overflow-y-auto"}>
 
-
+                    <div className={"grid grid-cols-2 mb-6"}>
+                        <Button
+                            className="transition-colors duration-300"
+                            onClick={editOrder}
+                        >
+                            {orderProxy.approved === "Yes" ? "Decline Order" : "Approve Order"}
+                        </Button>
+                        <Button
+                            className="transition-colors duration-300"
+                            onClick={() => setShowDialog(false)}
+                        >
+                            Close
+                        </Button>
+                    </div>
                         {/*// only show user account details, no edit*/}
                         <div className="grid items-center min-w-full">
                             {/*px-8 pt-6 pb-8 mb-4 h-auto w-full */}
