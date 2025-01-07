@@ -3,6 +3,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 import datetime
 import jwt
+from bson import ObjectId
 
 from . import sale
 from app.models import Product, Sale, User
@@ -133,22 +134,18 @@ def toggle_sale_approval(sale_id):
 
         # Adjust product quantities based on the new approval status
         for purchase in sale.purchases:
-            # Retrieve the product associated with the purchase
-            product = Product.objects.get(id=ObjectId(purchase["product_id"]))
+            if not ObjectId.is_valid(purchase["product_id"]):
+                return jsonify({"error": f"Invalid product_id {purchase['product_id']}"}), 400
             
-            # Check if the product is deleted
-            if product.is_deleted:
-                return jsonify({"error": f"Product '{product.name}' is no longer available."}), 400
+            product = Product.objects.get(id=ObjectId(purchase["product_id"]))
 
             if new_approval_status:  # Approving the sale
-                # Ensure there is enough quantity to fulfill the sale
                 if product.quantity < purchase["quantity"]:
                     return jsonify({"error": f"Not enough stock for product '{product.name}'."}), 400
                 product.quantity -= purchase["quantity"]
             else:  # Unapproving the sale
                 product.quantity += purchase["quantity"]
 
-            # Save the updated product quantity
             product.save()
 
         # Update the sale's approval status
