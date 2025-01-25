@@ -42,7 +42,7 @@ const WelcomeDialog: React.FC<WelcomeProp> = ({ onAcknowledge }) => {
                     <li><strong>Interactive Features: </strong>Users can browse products, view details, add items to the cart, create an account and proceed through a checkout process.</li>
                     <li><strong>Admin Panel: </strong>A secure admin dashboard for managing inventory, orders, and user accounts.</li>
                     <li><strong>Backend API: </strong>Flask API integrated with a MongoDB database hosted on Atlas for managing product, order and user data.</li>
-                    <li><strong>Deployment: </strong>Deployed using Render for the backend and Vercel for the frontend, utilizing free-tier deployment features.</li>
+                    <li><strong>Deployment: </strong>Deployed using Render for the backend and Vercel for the frontend.</li>
                 </ul>
                 <div className="justify-self-center flex flex-row items-center mt-4">
                     <a href="https://github.com/KarolinaTchiling/DJ-Wamp-merch-store" target="_blank" rel="noopener noreferrer">
